@@ -1,4 +1,4 @@
-# LeetCode
+# RieBi's LeetCode Solutions
 Here you can find my solutions of LeetCode problems in C# language.
 
 The repository is structured in the following way:
