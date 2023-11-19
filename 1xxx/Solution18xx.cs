@@ -99,4 +99,24 @@ internal class Solution18xx
         return max;
     }
     #endregion
+
+    #region Solution for 1887
+    public int ReductionOperations(int[] nums)
+    {
+        Array.Sort(nums);
+        var sum = 0;
+        var cur = 0;
+        var dp = new int[nums.Length];
+
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] != nums[i - 1])
+                cur++;
+
+            sum += cur;
+        }
+
+        return sum;
+    }
+    #endregion
 }
