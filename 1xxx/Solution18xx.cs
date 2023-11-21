@@ -1,6 +1,48 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution18xx
 {
+    #region Solution for 1814
+    public int CountNicePairs(int[] nums)
+    {
+        long findRev(long num)
+        {
+            var rev = 0l;
+
+            while (num > 0)
+            {
+                var lastDigit = num % 10;
+                num /= 10;
+                rev *= 10;
+                rev += lastDigit;
+            }
+
+            return rev;
+        }
+
+        // Key: a - rev(a)
+        // Value: number of occurences of key
+        var dick = new Dictionary<long, long>();
+        for (int i = 0; i < nums.Length; i++)
+        {
+            var key = nums[i] - findRev(nums[i]);
+            if (dick.TryGetValue(key, out long value))
+                dick[key] = value + 1;
+            else
+                dick[key] = 1;
+        }
+
+        var total = 0l;
+        foreach (var v in dick)
+        {
+            var elemTotal = (v.Value * (v.Value - 1)) / 2;
+            total += elemTotal;
+        }
+
+        var modulo = 1000000007l;
+        return (int)(total % modulo);
+    }
+    #endregion
+
     #region Solution for 1838
     public int MaxFrequency(int[] nums, int k)
     {
