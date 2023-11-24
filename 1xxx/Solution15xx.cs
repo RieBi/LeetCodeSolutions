@@ -35,4 +35,19 @@ internal class Soltuion15xx
         return -1;
     }
     #endregion
+
+    #region Solution for 1561
+    public int MaxCoins(int[] piles)
+    {
+        Array.Sort(piles);
+        var triples = piles.Length / 3;
+        var result = 0;
+        for (int i = 1; i <= triples; i++)
+        {
+            result += piles[piles.Length - 2 * i];
+        }
+
+        return result;
+    }
+    #endregion
 }
