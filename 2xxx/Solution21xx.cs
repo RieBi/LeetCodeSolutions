@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set2xxx;
 internal class Solution21xx
 {
-    #region Solution for 2147
+    [ProblemSolution("2147")]
     public int NumberOfWays(string corridor)
     {
         var result = 1L;
@@ -37,5 +37,4 @@ internal class Solution21xx
 
         return (int)result;
     }
-    #endregion
 }

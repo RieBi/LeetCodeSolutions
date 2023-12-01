@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set2xxx;
 internal class Solution28xx
 {
-    #region Solution for 2849
+    [ProblemSolution("2849")]
     public bool IsReachableAtTime(int sx, int sy, int fx, int fy, int t)
     {
         var x = Math.Abs(fx - sx);
@@ -15,9 +15,8 @@ internal class Solution28xx
 
         return t >= time;
     }
-    #endregion
 
-    #region Solution for 2869
+    [ProblemSolution("2869")]
     public int MinOperations(IList<int> nums, int k)
     {
         var doneInts = new bool[k + 1];
@@ -39,5 +38,4 @@ internal class Solution28xx
 
         return -1;
     }
-    #endregion
 }

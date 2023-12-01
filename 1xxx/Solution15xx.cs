@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Soltuion15xx
 {
-    #region Solution for 1535
+    [ProblemSolution("1535")]
     public int GetWinner(int[] arr, int k)
     {
         var max = arr.Max();
@@ -34,9 +34,8 @@ internal class Soltuion15xx
 
         return -1;
     }
-    #endregion
 
-    #region Solution for 1561
+    [ProblemSolution("1561")]
     public int MaxCoins(int[] piles)
     {
         Array.Sort(piles);
@@ -49,5 +48,4 @@ internal class Soltuion15xx
 
         return result;
     }
-    #endregion
 }

@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution19xx
 {
-    #region Solution for 1921
+    [ProblemSolution("1921")]
     public int EliminateMaximum(int[] dist, int[] speed)
     {
         var time = new int[dist.Length];
@@ -41,9 +41,8 @@ internal class Solution19xx
 
         return n;
     }
-    #endregion
 
-    #region Solution for 1930
+    [ProblemSolution("1930")]
     public int CountPalindromicSubsequence(string s)
     {
         var palindromes = new HashSet<string>();
@@ -81,9 +80,8 @@ internal class Solution19xx
 
         return palindromes.Count;
     }
-    #endregion
 
-    #region Solution for 1980
+    [ProblemSolution("1980")]
     public string FindDifferentBinaryString(string[] nums)
     {
         var integers = new List<int>();
@@ -103,5 +101,4 @@ internal class Solution19xx
         }
         return "";
     }
-    #endregion
 }

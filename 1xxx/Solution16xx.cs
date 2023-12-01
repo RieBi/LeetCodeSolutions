@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution16xx
 {
-    #region Solution for 1611
+    [ProblemSolution("1611")]
     public int MinimumOneBitOperations(int n)
     {
         var sign = 1;
@@ -20,9 +20,8 @@ internal class Solution16xx
 
         return ops;
     }
-    #endregion
 
-    #region Solution for 1630
+    [ProblemSolution("1630")]
     public IList<bool> CheckArithmeticSubarrays(int[] nums, int[] l, int[] r)
     {
         bool isRangeArithmeticBruteforce(int lPoint, int rPoint)
@@ -49,9 +48,8 @@ internal class Solution16xx
 
         return result;
     }
-    #endregion
 
-    #region Solution for 1662
+    [ProblemSolution("1662")]
     public bool ArrayStringsAreEqual(string[] word1, string[] word2)
     {
         var chars = new int[1000];
@@ -86,9 +84,8 @@ internal class Solution16xx
 
         return true;
     }
-    #endregion
 
-    #region Solution for 1685
+    [ProblemSolution("1685")]
     public int[] GetSumAbsoluteDifferences(int[] nums)
     {
         var prefSums = new int[nums.Length];
@@ -119,5 +116,4 @@ internal class Solution16xx
 
         return resultArr;
     }
-    #endregion
 }

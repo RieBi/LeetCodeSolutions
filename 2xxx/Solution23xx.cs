@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set2xxx;
 internal class Solution23xx
 {
-    #region Solution for 2391
+    [ProblemSolution("2391")]
     public int GarbageCollection(string[] garbage, int[] travel)
     {
         var totalAmount = garbage.Select(f => f.Length).Sum();
@@ -28,5 +28,4 @@ internal class Solution23xx
 
         return totalAmount + timeM + timeP + timeG;
     }
-    #endregion
 }

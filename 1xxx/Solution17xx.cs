@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution17xx
 {
-    #region Solution for 1727
+    [ProblemSolution("1727")]
     public int LargestSubmatrix(int[][] matrix)
     {
         var m = matrix.Length;
@@ -30,9 +30,8 @@ internal class Solution17xx
 
         return max;
     }
-    #endregion
 
-    #region Solution for 1759
+    [ProblemSolution("1759")]
     public int CountHomogenous(string s)
     {
         var dp = new long[s.Length];
@@ -70,5 +69,4 @@ internal class Solution17xx
 
         return (int)(total %= modulo);
     }
-    #endregion
 }

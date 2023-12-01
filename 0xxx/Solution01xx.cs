@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution01xx
 {
-    #region Solution for 191
+    [ProblemSolution("191")]
     public int HammingWeight(uint n)
     {
         var result = 0;
@@ -15,5 +15,4 @@ internal class Solution01xx
 
         return result;
     }
-    #endregion
 }

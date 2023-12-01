@@ -4,15 +4,15 @@ internal class Solution00xx
     public class ListNode
     {
         public int val;
-        public ListNode next;
-        public ListNode(int val = 0, ListNode next = null)
+        public ListNode? next;
+        public ListNode(int val = 0, ListNode? next = null)
         {
             this.val = val;
             this.next = next;
         }
     }
 
-    #region Solution for 1
+    [ProblemSolution("1")]
     public int[] TwoSum(int[] nums, int target)
     {
         Dictionary<int, int> dick = new Dictionary<int, int>();
@@ -27,9 +27,8 @@ internal class Solution00xx
 
         return new int[0];
     }
-    #endregion
 
-    #region Solution for 2
+    [ProblemSolution("2")]
     public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
     {
         int remainder = 0;
@@ -61,9 +60,8 @@ internal class Solution00xx
 
         return lstart.next;
     }
-    #endregion
 
-    #region Solution for 9
+    [ProblemSolution("9")]
     public bool IsPalindrome(int x)
     {
         if (x < 0)
@@ -87,5 +85,4 @@ internal class Solution00xx
 
         return true;
     }
-    #endregion
 }

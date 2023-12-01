@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set2xxx;
 class Solution29xx
 {
-    #region Solution for 2937
+    [ProblemSolution("2937")]
     public int FindMinimumOperations(string s1, string s2, string s3)
     {
         var min = Math.Min(s1.Length, s2.Length);
@@ -23,9 +23,8 @@ class Solution29xx
         var changes = s1.Length - count + s2.Length - count + s3.Length - count;
         return count == 0 ? -1 : changes;
     }
-    #endregion
 
-    #region Solution for 2938
+    [ProblemSolution("2938")]
     public long MinimumSteps(string s)
     {
         long ops = 0;
@@ -50,9 +49,8 @@ class Solution29xx
         }
         return ops;
     }
-    #endregion
 
-    #region Solution for 2939
+    [ProblemSolution("2939")]
     public int MaximumXorProduct(long a, long b, int n)
     {
         long x = 0;
@@ -89,7 +87,6 @@ class Solution29xx
         var result = (long)((a ^ x) % modulo) * (long)((b ^ x) % modulo);
         return (int)(result % modulo);
     }
-    #endregion
 
     //public int[] LeftmostBuildingQueries(int[] heights, int[][] queries)
     //{

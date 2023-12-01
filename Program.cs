@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace LeetCode;
 
@@ -7,6 +8,19 @@ internal class Program
     public static void Main()
     {
         var count = 0;
+        ForEachTypeContainingAttribute<ProblemSolutionAttribute>(f =>
+        {
+            Console.WriteLine($"Problem: {f.ProblemName}");
+            count++;
+        });
+        Console.WriteLine($"Total count: {count}");
+
+        var readmePath = @"..\..\..\README.md";
+        var filetext = File.ReadAllText(readmePath);
+        filetext = Regex.Replace(filetext, @"\*\*\*\d* problems\*\*\*", $"***{count} problems***");
+        File.WriteAllText(readmePath, filetext);
+
+        Console.WriteLine("Overwritten the readme file");
     }
 
     public static void ForEachTypeContainingAttribute<T>(Action<T> action) where T : System.Attribute
@@ -30,7 +44,8 @@ internal class Program
     }
 }
 
-internal class ProblemSolutionAttribute
+[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method)]
+internal class ProblemSolutionAttribute : Attribute
 {
     public string? ProblemName { get; set; }
 

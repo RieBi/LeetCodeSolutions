@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set2xxx;
 internal class Solution14xx
 {
-    #region Solution for 1424
+    [ProblemSolution("1424")]
     public int[] FindDiagonalOrder(IList<IList<int>> nums)
     {
         var totalCount = nums.Sum(f => f.Count);
@@ -24,5 +24,4 @@ internal class Solution14xx
 
         return result;
     }
-    #endregion
 }

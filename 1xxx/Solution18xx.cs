@@ -1,7 +1,7 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution18xx
 {
-    #region Solution for 1814
+    [ProblemSolution("1814")]
     public int CountNicePairs(int[] nums)
     {
         long findRev(long num)
@@ -41,9 +41,8 @@ internal class Solution18xx
         var modulo = 1000000007l;
         return (int)(total % modulo);
     }
-    #endregion
 
-    #region Solution for 1838
+    [ProblemSolution("1838")]
     public int MaxFrequency(int[] nums, int k)
     {
         Array.Sort(nums);
@@ -100,9 +99,8 @@ internal class Solution18xx
         }
         return maxFrequency;
     }
-    #endregion
 
-    #region Solution for 1845
+    [ProblemSolution("1845")]
     public class SeatManager
     {
         SortedList<int, int> dick;
@@ -127,9 +125,8 @@ internal class Solution18xx
             dick[seatNumber] = seatNumber;
         }
     }
-    #endregion
 
-    #region Solution for 1877
+    [ProblemSolution("1877")]
     public int MinPairSum(int[] nums)
     {
         Array.Sort(nums);
@@ -140,9 +137,8 @@ internal class Solution18xx
         }
         return max;
     }
-    #endregion
 
-    #region Solution for 1887
+    [ProblemSolution("1887")]
     public int ReductionOperations(int[] nums)
     {
         Array.Sort(nums);
@@ -160,5 +156,4 @@ internal class Solution18xx
 
         return sum;
     }
-    #endregion
 }
