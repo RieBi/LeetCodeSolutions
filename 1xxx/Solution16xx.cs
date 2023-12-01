@@ -51,6 +51,43 @@ internal class Solution16xx
     }
     #endregion
 
+    #region Solution for 1662
+    public bool ArrayStringsAreEqual(string[] word1, string[] word2)
+    {
+        var chars = new int[1000];
+        
+        IEnumerable<char> getChars(string[] word)
+        {
+            for (int i = 0; i < word.Length; i++)
+            {
+                for (int j = 0; j < word[i].Length; j++)
+                {
+                    yield return word[i][j];
+                }
+            }
+        }
+
+        var enum1 = getChars(word1).GetEnumerator();
+        var enum2 = getChars(word2).GetEnumerator();
+
+        while (true)
+        {
+            var is1 = enum1.MoveNext();
+            var is2 = enum2.MoveNext();
+
+            if (!is1 && !is2)
+                break;
+            else if (is1 != is2)
+                return false;
+
+            if (enum1.Current != enum2.Current)
+                return false;
+        }
+
+        return true;
+    }
+    #endregion
+
     #region Solution for 1685
     public int[] GetSumAbsoluteDifferences(int[] nums)
     {
