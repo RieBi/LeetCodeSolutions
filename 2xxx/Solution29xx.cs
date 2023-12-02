@@ -1,6 +1,23 @@
 ﻿namespace LeetCode.Set2xxx;
 class Solution29xx
 {
+    [ProblemSolution("2900")]
+    public IList<string> GetWordsInLongestSubsequence(int _, string[] words, int[] groups)
+    {
+        var value = -1;
+        var result = new List<string>();
+        for (int i = 0; i < groups.Length; i++)
+        {
+            if (groups[i] != value)
+            {
+                value = groups[i];
+                result.Add(words[i]);
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2937")]
     public int FindMinimumOperations(string s1, string s2, string s3)
     {
