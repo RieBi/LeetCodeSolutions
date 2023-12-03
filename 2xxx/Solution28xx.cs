@@ -38,4 +38,23 @@ internal class Solution28xx
 
         return -1;
     }
+
+    [ProblemSolution("2870")]
+    public int MinOperations(int[] nums)
+    {
+        var result = 0;
+        var groups = nums.GroupBy(f => f);
+        foreach (var group in groups)
+        {
+            var count = group.Count();
+            if (count == 1)
+                return -1;
+            else if (count % 3 == 0)
+                result += count / 3;
+            else
+                result += count / 3 + 1;
+        }
+
+        return result;
+    }
 }
