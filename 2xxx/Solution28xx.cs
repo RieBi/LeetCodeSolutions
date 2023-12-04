@@ -57,4 +57,29 @@ internal class Solution28xx
 
         return result;
     }
+
+    [ProblemSolution("2899")]
+    public IList<int> LastVisitedIntegers(IList<string> words)
+    {
+        var nums = new List<int>();
+        var result = new List<int>();
+
+        var prevCount = 0;
+        for (int i = 0; i < words.Count; i++)
+        {
+            if (words[i] == "prev")
+            {
+                prevCount++;
+                var ind = nums.Count - prevCount;
+                result.Add(ind >= 0 ? nums[ind] : -1);
+            }
+            else
+            {
+                prevCount = 0;
+                nums.Add(int.Parse(words[i]));
+            }
+        }
+
+        return result;
+    }
 }
