@@ -58,6 +58,31 @@ internal class Solution28xx
         return result;
     }
 
+    [ProblemSolution("2871")]
+    public int MaxSubarrays(int[] nums)
+    {
+        var result = 0;
+        var min = nums[0];
+        for (int i = 0; i < nums.Length; i++)
+            min &= nums[i];
+
+        if (min > 0)
+            return 1;
+
+        var cur = nums[0];
+        for (int i = 0; i < nums.Length; i++)
+        {
+            cur &= nums[i];
+            if (cur == min)
+            {
+                result++;
+                cur = (1 << 25) - 1;
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2899")]
     public IList<int> LastVisitedIntegers(IList<string> words)
     {
