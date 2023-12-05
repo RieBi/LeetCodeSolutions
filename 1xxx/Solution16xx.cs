@@ -116,4 +116,10 @@ internal class Solution16xx
 
         return resultArr;
     }
+
+    [ProblemSolution("1688")]
+    public int NumberOfMatches(int n)
+    {
+        return n - 1;
+    }
 }
