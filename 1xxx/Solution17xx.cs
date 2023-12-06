@@ -1,6 +1,16 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution17xx
 {
+    [ProblemSolution("1716")]
+    public int TotalMoney(int n)
+    {
+        var total = 0;
+        for (int i = 1; i <= n; i++)
+            total += ((int)Math.Ceiling((double)i / 7) + (i - 1) % 7);
+
+        return total;
+    }
+
     [ProblemSolution("1727")]
     public int LargestSubmatrix(int[][] matrix)
     {
