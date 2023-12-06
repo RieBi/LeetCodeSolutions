@@ -61,6 +61,25 @@ internal class Solution00xx
         return lstart.next;
     }
 
+    [ProblemSolution("3")]
+    public int LengthOfLongestSubstring(string s)
+    {
+        var maxSubstring = 0;
+        var curStart = 0;
+        var charsIndices = new Dictionary<char, int>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            var valueExists = charsIndices.TryGetValue(s[i], out int index);
+            if (valueExists && index >= curStart)
+                curStart = index + 1;
+            
+            charsIndices[s[i]] = i;
+            maxSubstring = Math.Max(maxSubstring, i - curStart + 1);
+        }
+
+        return maxSubstring;
+    }
+
     [ProblemSolution("9")]
     public bool IsPalindrome(int x)
     {
