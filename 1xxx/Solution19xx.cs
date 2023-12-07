@@ -1,6 +1,13 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution19xx
 {
+    [ProblemSolution("1903")]
+    public string LargestOddNumber(string num)
+    {
+        var largestOddDigit = num.LastIndexOfAny(new char[] {'1', '3', '5', '7', '9'});
+        return largestOddDigit == -1 ? "" : num.Substring(0, largestOddDigit + 1);
+    }
+
     [ProblemSolution("1921")]
     public int EliminateMaximum(int[] dist, int[] speed)
     {
