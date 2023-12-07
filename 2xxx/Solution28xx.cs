@@ -83,6 +83,48 @@ internal class Solution28xx
         return result;
     }
 
+    [ProblemSolution("2872")]
+    public int MaxKDivisibleComponents(int n, int[][] edges, int[] values, int k)
+    {
+        var vertices = new Dictionary<int, (long value, HashSet<int> connections)>();
+        for (int i = 0; i < n; i++)
+        {
+            var value = values[i];
+            vertices[i] = (value, new HashSet<int>());
+        }
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            var v1 = edges[i][0];
+            var v2 = edges[i][1];
+
+            vertices[v1].connections.Add(v2);
+            vertices[v2].connections.Add(v1);
+        }
+
+        var regionCount = 0;
+        long GetVerticeValue(int ind, int prevInd)
+        {
+            var current = vertices[ind];
+            var sum = current.value;
+            foreach (var child in current.connections.Where(f => f != prevInd))
+            {
+                var value = GetVerticeValue(child, ind);
+
+                if (value % k != 0)
+                    sum += value;
+            }
+
+            if (sum % k == 0)
+                regionCount++;
+            return sum;
+        }
+
+        GetVerticeValue(0, -1);
+
+        return regionCount;
+    }
+
     [ProblemSolution("2899")]
     public IList<int> LastVisitedIntegers(IList<string> words)
     {
