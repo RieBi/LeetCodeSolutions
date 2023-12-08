@@ -125,6 +125,59 @@ internal class Solution28xx
         return regionCount;
     }
 
+    [ProblemSolution("2897")]
+    public int MaxSum(IList<int> nums, int k)
+    {
+        var counts = new long[31];
+        for (int i = 0; i < nums.Count; i++)
+            populateCounts(nums[i]);
+
+        var results = new List<long>();
+        while (tryAddResults()) { }
+
+        var resultSum = 0L;
+        for (int i = 0; i < k && i < results.Count; i++)
+        {
+            resultSum += results[i] * results[i];
+            resultSum %= 1_000_000_007;
+        }
+
+        return (int)resultSum;
+
+        void populateCounts(int num)
+        {
+            var mask = 1;
+            for (int i = 0; i < 31; i++)
+            {
+                if ((mask & num) == mask)
+                    counts![i]++;
+                mask <<= 1;
+            }
+        }
+
+        bool tryAddResults()
+        {
+            var num = 0;
+            var mask = 1;
+            for (int i = 0; i < 31; i++)
+            {
+                if (counts![i] > 0)
+                {
+                    counts[i]--;
+                    num |= mask;
+                }
+
+                mask <<= 1;
+            }
+
+            if (num == 0)
+                return false;
+
+            results!.Add(num);
+            return true;
+        }
+    }
+
     [ProblemSolution("2899")]
     public IList<int> LastVisitedIntegers(IList<string> words)
     {

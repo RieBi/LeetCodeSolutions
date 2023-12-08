@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using LeetCode.Set2xxx;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace LeetCode;
@@ -6,6 +7,11 @@ namespace LeetCode;
 internal class Program
 {
     public static void Main()
+    {
+        UpdateReadmeFile();
+    }
+
+    public static void UpdateReadmeFile()
     {
         var count = 0;
         ForEachTypeContainingAttribute<ProblemSolutionAttribute>(f =>
