@@ -1,17 +1,6 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution00xx
 {
-    public class ListNode
-    {
-        public int val;
-        public ListNode? next;
-        public ListNode(int val = 0, ListNode? next = null)
-        {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     [ProblemSolution("1")]
     public int[] TwoSum(int[] nums, int target)
     {
