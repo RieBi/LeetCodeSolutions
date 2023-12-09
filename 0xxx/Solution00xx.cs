@@ -93,4 +93,40 @@ internal class Solution00xx
 
         return true;
     }
+
+    [ProblemSolution("94")]
+    public IList<int> InorderTraversal(TreeNode root)
+    {
+        var result = new List<int>();
+        if (root == null)
+            return result;
+
+        var stack = new Stack<TreeNode>();
+        var inStack = new HashSet<TreeNode>();
+        stack.Push(root);
+        inStack.Add(root);
+
+
+        while (stack.Count > 0)
+        {
+            var top = stack.Peek();
+            if (top.left is not null && !inStack.Contains(top.left))
+            {
+                stack.Push(top.left);
+                inStack.Add(top.left);
+            }
+            else
+            {
+                result.Add(top.val);
+                stack.Pop();
+                if (top.right is not null)
+                {
+                    stack.Push(top.right);
+                    inStack.Add(top.right);
+                }
+            }
+        }
+
+        return result;
+    }
 }
