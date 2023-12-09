@@ -125,6 +125,26 @@ internal class Solution28xx
         return regionCount;
     }
 
+    [ProblemSolution("2873")]
+    public long MaximumTripletValue(int[] nums)
+    {
+        static long getValue((long i, long j, long k) values) => (values.i - values.j) * values.k;
+        var max = 0L;
+
+        for (int i = 0; i < nums.Length - 2; i++)
+        {
+            for (int j = i + 1; j < nums.Length - 1; j++)
+            {
+                for (int k = j + 1; k < nums.Length; k++)
+                {
+                    max = Math.Max(max, getValue((nums[i], nums[j], nums[k])));
+                }
+            }
+        }
+
+        return max;
+    }
+
     [ProblemSolution("2897")]
     public int MaxSum(IList<int> nums, int k)
     {
