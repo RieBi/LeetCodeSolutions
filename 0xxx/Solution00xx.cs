@@ -18,7 +18,7 @@ internal class Solution00xx
     }
 
     [ProblemSolution("2")]
-    public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+    public ListNode AddTwoNumbers(ListNode? l1, ListNode? l2)
     {
         int remainder = 0;
 
@@ -35,10 +35,8 @@ internal class Solution00xx
             lnew.val = sum;
             remainder = num / 10;
 
-            if (l1 is not null)
-                l1 = l1.next;
-            if (l2 is not null)
-                l2 = l2.next;
+            l2 = l1?.next!;
+            l2 = l2?.next!;
 
         }
         if (remainder != 0)
@@ -47,7 +45,7 @@ internal class Solution00xx
             lnew.next.val = remainder;
         }
 
-        return lstart.next;
+        return lstart.next!;
     }
 
     [ProblemSolution("3")]

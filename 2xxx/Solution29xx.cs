@@ -71,7 +71,7 @@ class Solution29xx
     public int MaximumXorProduct(long a, long b, int n)
     {
         long x = 0;
-        long mask = 1l << (n - 1);
+        long mask = 1L << (n - 1);
         Console.WriteLine(mask);
         for (int i = 0; i < n; i++)
         {

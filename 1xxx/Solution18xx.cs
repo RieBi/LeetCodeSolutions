@@ -6,7 +6,7 @@ internal class Solution18xx
     {
         long findRev(long num)
         {
-            var rev = 0l;
+            var rev = 0L;
 
             while (num > 0)
             {
@@ -31,14 +31,14 @@ internal class Solution18xx
                 dick[key] = 1;
         }
 
-        var total = 0l;
+        var total = 0L;
         foreach (var v in dick)
         {
             var elemTotal = (v.Value * (v.Value - 1)) / 2;
             total += elemTotal;
         }
 
-        var modulo = 1000000007l;
+        var modulo = 1000000007L;
         return (int)(total % modulo);
     }
 

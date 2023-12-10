@@ -7,7 +7,7 @@ internal class Solution21xx
         var result = 1L;
         var curStreak = 0;
         var plantStreak = 0;
-        var modulo = 1_000_000_007l;
+        var modulo = 1_000_000_007L;
         for (int i = 0; i < corridor.Length; i++)
         {
             var curObject = corridor[i];
