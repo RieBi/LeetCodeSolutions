@@ -1,4 +1,5 @@
-﻿namespace LeetCode.Set2xxx;
+﻿using System.Text;
+namespace LeetCode.Set2xxx;
 internal class Solution28xx
 {
     [ProblemSolution("2849")]
@@ -143,6 +144,36 @@ internal class Solution28xx
         }
 
         return max;
+    }
+
+    [ProblemSolution("2896")]
+    public int MinOperations(string s1, string s2, int x)
+    {
+        var diffs = new List<int>(s1.Length);
+        for (int i = 0; i < s1.Length; i++)
+        {
+            if (s1[i] != s2[i])
+                diffs.Add(i);
+        }
+
+        if (diffs.Count % 2 == 1)
+            return -1;
+        if (diffs.Count == 0)
+            return 0;
+
+        var dpPlusTwo = 0;
+        var dpPlusOne = x;
+        var dp = -1;
+        for (int i = diffs.Count - 2; i >= 0; i--)
+        {
+            dp = Math.Min(
+                dpPlusOne + x,
+                dpPlusTwo + 2 * (diffs[i + 1] - diffs[i])
+            );
+            (dpPlusTwo, dpPlusOne) = (dpPlusOne, dp);
+        }
+
+        return dp / 2;
     }
 
     [ProblemSolution("2897")]
