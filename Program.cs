@@ -9,10 +9,7 @@ internal class Program
 {
     public static void Main()
     {
-        //UpdateReadmeFile();
-        int[] ar = [12, 6, 1, 2, 7];
-        var c = new Solution28xx();
-        Console.WriteLine(c.MaximumTripletValue([1000000, 1, 1000000]));
+        UpdateReadmeFile();
     }
 
     public static void UpdateReadmeFile()
