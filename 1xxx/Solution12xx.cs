@@ -15,4 +15,25 @@ internal class Solution12xx
 
         return resultTime;
     }
+
+    [ProblemSolution("1287")]
+    public int FindSpecialInteger(int[] arr)
+    {
+        if (arr.Length == 1)
+            return arr[0];
+
+        var count = 1;
+        for (int i = 1; i < arr.Length; i++)
+        {
+            if (arr[i] != arr[i - 1])
+                count = 1;
+            else
+                count++;
+
+            if (count > 25 * arr.Length / 100)
+                return arr[i];
+        }
+
+        throw new ArgumentException("Array contains no elements occuring >25% of the time");
+    }
 }
