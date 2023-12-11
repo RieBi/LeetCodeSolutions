@@ -146,6 +146,32 @@ internal class Solution28xx
         return max;
     }
 
+    [ProblemSolution("2874")]
+    public long MaximumTripletValue2(int[] nums)
+    {
+        var len = nums.Length;
+        var prefs = new int[len];
+        var suffs = new int[len];
+        prefs[0] = nums[0];
+        suffs[len - 1] = nums[len - 1];
+
+        for (int i = 1; i < len; i++)
+            prefs[i] = Math.Max(nums[i], prefs[i - 1]);
+        for (int i = len - 2; i >= 0; i--)
+            suffs[i] = Math.Max(nums[i], suffs[i + 1]);
+
+        var maxTriple = 0L;
+        for (int j = 1; j < len - 1; j++)
+            maxTriple = Math.Max(maxTriple, calculateTripletValue(prefs[j - 1], nums[j], suffs[j + 1]));
+
+        return maxTriple;
+
+        long calculateTripletValue(int val1, int val2, int val3)
+        {
+            return (long)(val1 - val2) * (long)val3;
+        }
+    }
+
     [ProblemSolution("2896")]
     public int MinOperations(string s1, string s2, int x)
     {

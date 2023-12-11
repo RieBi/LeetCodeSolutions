@@ -1,4 +1,5 @@
-﻿using LeetCode.Set2xxx;
+﻿using LeetCode.Set1xxx;
+using LeetCode.Set2xxx;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -8,7 +9,10 @@ internal class Program
 {
     public static void Main()
     {
-        UpdateReadmeFile();
+        //UpdateReadmeFile();
+        int[] ar = [12, 6, 1, 2, 7];
+        var c = new Solution28xx();
+        Console.WriteLine(c.MaximumTripletValue([1000000, 1, 1000000]));
     }
 
     public static void UpdateReadmeFile()
