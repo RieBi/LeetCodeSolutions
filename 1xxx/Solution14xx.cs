@@ -24,4 +24,14 @@ internal class Solution14xx
 
         return result;
     }
+
+    [ProblemSolution("1464")]
+    public int MaxProduct(int[] nums)
+    {
+        return nums
+            .Select(f => Math.Abs(f - 1))
+            .OrderByDescending(f => f)
+            .Take(2)
+            .Aggregate(1, (a, b) => a * b);
+    }
 }
