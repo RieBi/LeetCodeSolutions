@@ -172,6 +172,15 @@ internal class Solution28xx
         }
     }
 
+    [ProblemSolution("2895")]
+    public int MinProcessingTime(IList<int> processorTime, IList<int> tasks)
+    {
+        var processorSorted = processorTime.OrderBy(f => f);
+        var tasksSorted = tasks.OrderByDescending(f => f).Chunk(4).Select(f => f.Max());
+
+        return processorSorted.Zip(tasksSorted).Aggregate(0, (a, b) => Math.Max(a, b.First + b.Second));
+    }
+
     [ProblemSolution("2896")]
     public int MinOperations(string s1, string s2, int x)
     {
