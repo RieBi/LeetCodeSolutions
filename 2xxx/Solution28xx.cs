@@ -172,6 +172,40 @@ internal class Solution28xx
         }
     }
 
+    [ProblemSolution("2875")]
+    public int MinSizeSubarray(int[] nums, int target)
+    {
+        var longy = nums.Select(f => (long)f);
+        var ltarget = (long)target;
+        var infinite = longy.Concat(longy).ToList();
+
+        var numsSum = longy.Sum();
+        var totalLength = longy.Count() * (ltarget / numsSum);
+        ltarget %= numsSum;
+        if (ltarget == 0)
+            return (int)totalLength;
+
+        var left = 0;
+        var right = 0;
+        var sum = infinite[0];
+        var minLength = int.MaxValue;
+        while (right < infinite.Count - 1)
+        {
+            if (sum == ltarget && (right - left + 1) < minLength)
+                minLength = (right - left + 1);
+
+            if (left == right || sum < ltarget)
+                sum += infinite[++right];
+            else
+                sum -= infinite[left++];
+        }
+
+        if (minLength == int.MaxValue)
+            return -1;
+
+        return (int)(totalLength + minLength);
+    }
+
     [ProblemSolution("2895")]
     public int MinProcessingTime(IList<int> processorTime, IList<int> tasks)
     {

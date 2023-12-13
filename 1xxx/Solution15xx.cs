@@ -49,6 +49,7 @@ internal class Soltuion15xx
         return result;
     }
 
+    [ProblemSolution("1582")]
     public int NumSpecial(int[][] mat)
     {
         var rows = mat
