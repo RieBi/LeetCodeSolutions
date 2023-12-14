@@ -206,6 +206,16 @@ internal class Solution28xx
         return (int)(totalLength + minLength);
     }
 
+    [ProblemSolution("2894")]
+    public int DifferenceOfSums(int n, int m)
+    {
+        var range = Enumerable.Range(1, n);
+        var num1 = range.Where(f => f % m != 0).Sum();
+        var num2 = range.Where(f => f % m == 0).Sum();
+
+        return num1 - num2;
+    }
+
     [ProblemSolution("2895")]
     public int MinProcessingTime(IList<int> processorTime, IList<int> tasks)
     {
