@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Specialized;
+using System.Text;
 namespace LeetCode.Set2xxx;
 internal class Solution28xx
 {
@@ -204,6 +205,49 @@ internal class Solution28xx
             return -1;
 
         return (int)(totalLength + minLength);
+    }
+
+    [ProblemSolution("2876")]
+    public int[] CountVisitedNodes(IList<int> edges)
+    {
+        var result = new int[edges.Count];
+
+        for (int i = 0; i < edges.Count; i++)
+        {
+            if (result[i] == 0)
+                processNode(i);
+        }
+
+        return result;
+
+        void processNode(int node)
+        {
+            var set = new HashSet<int>();
+            var list = new List<int>();
+
+            while (!set.Contains(node))
+            {
+                if (result[node] != 0)
+                {
+                    var loop = result[node];
+                    for (int j = 0; j < list.Count; j++)
+                        result[list[j]] = loop + list.Count - j;
+
+                    return;
+                }
+
+                set.Add(node);
+                list.Add(node);
+                node = edges[node];
+            }
+
+            int i;
+            for (i = 0; i < list.Count && list[i] != node; i++)
+                result[list[i]] = list.Count - i;
+
+            for (int j = i; j < list.Count; j++)
+                result[list[j]] = list.Count - i;
+        }
     }
 
     [ProblemSolution("2894")]
