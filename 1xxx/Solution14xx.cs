@@ -25,6 +25,35 @@ internal class Solution14xx
         return result;
     }
 
+    [ProblemSolution("1436")]
+    public string DestCity(IList<IList<string>> paths)
+    {
+        var dick = new Dictionary<string, (bool, bool)>();
+        for (int i = 0; i < paths.Count; i++)
+        {
+            var source = paths[i][0];
+            var dest = paths[i][1];
+
+            if (dick.TryGetValue(source, out (bool, bool) val))
+                dick[source] = (true, val.Item2);
+            else
+                dick[source] = (true, false);
+
+            if (dick.TryGetValue(dest, out val))
+                dick[dest] = (val.Item1, true);
+            else
+                dick[dest] = (false, true);
+        }
+
+        foreach (var v in dick)
+        {
+            if (v.Value == (false, true))
+                return v.Key;
+        }
+
+        return "";
+    }
+
     [ProblemSolution("1464")]
     public int MaxProduct(int[] nums)
     {
