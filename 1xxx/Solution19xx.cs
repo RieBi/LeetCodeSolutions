@@ -8,6 +8,30 @@ internal class Solution19xx
         return largestOddDigit == -1 ? "" : num.Substring(0, largestOddDigit + 1);
     }
 
+    [ProblemSolution("1913")]
+    public int MaxProductDifference(int[] nums)
+    {
+        var maxSet = new List<int>(nums[..4].OrderByDescending(f => f).Take(2));
+        var minSet = new List<int>(nums[..4].OrderBy(f => f).Take(2));
+        for (int i = 4; i < nums.Length; i++)
+        {
+            var num = nums[i];
+            if (maxSet.Min() < num)
+            {
+                maxSet.Remove(maxSet.Min());
+                maxSet.Add(num);
+            }
+
+            if (minSet.Max() > num)
+            {
+                minSet.Remove(minSet.Max());
+                minSet.Add(num);
+            }
+        }
+
+        return (maxSet[0] * maxSet[1] - minSet[0] * minSet[1]);
+    }
+
     [ProblemSolution("1921")]
     public int EliminateMaximum(int[] dist, int[] speed)
     {
