@@ -49,6 +49,23 @@ internal class Solution16xx
         return result;
     }
 
+    [ProblemSolution("1637")]
+    public int MaxWidthOfVerticalArea(int[][] points)
+    {
+        var sorted = points
+            .Select(f => f[0])
+            .OrderBy(f => f)
+            .ToList();
+
+        var max = 0;
+        for (int i = 1; i < sorted.Count(); i++)
+        {
+            max = Math.Max(max, sorted[i] - sorted[i - 1]);
+        }
+
+        return max;
+    }
+
     [ProblemSolution("1662")]
     public bool ArrayStringsAreEqual(string[] word1, string[] word2)
     {
