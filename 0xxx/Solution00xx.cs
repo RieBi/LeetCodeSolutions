@@ -137,6 +137,28 @@ internal class Solution00xx
         return true;
     }
 
+    [ProblemSolution("11")]
+    public int MaxArea(int[] height)
+    {
+        var max = 0;
+        var left = 0;
+        var right = height.Length - 1;
+
+        while (left < right)
+        {
+            var lower = Math.Min(height[left], height[right]);
+            var area = (right - left) * lower;
+            max = Math.Max(max, area);
+
+            if (height[left] <= height[right])
+                left++;
+            else
+                right--;
+        }
+
+        return max;
+    }
+
     [ProblemSolution("94")]
     public IList<int> InorderTraversal(TreeNode root)
     {
