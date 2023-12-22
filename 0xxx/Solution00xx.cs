@@ -67,6 +67,51 @@ internal class Solution00xx
         return maxSubstring;
     }
 
+    [ProblemSolution("4")]
+    public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+    {
+        if (nums1.Length > nums2.Length)
+            (nums1, nums2) = (nums2, nums1);
+
+        var m = nums1.Length;
+        var n = nums2.Length;
+        var left = 0;
+        var right = m;
+
+        while (left <= right)
+        {
+            var partitionA = (left + right) / 2;
+            var partitionB = (m + n + 1) / 2 - partitionA;
+
+            var maxLeftA = (partitionA == 0) ? int.MinValue : nums1[partitionA - 1];
+            var minRightA = (partitionA == m) ? int.MaxValue : nums1[partitionA];
+            var maxLeftB = (partitionB == 0) ? int.MinValue : nums2[partitionB - 1];
+            var minRightB = (partitionB == n) ? int.MaxValue : nums2[partitionB];
+
+            if (maxLeftA <= minRightB && maxLeftB <= minRightA)
+            {
+                if ((m + n) % 2 == 0)
+                {
+                    return ((double)Math.Max(maxLeftA, maxLeftB) + (double)Math.Min(minRightA, minRightB)) / 2;
+                }
+                else
+                {
+                    return Math.Max(maxLeftA, maxLeftB);
+                }
+            }
+            else if (maxLeftA > minRightB)
+            {
+                right = partitionA - 1;
+            }
+            else
+            {
+                left = partitionA + 1;
+            }
+        }
+
+        return 0;
+    }
+
     [ProblemSolution("9")]
     public bool IsPalindrome(int x)
     {
