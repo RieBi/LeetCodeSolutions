@@ -1,6 +1,26 @@
-﻿namespace LeetCode.Set2xxx;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LeetCode.Set2xxx;
 internal class Solution14xx
 {
+    [ProblemSolution("1422")]
+    public int MaxScore(string s)
+    {
+        var max = 0;
+        var zeroes = s[0] == '0' ? 1 : 0;
+        var ones = s.Skip(1).Count(f => f == '1');
+        for (int i = 1; i < s.Length; i++)
+        {
+            max = Math.Max(max, zeroes + ones);
+            if (s[i] == '0')
+                zeroes++;
+            else
+                ones--;
+        }
+
+        return max;
+    }
+
     [ProblemSolution("1424")]
     public int[] FindDiagonalOrder(IList<IList<int>> nums)
     {
