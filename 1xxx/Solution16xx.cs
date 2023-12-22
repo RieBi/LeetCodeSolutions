@@ -52,16 +52,15 @@ internal class Solution16xx
     [ProblemSolution("1637")]
     public int MaxWidthOfVerticalArea(int[][] points)
     {
-        var sorted = points
-            .Select(f => f[0])
-            .OrderBy(f => f)
-            .ToList();
-
         var max = 0;
-        for (int i = 1; i < sorted.Count(); i++)
-        {
-            max = Math.Max(max, sorted[i] - sorted[i - 1]);
-        }
+        var sorted = points
+            .OrderBy(f => f[0])
+            .Aggregate(points[0], (a, b) =>
+            {
+                var diff = b[0] - a[0];
+                max = Math.Max(max, diff);
+                return b;
+            });
 
         return max;
     }
