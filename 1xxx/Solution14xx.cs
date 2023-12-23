@@ -83,4 +83,31 @@ internal class Solution14xx
             .Take(2)
             .Aggregate(1, (a, b) => a * b);
     }
+
+    [ProblemSolution("1496")]
+    public bool IsPathCrossing(string path)
+    {
+        var set = new HashSet<(int, int)>();
+        set.Add((0, 0));
+        var x = 0;
+        var y = 0;
+
+        for (int i = 0; i < path.Length; i++)
+        {
+            if (path[i] == 'N')
+                y++;
+            else if (path[i] == 'S')
+                y--;
+            else if (path[i] == 'E')
+                x++;
+            else
+                x--;
+
+            if (set.Contains((x, y)))
+                return true;
+            set.Add((x, y));
+        }
+
+        return false;
+    }
 }
