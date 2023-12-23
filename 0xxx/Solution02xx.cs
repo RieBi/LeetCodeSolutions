@@ -1,6 +1,12 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution02xx
 {
+    [ProblemSolution("217")]
+    public bool ContainsDuplicate(int[] nums)
+    {
+        return nums.Distinct().Count() != nums.Length;
+    }
+
     [ProblemSolution("242")]
     public bool IsAnagram(string s, string t)
     {
