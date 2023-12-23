@@ -1,6 +1,12 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution01xx
 {
+    [ProblemSolution("136")]
+    public int SingleNumber(int[] nums)
+    {
+        return nums.Aggregate((a, b) => a^b);
+    }
+
     [ProblemSolution("191")]
     public int HammingWeight(uint n)
     {
