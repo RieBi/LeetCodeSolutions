@@ -27,11 +27,12 @@ internal class Solution07xx
         return -1;
     }
 
+    [ProblemSolution("705")]
     public class MyHashSet
     {
         private int capacity = 7;
         private int count = 0;
-        private List<int>[] arr;
+        private List<int>?[] arr;
 
         public MyHashSet()
         {
@@ -41,14 +42,16 @@ internal class Solution07xx
         public void Add(int key)
         {
             if (count == capacity)
-                UpSize();
+                Resize(capacity * 2);
 
             var bucket = GetBucket(key);
             if (arr[bucket] == null)
                 arr[bucket] = new List<int>();
 
-            if (!arr[bucket].Contains(key))
-            arr[bucket].Add(key);
+            if (!arr[bucket]!.Contains(key))
+                arr[bucket]!.Add(key);
+
+            count++;
         }
 
         public void Remove(int key)
@@ -56,9 +59,15 @@ internal class Solution07xx
             var bucket = GetBucket(key);
             if (arr[bucket] == null)
                 return;
-            if (arr[bucket].Count == 1)
+
+            arr[bucket]!.Remove(key);
+            if (arr[bucket]!.Count == 0)
                 arr[bucket] = null;
-            arr[bucket].Remove(key);
+
+            count--;
+
+            if (count * 4 <= capacity)
+                Resize(capacity / 2);
         }
 
         public bool Contains(int key)
@@ -66,14 +75,14 @@ internal class Solution07xx
             var bucket = GetBucket(key);
             if (arr[bucket] == null)
                 return false;
-            return arr[bucket].Contains(key);
+            return arr[bucket]!.Contains(key);
         }
 
         private int GetBucket(int key) => (key * 17) % capacity;
 
-        private void UpSize()
+        private void Resize(int newCapacity)
         {
-            capacity *= 2;
+            capacity = newCapacity;
             var oldArr = arr;
             arr = new List<int>[capacity];
             
@@ -83,7 +92,7 @@ internal class Solution07xx
                     continue;
                 foreach (var val in bucket)
                 {
-                    // TODO
+                    Add(val);
                 }
             }
         }
