@@ -105,84 +105,186 @@ class Solution29xx
         return (int)(result % modulo);
     }
 
-    //public int[] LeftmostBuildingQueries(int[] heights, int[][] queries)
-    //{
-    //    for (int i = 0; i < queries.Length; i++)
-    //    {
-    //        if (queries[i][0] > queries[i][0])
-    //        {
-    //            var temp = queries[i][0];
-    //            queries[i][0] = queries[i][1];
-    //            queries[i][1] = temp;
-    //        }
-    //    }
+    [ProblemSolution("2970")]
+    public int IncremovableSubarrayCount(int[] nums)
+    {
+        var count = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            for (int j = i; j < nums.Length; j++)
+            {
+                if (isIncremental(i, j))
+                    count++;
+            }
+        }
 
-    //    var qsorted = queries.Zip(Enumerable.Range(0, queries.Length)).OrderBy(f => f.First[1]).ToList();
-    //    // (int[] query, int indexOfQeury)
-    //    var qstack = new Stack<(int[] query, int ind)>(qsorted.Count);
-    //    for (int i = 0; i < qsorted.Count; i++)
-    //    {
-    //        qstack.Push(qsorted[i]);
-    //    }
-    //    // (int num, int indexOfNum)
-    //    var blist = new List<(int num, int ind)>();
+        return count;
 
+        bool isIncremental(int left, int right)
+        {
+            var skipped = skipPortion(left, right).GetEnumerator();
+            if (!skipped.MoveNext())
+                return true;
+            var first = skipped.Current;
+            while (skipped.MoveNext())
+            {
+                if (skipped.Current <= first)
+                    return false;
+                first = skipped.Current;
+            }
 
-    //    var res = new int[queries.Length];
-    //    for (int i = heights.Length - 1; i >= 0 && qstack.Count > 0;)
-    //    {
-    //        var b = qstack.Peek().query[1];
+            return true;
+        }
 
-    //        int left = 0;
-    //        int right = 0;
-    //        while (b < i)
-    //        {
-    //            left = 0;
-    //            right = blist.Count - 1;
-    //            while (left < right)
-    //            {
-    //                var diff = right - left;
-    //                var mid = left + (right - left) / 2;
-    //                //if (right % 2 != 0)
-    //                //    mid++;
+        IEnumerable<int> skipPortion(int left, int right)
+        {
+            for (int i = 0; i < left; i++)
+                yield return nums[i];
+            for (int i = right + 1; i < nums.Length; i++)
+                yield return nums[i];
+        }
+    }
 
-    //                if (blist[mid].num < b)
-    //                {
-    //                    left = mid + 1;
-    //                }
-    //                else
-    //                {
-    //                    right = mid;
-    //                }
+    [ProblemSolution("2971")]
+    public long LargestPerimeter(int[] nums)
+    {
+        var sorted = nums.OrderBy(f => f).ToList();
+        var total = sorted.Aggregate(0L, (a, b) => a + b);
+        for (int i = sorted.Count - 1; i >= 2; i--)
+        {
+            total -= sorted[i];
+            if (total > sorted[i])
+                return total + sorted[i];
+        }
 
-    //            }
+        return -1;
+    }
 
-    //            var ind = left;
-    //            blist.Insert(ind, (heights[i], i));
-    //        }
+    [ProblemSolution("2972")]
+    public long IncremovableSubarrayCount2(int[] nums)
+    {
+        var pref = largestPref();
+        var suff = smallestSuff();
+        if (pref == nums.Length - 1)
+            return nums.Length * (nums.Length + 1) / 2;
 
-    //        left = 0;
-    //        right = blist.Count - 1;
-    //        while (left < right)
-    //        {
-    //            var diff = right - left;
-    //            var mid = left + (right - left) / 2;
-    //            //if (right % 2 != 0)
-    //            //    mid++;
+        var total = (long)((pref + 1) + (nums.Length - suff));
+        var left = 0;
+        var right = suff;
+        while (left <= pref)
+        {
+            while (right < nums.Length && nums[left] >= nums[right])
+                right++;
 
-    //            if (blist[mid].num < b)
-    //            {
-    //                left = mid + 1;
-    //            }
-    //            else
-    //            {
-    //                right = mid;
-    //            }
+            if (right == nums.Length)
+                break;
 
-    //        }
+            total += (nums.Length - right);
+            left++;
+        }
 
-    //        var hind = left;
-    //    }
+        return total + 1;
 
-    //}
+        int largestPref()
+        {
+            var ind = 0;
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (nums[i] > nums[i - 1])
+                    ind++;
+                else
+                    break;
+            }
+
+            return ind;
+        }
+
+        int smallestSuff()
+        {
+            var ind = nums.Length - 1;
+            for (var i = ind - 1; i >= 0; i--)
+            {
+                if (nums[i + 1] > nums[i])
+                    ind--;
+                else
+                    break;
+            }
+
+            return ind;
+        }
+    }
+
+    [ProblemSolution("2973")]
+    public long[] PlacedCoins(int[][] edges, int[] cost)
+    {
+        var nodes = new Dictionary<int, (HashSet<int> relatives, List<long> values, int parent, long coins, int size)>();
+        for (int i = 0; i <= edges.Length; i++)
+        {
+            nodes[i] = (new HashSet<int>(), new List<long>(), -1, -1, 1);
+        }
+
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var node1 = nodes[edges[i][0]];
+            var node2 = nodes[edges[i][1]];
+            node1.relatives.Add(edges[i][1]);
+            node2.relatives.Add(edges[i][0]);
+        }
+
+        var root = 0;
+        placeCoins(root, -1);
+
+        var result = new long[edges.Length + 1];
+        for (int i = 0; i <= edges.Length; i++)
+        {
+            result[i] = nodes[i].coins;
+        }
+
+        return result;
+
+        void placeCoins(int nodeInd, int parent)
+        {
+            var node = nodes[nodeInd];
+            var vals = new List<long>();
+            vals.Add(cost[nodeInd]);
+
+            foreach (var other in node.relatives)
+            {
+                if (other == parent)
+                    continue;
+                placeCoins(other, nodeInd);
+                node.size += nodes[other].size;
+                vals = MergeValues(vals, nodes[other].values);
+            }
+
+            node.values = vals;
+            node.coins = CalculateCoins(vals, node.size);
+            nodes[nodeInd] = node;
+        }
+
+        List<long> MergeValues(List<long> vals1, List<long> vals2)
+        {
+            var merged = new List<long>();
+            foreach (var val in vals1)
+                merged.Add(val);
+            foreach (var val in vals2)
+                merged.Add(val);
+
+            var positives = merged.Where(f => f > 0).OrderByDescending(f => f).Take(3);
+            var negatives = merged.Where(f => f < 0).OrderBy(f => f).Take(2);
+            return positives.Concat(negatives).ToList();
+        }
+
+        long CalculateCoins(List<long> vals, int size)
+        {
+            if (size < 3)
+                return 1;
+
+            var positives = vals.Where(f => f > 0).OrderByDescending(f => f).Take(3).ToList();
+            var negatives = vals.Where(f => f < 0).OrderBy(f => f).Take(2).ToList();
+            var val1 = positives.Count == 3 ? (positives.Aggregate(1L, (a, b) => a * b)) : 0;
+            var val2 = negatives.Count == 2 && positives.Count >= 1 ? (negatives.Aggregate(1L, (a, b) => a * b) * positives[0]) : 0;
+            return Math.Max(val1, val2);
+        }
+    }
 }

@@ -26,4 +26,66 @@ internal class Solution07xx
 
         return -1;
     }
+
+    public class MyHashSet
+    {
+        private int capacity = 7;
+        private int count = 0;
+        private List<int>[] arr;
+
+        public MyHashSet()
+        {
+            arr = new List<int>[capacity];
+        }
+
+        public void Add(int key)
+        {
+            if (count == capacity)
+                UpSize();
+
+            var bucket = GetBucket(key);
+            if (arr[bucket] == null)
+                arr[bucket] = new List<int>();
+
+            if (!arr[bucket].Contains(key))
+            arr[bucket].Add(key);
+        }
+
+        public void Remove(int key)
+        {
+            var bucket = GetBucket(key);
+            if (arr[bucket] == null)
+                return;
+            if (arr[bucket].Count == 1)
+                arr[bucket] = null;
+            arr[bucket].Remove(key);
+        }
+
+        public bool Contains(int key)
+        {
+            var bucket = GetBucket(key);
+            if (arr[bucket] == null)
+                return false;
+            return arr[bucket].Contains(key);
+        }
+
+        private int GetBucket(int key) => (key * 17) % capacity;
+
+        private void UpSize()
+        {
+            capacity *= 2;
+            var oldArr = arr;
+            arr = new List<int>[capacity];
+            
+            foreach (var bucket in oldArr)
+            {
+                if (bucket == null)
+                    continue;
+                foreach (var val in bucket)
+                {
+                    // TODO
+                }
+            }
+        }
+    }
 }
