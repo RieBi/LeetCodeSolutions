@@ -7,6 +7,26 @@ internal class Solution02xx
         return nums.Distinct().Count() != nums.Length;
     }
 
+    [ProblemSolution("219")]
+    public bool ContainsNearbyDuplicate(int[] nums, int k)
+    {
+        return nums
+            .Zip(Enumerable.Range(0, nums.Length))
+            .GroupBy(f => f.First, f => f.Second)
+            .Select(f => f.OrderBy(f => f))
+            .Any(s =>
+            {
+                var min = int.MaxValue;
+                s.Skip(1).Aggregate(s.First(), (a, b) =>
+                {
+                    var diff = Math.Abs(a - b);
+                    min = Math.Min(min, diff);
+                    return b;
+                });
+                return min <= k;
+            });
+    }
+
     [ProblemSolution("242")]
     public bool IsAnagram(string s, string t)
     {
