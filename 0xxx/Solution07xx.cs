@@ -97,4 +97,91 @@ internal class Solution07xx
             }
         }
     }
+
+    [ProblemSolution("706")]
+    public class MyHashMap
+    {
+        private int capacity = 7;
+        private int count = 0;
+        private List<(int key, int value)>?[] arr;
+
+        public MyHashMap()
+        {
+            arr = new List<(int, int)>[capacity];
+        }
+
+        public void Put(int key, int value)
+        {
+            if (count == capacity)
+                Resize(capacity * 2);
+
+            var bucket = GetBucket(key);
+            if (arr[bucket] == null)
+                arr[bucket] = new List<(int, int)>();
+
+            var (list, ind) = GetData(key);
+
+            if (ind == -1)
+                list.Add((key, value));
+            else
+                list[ind] = (key, value);
+
+            count++;
+        }
+
+        public int Get(int key)
+        {
+            if (arr[GetBucket(key)] == null)
+                return -1;
+
+            var (list, ind) = GetData(key);
+
+            if (ind == -1)
+                return -1;
+            else
+                return list[ind].value;
+        }
+
+        public void Remove(int key)
+        {
+            if (arr[GetBucket(key)] == null)
+                return;
+
+            var (list, ind) = GetData(key);
+
+            if (ind != -1)
+                list.RemoveAt(ind);
+
+            if (count * 4 <= capacity)
+                Resize(capacity / 2);
+        }
+
+        private (List<(int key, int value)>, int) GetData(int key)
+        {
+            var bucket = GetBucket(key);
+            var list = arr[bucket]!;
+            var ind = list.FindIndex(f => f.key == key);
+
+            return (list, ind);
+        }
+
+        private int GetBucket(int key) => (key * 17) % capacity;
+
+        private void Resize(int newCapacity)
+        {
+            capacity = newCapacity;
+            var oldArr = arr;
+            arr = new List<(int, int)>[capacity];
+
+            foreach (var bucket in oldArr)
+            {
+                if (bucket == null)
+                    continue;
+                foreach (var val in bucket)
+                {
+                    Put(val.key, val.value);
+                }
+            }
+        }
+    }
 }
