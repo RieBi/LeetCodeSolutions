@@ -9,8 +9,8 @@ internal class Solution05xx
             .GroupBy(f => f.First)
             .Where(f => f.Count() == 2);
 
-        var min = commons.Select(f => f.First().Second + f.Last().Second).Min();
-        return commons.Where(f => f.First().Second + f.Last().Second == min)
+        var min = commons.Select(f => f.Sum(el => el.Second)).Min();
+        return commons.Where(f => f.Sum(el => el.Second) == min)
             .Select(f => f.Key)
             .ToArray();
     }
