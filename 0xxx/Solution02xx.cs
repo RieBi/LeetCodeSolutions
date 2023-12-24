@@ -18,6 +18,28 @@ internal class Solution02xx
         return true;
     }
 
+    [ProblemSolution("205")]
+    public bool IsIsomorphic(string s, string t)
+    {
+        var mappings = new Dictionary<char, char>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (mappings.TryGetValue(s[i], out char value))
+            {
+                if (value != t[i])
+                    return false;
+            }
+            else
+            {
+                if (mappings.ContainsValue(t[i]))
+                    return false;
+                mappings[s[i]] = t[i];
+            }
+        }
+
+        return true;
+    }
+
     [ProblemSolution("217")]
     public bool ContainsDuplicate(int[] nums)
     {
