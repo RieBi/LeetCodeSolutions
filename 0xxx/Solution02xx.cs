@@ -1,6 +1,22 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution02xx
 {
+    public bool IsHappy(int n)
+    {
+        var set = new HashSet<int>();
+        while (n != 1)
+        {
+            set.Add(n);
+            n = (int) n.ToString()
+                .Select(f => Math.Pow(int.Parse(f.ToString()), 2))
+                .Sum();
+            if (set.Contains(n))
+                return false;
+        }
+
+        return true;
+    }
+
     [ProblemSolution("217")]
     public bool ContainsDuplicate(int[] nums)
     {
