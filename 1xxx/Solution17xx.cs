@@ -41,6 +41,17 @@ internal class Solution17xx
         return max;
     }
 
+    [ProblemSolution("1758")]
+    public int MinOperations(string s)
+    {
+        var count = s
+            .Select(f => int.Parse(f.ToString()))
+            .Zip(Enumerable.Range(0, s.Length))
+            .Count(f => f.First % 2 == f.Second % 2);
+
+        return Math.Min(count, s.Length - count);
+    }
+
     [ProblemSolution("1759")]
     public int CountHomogenous(string s)
     {
