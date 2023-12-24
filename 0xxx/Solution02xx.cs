@@ -1,6 +1,7 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution02xx
 {
+    [ProblemSolution("202")]
     public bool IsHappy(int n)
     {
         var set = new HashSet<int>();
