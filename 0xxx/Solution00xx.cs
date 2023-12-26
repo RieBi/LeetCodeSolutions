@@ -159,6 +159,29 @@ internal class Solution00xx
         return max;
     }
 
+    [ProblemSolution("91")]
+    public int NumDecodings(string s)
+    {
+        var dp = new int[s.Length];
+        for (int i = 0; i < s.Length; i++)
+        {
+            var sum = 0;
+            var oneInd = i - 1;
+            var oneNum = oneInd == -1 ? 1 : dp[oneInd];
+            if (int.TryParse(s.Substring(i, 1), out int n1) && n1 >= 1 && n1 <= 26)
+                sum += oneNum;
+
+            var twoInd = i - 2;
+            var twoNum = twoInd < 0 ? 1 : dp[twoInd];
+            if (i > 0 && int.TryParse(s.Substring(i - 1, 2), out int n2) && s[i - 1] != '0' && n2 >= 1 && n2 <= 26)
+                sum += twoNum;
+
+            dp[i] = sum;
+        }
+
+        return dp.Last();
+    }
+
     [ProblemSolution("94")]
     public IList<int> InorderTraversal(TreeNode root)
     {
