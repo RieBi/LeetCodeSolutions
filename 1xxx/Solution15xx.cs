@@ -49,6 +49,37 @@ internal class Soltuion15xx
         return result;
     }
 
+    [ProblemSolution("1578")]
+    public int MinCost(string colors, int[] neededTime)
+    {
+        var sum = neededTime[0];
+        var max = neededTime[0];
+        var count = 1;
+        var total = 0;
+        for (int i = 1; i < colors.Length; i++)
+        {
+            if (colors[i] == colors[i - 1])
+            {
+                sum += neededTime[i];
+                max = Math.Max(max, neededTime[i]);
+                count++;
+            }
+            else
+            {
+                if (count > 1)
+                    total += (sum - max);
+                sum = neededTime[i];
+                max = neededTime[i];
+                count = 1;
+            }
+        }
+
+        if (count > 1)
+            total += (sum - max);
+
+        return total;
+    }
+
     [ProblemSolution("1582")]
     public int NumSpecial(int[][] mat)
     {
