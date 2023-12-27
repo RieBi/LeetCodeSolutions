@@ -1,6 +1,39 @@
-﻿namespace LeetCode.Set1xxx;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+
+namespace LeetCode.Set1xxx;
 internal class Solution11xx
 {
+    [ProblemSolution("1155")]
+    public int NumRollsToTarget(int n, int k, int target)
+    {
+        if (target < n || target > (n * k))
+            return 0;
+
+        var max = n * k + 1;
+
+        var dp = new int[n + 1, max];
+        dp[n, 0] = 1;
+
+        var modulo = 1_000_000_007;
+
+        for (int dice = n; dice > 0; dice--)
+        {
+            for (int sum = 0; sum < max; sum++)
+            {
+                if (dp[dice, sum] == 0)
+                    continue;
+                for (int i = 1; i <= k; i++)
+                {
+                    dp[dice - 1, sum + i] += dp[dice, sum];
+                    dp[dice - 1, sum + i] %= modulo;
+                }
+            }
+        }
+
+        return dp[0, target];
+    }
+
     [ProblemSolution("1160")]
     public int CountCharacters(string[] words, string chars)
     {
