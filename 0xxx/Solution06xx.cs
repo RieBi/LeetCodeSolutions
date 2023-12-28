@@ -34,6 +34,37 @@ internal class Solution06xx
         return resultStr.ToString();
     }
 
+    [ProblemSolution("652")]
+    public IList<TreeNode> FindDuplicateSubtrees(TreeNode root)
+    {
+        var dick = new Dictionary<int, int>();
+        var result = new List<TreeNode>();
+
+        calculateHash(root);
+        return result;
+
+        int calculateHash(TreeNode? node)
+        {
+            if (node == null)
+                return 777;
+            var hash = HashCode.Combine(calculateHash(node.left), node.val, calculateHash(node.right));
+            if (dick.TryGetValue(hash, out int value))
+            {
+                if (value == 1)
+                {
+                    result.Add(node);
+                    dick[hash] = value + 1;
+                }
+            }
+            else
+            {
+                dick[hash] = 1;
+            }
+
+            return hash;
+        }
+    }
+
     [ProblemSolution("661")]
     public int[][] ImageSmoother(int[][] img)
     {
