@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set0xxx;
+﻿using System.Collections.Specialized;
+
+namespace LeetCode.Set0xxx;
 internal class Solution03xx
 {
     [ProblemSolution("347")]
@@ -31,6 +33,33 @@ internal class Solution03xx
         }
 
         return result.ToArray();
+    }
+
+    [ProblemSolution("380")]
+    public class RandomizedSet
+    {
+        private readonly OrderedDictionary dick = [];
+
+        public bool Insert(int val)
+        {
+            if (dick.Contains(val))
+                return false;
+            dick.Add(val, val);
+            return true;
+        }
+
+        public bool Remove(int val)
+        {
+            if (!dick.Contains(val))
+                return false;
+            dick.Remove(val);
+            return true;
+        }
+
+        public int GetRandom()
+        {
+            return (int)dick[Random.Shared.Next(dick.Count)]!;
+        }
     }
 
     [ProblemSolution("387")]
