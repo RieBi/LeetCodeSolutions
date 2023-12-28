@@ -159,6 +159,54 @@ internal class Solution00xx
         return max;
     }
 
+    [ProblemSolution("36")]
+    public bool IsValidSudoku(char[][] board)
+    {
+        var rowsValid = board.All(f =>
+        {
+            var filled = f.Where(k => k != '.');
+            return filled.Count() == filled.Distinct().Count();
+        });
+
+        var colsValid = Enumerable.Range(0, 9).All(f =>
+        {
+            var set = new HashSet<char>();
+            for (int i = 0; i < 9; i++)
+            {
+                if (set.Contains(board[i][f]))
+                    return false;
+                if (board[i][f] != '.')
+                    set.Add(board[i][f]);
+            }
+
+            return true;
+        });
+
+        var regionsValid = () => {
+            for (int i = 0; i < 9; i += 3)
+            {
+                for (int j = 0; j < 9; j += 3)
+                {
+                    var set = new HashSet<char>();
+                    for (int di = i; di < i + 3; di++)
+                    {
+                        for (int dj = j; dj < j + 3; dj++)
+                        {
+                            if (set.Contains(board[di][dj]))
+                                return false;
+                            if (board[di][dj] != '.')
+                                set.Add(board[di][dj]);
+                        }
+                    }
+                }
+            }
+
+            return true;
+        };
+
+        return rowsValid && colsValid && regionsValid();
+    }
+
     [ProblemSolution("49")]
     public IList<IList<string>> GroupAnagrams(string[] strs)
     {
