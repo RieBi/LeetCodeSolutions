@@ -184,4 +184,11 @@ internal class Solution07xx
             }
         }
     }
+
+    [ProblemSolution("771")]
+    public int NumJewelsInStones(string jewels, string stones)
+    {
+        var hash = jewels.ToHashSet();
+        return stones.Count(f => hash.Contains(f));
+    }
 }
