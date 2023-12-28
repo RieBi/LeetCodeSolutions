@@ -1,6 +1,50 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Soltuion15xx
 {
+    public int GetLengthOfOptimalCompression(string s, int k)
+    {
+        var n = s.Length;
+        var m = k;
+
+        var dp = new int[110][];
+        for (int i = 0; i < dp.Length; i++)
+            dp[i] = new int[110];
+
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 0; j <= i && j <= m; j++)
+            {
+                var needRemove = 0;
+                var groupCount = 0;
+                dp[i][j] = int.MaxValue;
+                if (j != 0)
+                    dp[i][j] = dp[i - 1][j - 1];
+                for (k = i; k >= 1; k--)
+                {
+                    if (s[k - 1] != s[i - 1])
+                        needRemove += 1;
+                    else
+                        groupCount += 1;
+
+                    if (needRemove > j)
+                        break;
+
+                    var len = groupCount switch
+                    {
+                        1 => 1,
+                        < 10 => 2,
+                        < 100 => 3,
+                        _ => 4
+                    };
+
+                    dp[i][j] = Math.Min(dp[i][j], dp[k - 1][j - needRemove] + len);
+                }
+            }
+        }
+
+        return dp[n][m];
+    }
+
     [ProblemSolution("1535")]
     public int GetWinner(int[] arr, int k)
     {
