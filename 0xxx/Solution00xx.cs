@@ -159,6 +159,16 @@ internal class Solution00xx
         return max;
     }
 
+    [ProblemSolution("49")]
+    public IList<IList<string>> GroupAnagrams(string[] strs)
+    {
+        var groups = strs
+            .GroupBy(f => new string(f.Order().ToArray()))
+            .Select(f => (IList<string>)f.ToList())
+            .ToList();
+        return groups;
+    }
+
     [ProblemSolution("91")]
     public int NumDecodings(string s)
     {
