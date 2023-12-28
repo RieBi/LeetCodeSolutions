@@ -1,6 +1,7 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution04xx
 {
+    [ProblemSolution("443")]
     public int Compress(char[] chars)
     {
         if (chars.Length == 1)

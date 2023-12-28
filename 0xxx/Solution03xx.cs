@@ -1,6 +1,16 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution03xx
 {
+    [ProblemSolution("347")]
+    public int[] TopKFrequent(int[] nums, int k)
+    {
+        return nums.GroupBy(f => f)
+            .OrderByDescending(f => f.Count())
+            .Select(f => f.Key)
+            .Take(k)
+            .ToArray();
+    }
+
     [ProblemSolution("349")]
     public int[] Intersection(int[] nums1, int[] nums2) => nums1.Intersect(nums2).ToArray();
 
