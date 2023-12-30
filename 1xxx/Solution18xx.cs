@@ -156,4 +156,17 @@ internal class Solution18xx
 
         return sum;
     }
+
+    [ProblemSolution("1897")]
+    public bool MakeEqual(string[] words)
+    {
+        var counts = new int[26];
+        foreach (var word in words)
+        {
+            foreach (var ch in word)
+                counts[ch - 'a']++;
+        }
+
+        return counts.All(f => f % words.Length == 0);
+    }
 }
