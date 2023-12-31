@@ -21,6 +21,32 @@ internal class Solution16xx
         return ops;
     }
 
+    [ProblemSolution("1624")]
+    public int MaxLengthBetweenEqualCharacters(string s)
+    {
+        var lengths = new (int, int)[26];
+        for (int i = 0; i < lengths.Length; i++)
+            lengths[i] = (-1, -1);
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            var ch = s[i] - 'a';
+            if (lengths[ch].Item1 == -1)
+                lengths[ch] = (i, -1);
+            else
+                lengths[ch] = (lengths[ch].Item1, i);
+        }
+
+        var max = -1;
+        foreach (var v in lengths)
+        {
+            if (v.Item2 != -1)
+                max = Math.Max(max, v.Item2 - v.Item1 - 1);
+        }
+
+        return max;
+    }
+
     [ProblemSolution("1630")]
     public IList<bool> CheckArithmeticSubarrays(int[] nums, int[] l, int[] r)
     {
