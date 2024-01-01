@@ -1,6 +1,36 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution02xx
 {
+    [ProblemSolution("200")]
+    public int NumIslands(char[][] grid)
+    {
+        const char explored = '.';
+        var count = 0;
+        (int, int)[] dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)];
+        for (int i = 0; i < grid.Length; i++)
+        {
+            for (int j = 0; j < grid[0].Length; j++)
+            {
+                if (grid[i][j] == '1')
+                    count++;
+
+                processTile(i, j);
+            }
+        }
+
+        return count;
+
+        void processTile(int i, int j)
+        {
+            if ((i < 0 || i >= grid.Length) || (j < 0 || j >= grid[0].Length) || grid[i][j] != '1')
+                return;
+
+            grid[i][j] = explored;
+            foreach (var dir in dirs)
+                processTile(i + dir.Item1, j + dir.Item2);
+        }
+    }
+
     [ProblemSolution("202")]
     public bool IsHappy(int n)
     {
