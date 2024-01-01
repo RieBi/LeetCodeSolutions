@@ -34,6 +34,46 @@ internal class Solution06xx
         return resultStr.ToString();
     }
 
+    [ProblemSolution("622")]
+    public class MyCircularQueue(int k)
+    {
+        private readonly int[] ar = new int[k];
+        private int count = 0;
+        private int head = 0;
+        private int tail = -1;
+
+        public bool EnQueue(int value)
+        {
+            if (count == ar.Length)
+                return false;
+
+            tail++;
+            tail %= ar.Length;
+            ar[tail] = value;
+            count++;
+            return true;
+        }
+
+        public bool DeQueue()
+        {
+            if (count == 0)
+                return false;
+
+            head++;
+            head %= ar.Length;
+            count--;
+            return true;
+        }
+
+        public int Front() => count == 0 ? -1 : ar[head];
+
+        public int Rear() => count == 0 ? -1 : ar[tail];
+
+        public bool IsEmpty() => count == 0;
+
+        public bool IsFull() => count == ar.Length;
+    }
+
     [ProblemSolution("652")]
     public IList<TreeNode> FindDuplicateSubtrees(TreeNode root)
     {
