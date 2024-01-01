@@ -79,4 +79,25 @@ internal class Solution04xx
 
         return result;
     }
+
+    [ProblemSolution("455")]
+    public int FindContentChildren(int[] g, int[] s)
+    {
+        var gsorted = g.Order().ToList();
+        var ssorted = s.Order().ToList();
+
+        var count = 0;
+        var gInd = 0;
+        var sInd = 0;
+        while (gInd < g.Length && sInd < s.Length)
+        {
+            if (gsorted[gInd] <= ssorted[sInd++])
+            {
+                count++;
+                gInd++;
+            }
+        }
+
+        return count;
+    }
 }
