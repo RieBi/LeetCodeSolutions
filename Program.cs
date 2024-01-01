@@ -11,10 +11,6 @@ internal class Program
 {
     public static void Main()
     {
-        var sol = new Solution07xx();
-        Console.WriteLine("start");
-        Console.WriteLine(sol.OpenLock(["8887", "8889", "8878", "8898", "8788", "8988", "7888", "9888"], "8888"));
-        Console.ReadLine();
         UpdateReadmeFile();
     }
 
