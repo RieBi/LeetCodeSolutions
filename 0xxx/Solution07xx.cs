@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -183,6 +184,68 @@ internal class Solution07xx
                 }
             }
         }
+    }
+
+    [ProblemSolution("752")]
+    public int OpenLock(string[] deadends, string target)
+    {
+        var targelem = getElemFromStr(target);
+        var startElem = (0, 0, 0, 0);
+        var queue = new Queue<((int, int, int, int), int)>();
+        queue.Enqueue((startElem, 0));
+        var ends = deadends.Select(f =>
+        {
+            return getElemFromStr(f);
+        }).ToHashSet();
+
+        if (ends.Contains(startElem))
+            return -1;
+
+        var visited = new HashSet<(int, int, int, int)>();
+        visited.Add(startElem);
+
+        while (queue.Count > 0)
+        {
+            var cur = queue.Dequeue();
+            var curelem = cur.Item1;
+            if (curelem == targelem)
+                return cur.Item2;
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int k = -1; k < 2; k += 2)
+                {
+                    var elem = i switch
+                    {
+                        0 => curelem.Item1,
+                        1 => curelem.Item2,
+                        2 => curelem.Item3,
+                        _ => curelem.Item4
+                    };
+
+                    elem += k;
+                    if (elem < 0)
+                        elem = 9;
+                    else if (elem > 9)
+                        elem = 0;
+
+                    var other = (i == 0 ? elem : curelem.Item1,
+                        i == 1 ? elem : curelem.Item2,
+                        i == 2 ? elem : curelem.Item3,
+                        i == 3 ? elem : curelem.Item4);
+
+                    if (!ends.Contains(other) && !visited.Contains(other))
+                    {
+                        visited.Add(other);
+                        queue.Enqueue((other, cur.Item2 + 1));
+                    }
+                }
+            }
+        }
+
+        return -1;
+
+        (int, int, int, int) getElemFromStr(string str) => (int.Parse(str[0].ToString()), int.Parse(str[1].ToString()), int.Parse(str[2].ToString()), int.Parse(str[3].ToString()));
     }
 
     [ProblemSolution("771")]
