@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set0xxx;
+﻿using System.Net.WebSockets;
+
+namespace LeetCode.Set0xxx;
 internal class Solution02xx
 {
     [ProblemSolution("200")]
@@ -132,6 +134,60 @@ internal class Solution02xx
             }
 
             return true;
+        }
+    }
+
+    [ProblemSolution("279")]
+    public int NumSquares(int n)
+    {
+        var sum = 0;
+        var lowest = int.MaxValue;
+        var stack = new Stack<int>();
+        var startNum = (int)Math.Sqrt(n);
+        addElem(startNum);
+
+        while (stack.Count > 0)
+        {
+            if (sum == n)
+                lowest = Math.Min(lowest, stack.Count);
+
+            if (sum == n || stack.Count >= lowest)
+            {
+                var dequeued = 1;
+                while (dequeued == 1)
+                {
+                    if (stack.Count == 0)
+                        break;
+                    dequeued = removeElem();
+                }
+
+                var lowernum = (int)Math.Sqrt(dequeued) - 1;
+                if (lowernum == 0)
+                    break;
+
+                addElem(lowernum);
+            }
+            else
+            {
+                var num = (int)Math.Sqrt(n - sum);
+                addElem(num);
+            }
+        }
+
+        return lowest;
+        
+        void addElem(int elem)
+        {
+            elem *= elem;
+            stack.Push(elem);
+            sum += elem;
+        }
+
+        int removeElem()
+        {
+            var elem = stack.Pop();
+            sum -= elem;
+            return elem;
         }
     }
 }
