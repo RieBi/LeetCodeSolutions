@@ -1,6 +1,24 @@
 ﻿namespace LeetCode.Set2xxx;
 internal class Solution21xx
 {
+    [ProblemSolution("2125")]
+    public int NumberOfBeams(string[] bank)
+    {
+        var precCount = bank[0].Count(f => f == '1');
+        var sum = 0;
+        for (int i = 1; i < bank.Length; i++)
+        {
+            var count = bank[i].Count(f => f == '1');
+            if (count != 0)
+            {
+                sum += precCount * count;
+                precCount = count;
+            }
+        }
+
+        return sum;
+    }
+
     [ProblemSolution("2147")]
     public int NumberOfWays(string corridor)
     {
