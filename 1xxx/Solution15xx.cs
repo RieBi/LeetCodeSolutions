@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set1xxx;
-internal class Soltuion15xx
+internal class Solution15xx
 {
     public int GetLengthOfOptimalCompression(string s, int k)
     {

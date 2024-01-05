@@ -3,6 +3,28 @@
 namespace LeetCode.Set0xxx;
 internal class Solution03xx
 {
+    [ProblemSolution("300")]
+    public int LengthOfLIS(int[] nums)
+    {
+        var dp = new List<int>();
+        
+        for (int i = 0; i < nums.Length; i++)
+        {
+            var ind = dp.BinarySearch(nums[i]);
+            if (ind < 0)
+            {
+                ind = ~ind;
+            }
+
+            if (ind == dp.Count)
+                dp.Add(nums[i]);
+            else
+                dp[ind] = nums[i];
+        }
+
+        return dp.Count;
+    }
+
     [ProblemSolution("347")]
     public int[] TopKFrequent(int[] nums, int k)
     {
