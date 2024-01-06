@@ -100,4 +100,47 @@ internal class Solution04xx
 
         return count;
     }
+
+    [ProblemSolution("494")]
+    public int FindTargetSumWays(int[] nums, int target)
+    {
+        var sum = nums.Sum();
+        if (Math.Abs(target) > sum)
+            return 0;
+
+        var dp = new int[2][];
+        for (int i = 0; i < dp.Length; i++)
+            dp[i] = new int[sum * 2 + 1];
+
+        if (nums[0] == 0)
+            dp[0][0] = 2;
+        else
+        {
+            dp[0][nums[0]] += 1;
+            dp[0][nums[0] + sum] += 1;
+        }
+
+        for (int i = 0; i < nums.Length - 1; i++)
+        {
+            for (int j = 0; j < dp[0].Length; j++)
+            {
+                if (dp[0][j] == 0)
+                    continue;
+
+                var curSum = j > sum ? -(j - sum) : j;
+                var plusSum = curSum + nums[i + 1];
+                var minusSum = curSum - nums[i + 1];
+                var plusInd = plusSum < 0 ? -plusSum + sum : plusSum;
+                var minusInd = minusSum < 0 ? -minusSum + sum : minusSum;
+                dp[1][plusInd] += dp[0][j];
+                dp[1][minusInd] += dp[0][j];
+            }
+
+            (dp[0], dp[1]) = (dp[1], dp[0]);
+            for (int k = 0; k < dp[0].Length; k++)
+                dp[1][k] = 0;
+        }
+
+        return dp[0][target < 0 ? -target + sum : target];
+    }
 }
