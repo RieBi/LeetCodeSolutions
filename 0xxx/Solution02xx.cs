@@ -140,54 +140,30 @@ internal class Solution02xx
     [ProblemSolution("279")]
     public int NumSquares(int n)
     {
-        var sum = 0;
-        var lowest = int.MaxValue;
-        var stack = new Stack<int>();
-        var startNum = (int)Math.Sqrt(n);
-        addElem(startNum);
+        var queue = new Queue<(int max, int sum)>();
+        queue.Enqueue((0, 0));
 
-        while (stack.Count > 0)
+        var count = 1;
+        Queue<(int max, int sum)> nextQueue;
+        while (true)
         {
-            if (sum == n)
-                lowest = Math.Min(lowest, stack.Count);
-
-            if (sum == n || stack.Count >= lowest)
+            nextQueue = new();
+            while (queue.Count > 0)
             {
-                var dequeued = 1;
-                while (dequeued == 1)
+                var prev = queue.Dequeue();
+                var powBase = (int)(Math.Sqrt(prev.max));
+                for (; powBase * powBase <= (n - prev.sum); powBase++)
                 {
-                    if (stack.Count == 0)
-                        break;
-                    dequeued = removeElem();
+                    var powered = powBase * powBase;
+                    var next = (powered, prev.sum + powered);
+                    if (next.Item2 == n)
+                        return count;
+                    nextQueue.Enqueue(next);
                 }
-
-                var lowernum = (int)Math.Sqrt(dequeued) - 1;
-                if (lowernum == 0)
-                    break;
-
-                addElem(lowernum);
             }
-            else
-            {
-                var num = (int)Math.Sqrt(n - sum);
-                addElem(num);
-            }
-        }
 
-        return lowest;
-        
-        void addElem(int elem)
-        {
-            elem *= elem;
-            stack.Push(elem);
-            sum += elem;
-        }
-
-        int removeElem()
-        {
-            var elem = stack.Pop();
-            sum -= elem;
-            return elem;
+            queue = nextQueue;
+            count++;
         }
     }
 }
