@@ -1,6 +1,34 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution12xx
 {
+    [ProblemSolution("1235")]
+    public int JobScheduling(int[] startTime, int[] endTime, int[] profit)
+    {
+        (int startTime, int endTime, int profit)[] jobs = startTime.Zip(endTime, profit)
+            .OrderBy(f => f.Second)
+            .ToArray();
+        var dp = new List<(int, int)> { (0, 0) };
+
+        for (int i = 0; i < jobs.Length; i++)
+        {
+            var job = jobs[i];
+            var comparer = Comparer<(int, int)>.Create((a, b) => a.Item1.CompareTo(b.Item1));
+            var startInd = dp.BinarySearch((job.startTime, 0), comparer);
+            if (startInd < 0)
+                startInd = ~startInd - 1;
+            var endInd = dp.BinarySearch((job.endTime, 0), comparer);
+            if (endInd < 0)
+            {
+                dp.Add(dp[^1]);
+                endInd = ~endInd;
+            }
+
+            dp[endInd] = (job.endTime, Math.Max(dp[^1].Item2, dp[startInd].Item2 + job.profit));
+        }
+
+        return dp[^1].Item2;
+    }
+
     [ProblemSolution("1266")]
     public int MinTimeToVisitAllPoints(int[][] points)
     {
