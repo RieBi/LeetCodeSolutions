@@ -7,6 +7,33 @@ internal class Solution01xx
         return nums.Aggregate((a, b) => a^b);
     }
 
+    [ProblemSolution("150")]
+    public int EvalRPN(string[] tokens)
+    {
+        var stack = new Stack<int>();
+        foreach (var token in tokens)
+        {
+            if (int.TryParse(token, out int result))
+            {
+                stack.Push(result);
+                continue;
+            }
+
+            var op2 = stack.Pop();
+            var op1 = stack.Pop();
+            if (token == "+")
+                stack.Push(op1 + op2);
+            else if (token == "-")
+                stack.Push(op1 - op2);
+            else if (token == "*")
+                stack.Push(op1 * op2);
+            else
+                stack.Push(op1 / op2);
+        }
+
+        return stack.Pop();
+    }
+
     [ProblemSolution("155")]
     public class MinStack
     {
