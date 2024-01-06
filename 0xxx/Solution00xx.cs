@@ -159,6 +159,23 @@ internal class Solution00xx
         return max;
     }
 
+    [ProblemSolution("20")]
+    public bool IsValid(string s)
+    {
+        var opening = new HashSet<char> { '(', '{', '[' };
+        var closeToOpen = new Dictionary<char, char> { { ')', '(' }, { '}', '{' }, { ']', '[' } };
+        var stack = new Stack<char>();
+        foreach (var ch in s)
+        {
+            if (opening.Contains(ch))
+                stack.Push(ch);
+            else if (stack.Count == 0 || closeToOpen[ch] != stack.Pop())
+                return false;
+        }
+
+        return stack.Count == 0;
+    }
+
     [ProblemSolution("36")]
     public bool IsValidSudoku(char[][] board)
     {
