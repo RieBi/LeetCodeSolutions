@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Text;
 
 namespace LeetCode.Set0xxx;
 internal class Solution03xx
@@ -92,5 +93,46 @@ internal class Solution03xx
             .Where(f => f.Count() == 1)
             .Select(f => f.Single())
             .FirstOrDefault(-1);
+    }
+
+    [ProblemSolution("394")]
+    public string DecodeString(string s)
+    {
+        s = "1[" + s + "]";
+        var sb = new StringBuilder();
+        decodePortion(0);
+        return sb.ToString();
+
+        int decodePortion(int start)
+        {
+            var num = new StringBuilder();
+
+            var ind = start;
+            while (char.IsDigit(s[ind]))
+            {
+                num.Append(s[ind]);
+                ind++;
+            }
+
+            var repeat = int.Parse(num.ToString());
+            var repeatStart = ind + 1;
+
+            for (int i = 0; i < repeat; i++)
+            {
+                var count = 1;
+                ind = repeatStart;
+                for (; count > 0; ind++)
+                {
+                    if (char.IsDigit(s[ind]))
+                        ind = decodePortion(ind) - 1;
+                    else if (s[ind] == ']')
+                        count--;
+                    else
+                        sb.Append(s[ind]);
+                }
+            }
+
+            return ind;
+        }
     }
 }
