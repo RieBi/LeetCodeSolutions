@@ -98,6 +98,32 @@ internal class Solution02xx
             });
     }
 
+    [ProblemSolution("225")]
+    public class MyStack
+    {
+        private Queue<int> queue = new();
+
+        public void Push(int x) => queue.Enqueue(x);
+
+        public int Pop()
+        {
+            for (int i = 0; i < queue.Count - 1; i++)
+                queue.Enqueue(queue.Dequeue());
+            return queue.Dequeue();
+        }
+
+        public int Top()
+        {
+            for (int i = 0; i < queue.Count - 1; i++)
+                queue.Enqueue(queue.Dequeue());
+            var top = queue.Peek();
+            queue.Enqueue(queue.Dequeue());
+            return top;
+        }
+
+        public bool Empty() => queue.Count == 0;
+    }
+
     [ProblemSolution("232")]
     public class MyQueue
     {
