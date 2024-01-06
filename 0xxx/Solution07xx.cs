@@ -186,6 +186,29 @@ internal class Solution07xx
         }
     }
 
+    [ProblemSolution("733")]
+    public int[][] FloodFill(int[][] image, int sr, int sc, int color)
+    {
+        var startColor = image[sr][sc];
+        if (startColor == color)
+            return image;
+
+        fillPixel(sr, sc);
+        void fillPixel(int r, int c)
+        {
+            if (r < 0 || c < 0 || r >= image.Length || c >= image[0].Length || image[r][c] != startColor)
+                return;
+
+            image[r][c] = color;
+            fillPixel(r + 1, c);
+            fillPixel(r - 1, c);
+            fillPixel(r, c + 1);
+            fillPixel(r, c - 1);
+        }
+
+        return image;
+    }
+
     [ProblemSolution("739")]
     public int[] DailyTemperatures(int[] temperatures)
     {
