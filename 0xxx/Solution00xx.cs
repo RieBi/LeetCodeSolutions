@@ -260,33 +260,28 @@ internal class Solution00xx
     [ProblemSolution("94")]
     public IList<int> InorderTraversal(TreeNode root)
     {
-        var result = new List<int>();
-        if (root == null)
-            return result;
+        if (root is null)
+            return [];
 
+        var visited = new HashSet<TreeNode>();
         var stack = new Stack<TreeNode>();
-        var inStack = new HashSet<TreeNode>();
         stack.Push(root);
-        inStack.Add(root);
-
+        var result = new List<int>();
 
         while (stack.Count > 0)
         {
             var top = stack.Peek();
-            if (top.left is not null && !inStack.Contains(top.left))
+            if (top.left is not null && !visited.Contains(top.left))
             {
                 stack.Push(top.left);
-                inStack.Add(top.left);
+                visited.Add(top.left);
             }
             else
             {
-                result.Add(top.val);
-                stack.Pop();
+                visited.Add(top);
+                result.Add(stack.Pop().val);
                 if (top.right is not null)
-                {
                     stack.Push(top.right);
-                    inStack.Add(top.right);
-                }
             }
         }
 

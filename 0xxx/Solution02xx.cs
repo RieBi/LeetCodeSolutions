@@ -98,6 +98,38 @@ internal class Solution02xx
             });
     }
 
+    [ProblemSolution("232")]
+    public class MyQueue
+    {
+        private bool pushMode = true;
+        private Stack<int> stack1 = new();
+        private Stack<int> stack2 = new();
+
+        public void Push(int x) => stack1.Push(x);
+
+        public int Pop()
+        {
+            if (stack2.Count == 0)
+                Transfer();
+            return stack2.Pop();
+        }
+
+        public int Peek()
+        {
+            if (stack2.Count == 0)
+                Transfer();
+            return stack2.Peek();
+        }
+
+        public bool Empty() => stack1.Count == 0 && stack2.Count == 0;
+
+        private void Transfer()
+        {
+            while (stack1.Count > 0)
+                stack2.Push(stack1.Pop());
+        }
+    }
+
     [ProblemSolution("242")]
     public bool IsAnagram(string s, string t)
     {
