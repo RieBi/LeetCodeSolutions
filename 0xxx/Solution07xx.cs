@@ -186,6 +186,24 @@ internal class Solution07xx
         }
     }
 
+    [ProblemSolution("739")]
+    public int[] DailyTemperatures(int[] temperatures)
+    {
+        var stack = new Stack<(int val, int ind)>();
+        var result = new int[temperatures.Length];
+        for (int i = temperatures.Length - 1; i >= 0; i--)
+        {
+            while (stack.Count > 0 && stack.Peek().val <= temperatures[i])
+                stack.Pop();
+
+            var dist = stack.Count == 0 ? 0 : stack.Peek().ind - i;
+            result[i] = dist;
+            stack.Push((temperatures[i], i));
+        }
+
+        return result;
+    }
+
     [ProblemSolution("752")]
     public int OpenLock(string[] deadends, string target)
     {
