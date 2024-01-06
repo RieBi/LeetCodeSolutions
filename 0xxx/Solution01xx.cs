@@ -1,6 +1,39 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution01xx
 {
+    [ProblemSolution("133")]
+    public Node? CloneGraph(Node? node)
+    {
+        if (node is null)
+            return null;
+
+        var visited = new HashSet<Node>();
+        proliferate(node);
+
+        var newNodes = new Node[visited.Count + 1];
+        foreach (var n in visited)
+            newNodes[n.val] = new Node(n.val);
+
+        foreach (var n in visited)
+        {
+            var newNode = newNodes[n.val];
+            foreach (var neighbor in n.neighbors)
+                newNode.neighbors.Add(newNodes[neighbor.val]);
+        }
+
+        return newNodes[1];
+
+        void proliferate(Node n)
+        {
+            if (visited.Contains(n))
+                return;
+
+            visited.Add(n);
+            foreach (var other in n.neighbors)
+                proliferate(other);
+        }
+    }
+
     [ProblemSolution("136")]
     public int SingleNumber(int[] nums)
     {
