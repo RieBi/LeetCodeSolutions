@@ -2,7 +2,7 @@
 internal class Solution04xx
 {
     [ProblemSolution("413")]
-    public int NumberOfArithmeticSlices(int[] nums)
+    public int NumberOfArithmeticSlices0(int[] nums)
     {
         var count = 1;
         var diff = 0;
@@ -69,6 +69,36 @@ internal class Solution04xx
         }
 
         return pos;
+    }
+
+    [ProblemSolution("446")]
+    public int NumberOfArithmeticSlices(int[] nums)
+    {
+        var dp = new Dictionary<long, int>[nums.Length]; // diff : count
+        dp[0] = [];
+
+        var result = 0;
+        for (int i = 1; i < nums.Length; i++)
+        {
+            dp[i] = [];
+            for (int j = i - 1; j >= 0; j--)
+            {
+                var diff = (long)nums[i] - nums[j];
+                var value = 0;
+                dp[i].TryGetValue(diff, out value);
+                value++;
+
+                if (dp[j].TryGetValue(diff, out int value2))
+                {
+                    value += value2;
+                    result += value2;
+                }
+
+                dp[i][diff] = value;
+            }
+        }
+
+        return result;
     }
 
     [ProblemSolution("454")]
