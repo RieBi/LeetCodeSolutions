@@ -1,6 +1,38 @@
 ﻿namespace LeetCode.Set0xxx;
 internal class Solution04xx
 {
+    [ProblemSolution("413")]
+    public int NumberOfArithmeticSlices(int[] nums)
+    {
+        var count = 1;
+        var diff = 0;
+        var result = 0;
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] - nums[i - 1] == diff)
+                count++;
+            else
+            {
+                if (count >= 3)
+                {
+                    count -= 2;
+                    result += (count * (count + 1)) / 2;
+                }
+
+                count = 2;
+                diff = nums[i] - nums[i - 1];
+            }
+        }
+
+        if (count >= 3)
+        {
+            count -= 2;
+            result += (count * (count + 1)) / 2;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("443")]
     public int Compress(char[] chars)
     {
