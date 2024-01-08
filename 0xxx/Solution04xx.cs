@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set0xxx;
+﻿using System.Diagnostics;
+
+namespace LeetCode.Set0xxx;
 internal class Solution04xx
 {
     [ProblemSolution("413")]
@@ -161,6 +163,32 @@ internal class Solution04xx
         }
 
         return count;
+    }
+
+    [ProblemSolution("475")]
+    public int FindRadius(int[] houses, int[] heaters)
+    {
+        Array.Sort(houses);
+        Array.Sort(heaters);
+
+        var radius = 0;
+        for (int i = 0; i < houses.Length; i++)
+        {
+            var house = houses[i];
+            var greaterHeater = Array.BinarySearch(heaters, house);
+            if (greaterHeater < 0)
+                greaterHeater = ~greaterHeater;
+            var smallerHeater = greaterHeater - 1;
+
+            var closer = Math.Min(
+                greaterHeater < heaters.Length ? heaters[greaterHeater] - house : int.MaxValue,
+                smallerHeater >= 0 ? house - heaters[smallerHeater] : int.MaxValue
+                );
+
+            radius = Math.Max(radius, closer);
+        }
+
+        return radius;
     }
 
     [ProblemSolution("494")]
