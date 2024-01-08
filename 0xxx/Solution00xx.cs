@@ -176,6 +176,41 @@ internal class Solution00xx
         return stack.Count == 0;
     }
 
+    [ProblemSolution("23")]
+    public ListNode? MergeKLists(ListNode?[] lists)
+    {
+        var queue = new PriorityQueue<int, int>();
+        ListNode? myHead = null;
+        ListNode? myStartHead = null;
+
+        for (int i = 0; i < lists.Length; i++)
+        {
+            if (lists[i] != null)
+                queue.Enqueue(i, lists[i]!.val);
+        }
+
+        while (queue.Count > 0)
+        {
+            queue.TryDequeue(out int listInd, out int elem);
+            if (myHead is null)
+                myHead = lists[listInd];
+            else
+            {
+                myHead.next = lists[listInd];
+                myHead = myHead.next;
+            }
+
+            if (myStartHead is null)
+                myStartHead = myHead;
+
+            lists[listInd] = lists[listInd]!.next;
+            if (lists[listInd] is not null)
+                queue.Enqueue(listInd, lists[listInd]!.val);
+        }
+
+        return myStartHead;
+    }
+
     [ProblemSolution("36")]
     public bool IsValidSudoku(char[][] board)
     {
