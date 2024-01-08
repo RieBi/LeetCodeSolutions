@@ -191,7 +191,7 @@ internal class Solution00xx
 
         while (queue.Count > 0)
         {
-            queue.TryDequeue(out int listInd, out int elem);
+            var listInd = queue.Dequeue();
             if (myHead is null)
                 myHead = lists[listInd];
             else
