@@ -51,4 +51,30 @@ internal class Solution08xx
 
         return resMatrix;
     }
+
+    [ProblemSolution("872")]
+    public bool LeafSimilar(TreeNode root1, TreeNode root2)
+    {
+        var leaves1 = new List<int>();
+        var leaves2 = new List<int>();
+
+        fillLeaves(leaves1, root1);
+        fillLeaves(leaves2, root2);
+
+        return leaves1.SequenceEqual(leaves2);
+
+        void fillLeaves(List<int> list, TreeNode node)
+        {
+            if (node.left is null && node.right is null)
+            {
+                list.Add(node.val);
+                return;
+            }
+
+            if (node.left is not null)
+                fillLeaves(list, node.left);
+            if (node.right is not null)
+                fillLeaves(list, node.right);
+        }
+    }
 }
