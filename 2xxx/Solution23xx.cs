@@ -73,6 +73,52 @@ internal class Solution23xx
         }
     }
 
+    [ProblemSolution("2385")]
+    public int AmountOfTime(TreeNode root, int start)
+    {
+        var heads = new Dictionary<TreeNode, TreeNode?>();
+        heads[root] = null;
+
+        var headQueue = new Queue<TreeNode>();
+        headQueue.Enqueue(root);
+        TreeNode infected = default!;
+        while (headQueue.Count > 0)
+        {
+            var node = headQueue.Dequeue();
+            if (node.val == start)
+                infected = node;
+
+            if (node.left is not null)
+            {
+                heads[node.left] = node;
+                headQueue.Enqueue(node.left);
+            }
+
+            if (node.right is not null)
+            {
+                heads[node.right] = node;
+                headQueue.Enqueue(node.right);
+            }
+        }
+
+        var queue = new Queue<(TreeNode node, TreeNode? past, int distance)>();
+        var max = 0;
+        queue.Enqueue((infected, null, 0));
+        while (queue.Count > 0)
+        {
+            var (node, past, distance) = queue.Dequeue();
+            max = Math.Max(max, distance);
+            foreach (var child in (TreeNode?[])[node.left, node.right, heads[node]])
+            {
+                if (child == past || child is null)
+                    continue;
+                queue.Enqueue((child, node, distance + 1));
+            }
+        }
+
+        return max;
+    }
+
     [ProblemSolution("2391")]
     public int GarbageCollection(string[] garbage, int[] travel)
     {
