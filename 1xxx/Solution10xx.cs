@@ -33,4 +33,30 @@ internal class Solution10xx
             processCell(i, j + 1);
         }
     }
+
+    [ProblemSolution("1026")]
+    public int MaxAncestorDiff(TreeNode root)
+    {
+        var v = 0;
+        propagate(root);
+        return v;
+
+        (int min, int max) propagate(TreeNode? node)
+        {
+            if (node is null)
+                return (int.MaxValue, int.MinValue);
+
+            var min = node.val;
+            var max = node.val;
+
+            var (min1, max1) = propagate(node.left);
+            (min, max) = (Math.Min(min, min1), Math.Max(max, max1));
+
+            var (min2, max2) = propagate(node.right);
+            (min, max) = (Math.Min(min, min2), Math.Max(max, max2));
+
+            v = Math.Max(v, Math.Max(Math.Abs(node.val - min), Math.Abs(node.val - max)));
+            return (min, max);
+        }
+    }
 }
