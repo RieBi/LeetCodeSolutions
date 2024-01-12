@@ -1,6 +1,24 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution17xx
 {
+    [ProblemSolution("1704")]
+    public bool HalvesAreAlike(string s)
+    {
+        HashSet<char> vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        var (part1, part2) = (0, 0);
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (!vowels.Contains(s[i]))
+                continue;
+            if (i < s.Length / 2)
+                part1++;
+            else
+                part2++;
+        }
+
+        return part1 == part2;
+    }
+
     [ProblemSolution("1716")]
     public int TotalMoney(int n)
     {
