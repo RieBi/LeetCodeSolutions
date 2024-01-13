@@ -40,6 +40,31 @@ internal class Solution01xx
         return nums.Aggregate((a, b) => a^b);
     }
 
+    [ProblemSolution("144")]
+    public IList<int> PreorderTraversal(TreeNode root)
+    {
+        if (root is null)
+            return [];
+
+        var list = new List<int>();
+        var stack = new Stack<TreeNode>();
+        stack.Push(root);
+
+        while (stack.Count > 0)
+        {
+            var top = stack.Pop();
+            list.Add(top.val);
+
+            if (top.right is not null)
+                stack.Push(top.right);
+
+            if (top.left is not null)
+                stack.Push(top.left);
+        }
+
+        return list;
+    }
+
     [ProblemSolution("150")]
     public int EvalRPN(string[] tokens)
     {
