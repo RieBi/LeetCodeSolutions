@@ -35,4 +35,22 @@ internal class Solution13xx
             return result;
         }
     }
+
+    [ProblemSolution("1347")]
+    public int MinSteps(string s, string t)
+    {
+        var dickS = s.GroupBy(f => f).ToDictionary(f => f.Key, f => f.Count());
+        var dickT = t.GroupBy(f => f).ToDictionary(f => f.Key, f => f.Count());
+
+        var steps = 0;
+        foreach (var v in dickS)
+        {
+            if (!dickT.TryGetValue(v.Key, out int value))
+                steps += v.Value;
+            else if (v.Value > value)
+                steps += v.Value - value;
+        }
+
+        return steps;
+    }
 }
