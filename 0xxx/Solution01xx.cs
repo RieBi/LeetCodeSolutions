@@ -3,6 +3,35 @@
 namespace LeetCode.Set0xxx;
 internal class Solution01xx
 {
+    [ProblemSolution("101")]
+    public bool IsSymmetric(TreeNode root)
+    {
+        return getVals(root.left).SequenceEqual(getVals(root.right, false));
+
+        IEnumerable<int?> getVals(TreeNode? node, bool isLeft = true)
+        {
+            var stack = new Stack<TreeNode>();
+
+            TreeNode? cur = node;
+
+            while (stack.Count > 0 || cur is not null)
+            {
+                while (cur is not null)
+                {
+                    yield return cur.val;
+                    stack.Push(cur);
+                    cur = isLeft ? cur.left : cur.right;
+                }
+
+                yield return cur?.val;
+
+                cur = isLeft ? stack.Pop().right : stack.Pop().left;
+                if (cur is null)
+                    yield return cur?.val;
+            }
+        }
+    }
+
     [ProblemSolution("102")]
     public IList<IList<int>> LevelOrder(TreeNode root)
     {
