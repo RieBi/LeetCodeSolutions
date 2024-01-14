@@ -206,7 +206,7 @@ internal class Solution01xx
     }
 
     [ProblemSolution("116")]
-    public Node? Connect(Node? root)
+    public Node? Connect1(Node? root)
     {
         if (root is null)
             return null;
@@ -223,6 +223,63 @@ internal class Solution01xx
             cur = cur.next;
             if (cur is null)
                 (cur, next) = (next, next.left);
+        }
+
+        return root;
+    }
+
+    [ProblemSolution("117")]
+    public Node? Connect(Node? root)
+    {
+        if (root is null)
+            return null;
+
+        var start = root;
+        var cur = root;
+        var nextcur = root.next;
+
+        while (start is not null)
+        {
+            Node? child = null;
+            if (cur!.left is not null && cur.right is not null)
+            {
+                cur.left.next = cur.right;
+                child = cur.right;
+            }
+            else if (cur.left is not null)
+                child = cur.left;
+            else if (cur.right is not null)
+                child = cur.right;
+
+            if (nextcur == cur)
+                nextcur = nextcur.next;
+            while (nextcur is not null && child is not null && child.next is null)
+            {
+                if (nextcur.left is not null)
+                    child.next = nextcur.left;
+                else if (nextcur.right is not null)
+                    child.next = nextcur.right;
+                else
+                    nextcur = nextcur.next;
+            }
+
+            cur = cur.next;
+            if (cur is null)
+            {
+                while (start is not null)
+                {
+                    if (start.left is not null || start.right is not null)
+                    {
+                        start = start.left ?? start.right;
+                        break;
+                    }
+                    else
+                        start = start.next;
+                }
+
+                cur = start;
+                nextcur = start;
+            }
         }
 
         return root;
