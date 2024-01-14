@@ -11,9 +11,6 @@ internal class Program
 {
     public static void Main()
     {
-        var sol = new Solution01xx();
-        sol.PreorderTraversal(new TreeNode());
-
         UpdateReadmeFile();
     }
 

@@ -65,6 +65,42 @@ internal class Solution01xx
         return list;
     }
 
+    [ProblemSolution("145")]
+    public IList<int> PostorderTraversal(TreeNode root)
+    {
+        if (root is null)
+            return [];
+
+        var result = new List<int>();
+        var stack = new Stack<TreeNode>();
+        TreeNode? node = root;
+
+        while (stack.Count > 0 || node is not null)
+        {
+            while (node is not null && (node.left is not null || node.right is not null))
+            {
+                stack.Push(node);
+                node = node.left;
+            }
+
+            if (node is not null)
+                result.Add(node.val);
+
+            while (stack.Count > 0 && stack.Peek().right == node)
+            {
+                node = stack.Pop();
+                result.Add(node.val);
+            }
+
+            if (stack.Count == 0)
+                node = null;
+            else
+                node = stack.Peek().right;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("150")]
     public int EvalRPN(string[] tokens)
     {
