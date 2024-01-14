@@ -75,6 +75,49 @@ internal class Solution01xx
         }
     }
 
+    [ProblemSolution("106")]
+    public TreeNode? BuildTree(int[] inorder, int[] postorder)
+    {
+        return getRoot((0, inorder.Length - 1), (0, postorder.Length - 1));
+
+        TreeNode? getRoot((int start, int end) inorderInterval, (int start, int end) postorderInterval)
+        {
+            if (inorderInterval.end - inorderInterval.start < 0 
+                || postorderInterval.end - postorderInterval.start < 0)
+                return null;
+
+            var root = postorder[postorderInterval.end];
+            if (postorderInterval.start == postorderInterval.end)
+                return new TreeNode(root);
+
+            var inorderInd = 0;
+            for (int i = inorderInterval.start; i <= inorderInterval.end; i++)
+            {
+                if (inorder[i] == root)
+                {
+                    inorderInd = i;
+                    break;
+                }
+            }
+
+            var rightStart = inorderInd - inorderInterval.start + postorderInterval.start;
+
+            var leftChild = getRoot((inorderInterval.start, inorderInd - 1),
+                (postorderInterval.start, rightStart - 1));
+
+            var rightChild = getRoot((inorderInd + 1, inorderInterval.end),
+                (rightStart, postorderInterval.end - 1));
+
+            var node = new TreeNode(root)
+            {
+                left = leftChild,
+                right = rightChild
+            };
+
+            return node;
+        }
+    }
+
     [ProblemSolution("112")]
     public bool HasPathSum(TreeNode root, int targetSum)
     {
