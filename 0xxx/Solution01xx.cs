@@ -32,6 +32,20 @@ internal class Solution01xx
         return result;
     }
 
+    [ProblemSolution("104")]
+    public int MaxDepth(TreeNode root)
+    {
+        return traverse(root);
+
+        int traverse(TreeNode? node)
+        {
+            if (node is null)
+                return 0;
+
+            return Math.Max(traverse(node.left), traverse(node.right)) + 1;
+        }
+    }
+
     [ProblemSolution("133")]
     public Node? CloneGraph(Node? node)
     {
