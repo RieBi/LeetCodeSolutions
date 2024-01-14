@@ -1,6 +1,7 @@
 ﻿using System.Net.Security;
 
 namespace LeetCode.Set0xxx;
+
 internal class Solution01xx
 {
     [ProblemSolution("101")]
@@ -172,17 +173,17 @@ internal class Solution01xx
     }
 
     [ProblemSolution("133")]
-    public Node? CloneGraph(Node? node)
+    public Node2? CloneGraph(Node2? node)
     {
         if (node is null)
             return null;
 
-        var visited = new HashSet<Node>();
+        var visited = new HashSet<Node2>();
         proliferate(node);
 
-        var newNodes = new Node[visited.Count + 1];
+        var newNodes = new Node2[visited.Count + 1];
         foreach (var n in visited)
-            newNodes[n.val] = new Node(n.val);
+            newNodes[n.val] = new Node2(n.val);
 
         foreach (var n in visited)
         {
@@ -193,7 +194,7 @@ internal class Solution01xx
 
         return newNodes[1];
 
-        void proliferate(Node n)
+        void proliferate(Node2 n)
         {
             if (visited.Contains(n))
                 return;
@@ -202,6 +203,29 @@ internal class Solution01xx
             foreach (var other in n.neighbors)
                 proliferate(other);
         }
+    }
+
+    [ProblemSolution("116")]
+    public Node? Connect(Node? root)
+    {
+        if (root is null)
+            return null;
+
+        var cur = root;
+        var next = root.left;
+
+        while (next is not null)
+        {
+            cur.left.next = cur.right;
+            if (cur.next is not null)
+                cur.right.next = cur.next.left;
+
+            cur = cur.next;
+            if (cur is null)
+                (cur, next) = (next, next.left);
+        }
+
+        return root;
     }
 
     [ProblemSolution("136")]

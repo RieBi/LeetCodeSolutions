@@ -9,21 +9,44 @@ namespace LeetCode;
 public class Node
 {
     public int val;
-    public IList<Node> neighbors;
+    public Node left;
+    public Node right;
+    public Node next;
 
-    public Node()
-    {
-        val = 0;
-        neighbors = new List<Node>();
-    }
+    public Node() { }
 
     public Node(int _val)
     {
         val = _val;
-        neighbors = new List<Node>();
     }
 
-    public Node(int _val, List<Node> _neighbors)
+    public Node(int _val, Node _left, Node _right, Node _next)
+    {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+}
+
+public class Node2
+{
+    public int val;
+    public IList<Node2> neighbors;
+
+    public Node2()
+    {
+        val = 0;
+        neighbors = new List<Node2>();
+    }
+
+    public Node2(int _val)
+    {
+        val = _val;
+        neighbors = new List<Node2>();
+    }
+
+    public Node2(int _val, List<Node2> _neighbors)
     {
         val = _val;
         neighbors = _neighbors;
