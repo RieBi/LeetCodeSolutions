@@ -75,6 +75,31 @@ internal class Solution01xx
         }
     }
 
+    [ProblemSolution("112")]
+    public bool HasPathSum(TreeNode root, int targetSum)
+    {
+        var stack = new Stack<(TreeNode node, int sum)>();
+
+        if (root is not null)
+            stack.Push((root, 0));
+
+        while (stack.Count > 0)
+        {
+            var top = stack.Pop();
+            var value = top.sum + top.node.val;
+
+            if (top.node.left is null && top.node.right is null && value == targetSum)
+                return true;
+
+            if (top.node.left is not null)
+                stack.Push((top.node.left, value));
+            if (top.node.right is not null)
+                stack.Push((top.node.right, value));
+        }
+
+        return false;
+    }
+
     [ProblemSolution("133")]
     public Node? CloneGraph(Node? node)
     {
