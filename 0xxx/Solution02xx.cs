@@ -1,4 +1,5 @@
 ﻿using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 
 namespace LeetCode.Set0xxx;
 internal class Solution02xx
@@ -154,6 +155,43 @@ internal class Solution02xx
             while (stack1.Count > 0)
                 stack2.Push(stack1.Pop());
         }
+    }
+
+    [ProblemSolution("236")]
+    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
+    {
+        var stack = new Stack<(TreeNode? node, bool? leftVal, bool? rightVal)>();
+        stack.Push((root, null, null));
+
+        while (stack.Count > 0)
+        {
+            var top = stack.Peek();
+            if (top.node is null)
+            {
+                stack.Pop();
+                top = stack.Pop();
+                stack.Push((top.node, top.leftVal is null ? false : top.leftVal, top.leftVal is not null ? false : null));
+                continue;
+            }
+
+            if (top.leftVal is null)
+                stack.Push((top.node.left, null, null));
+            else if (top.rightVal is null)
+                stack.Push((top.node.right, null, null));
+            else
+            {
+                if ((top.leftVal == true && top.rightVal == true)
+                    || (top.node == p || top.node == q) && (top.leftVal == true || top.rightVal == true))
+                    return top.node;
+
+                bool? result = top.node == p || top.node == q || top.leftVal == true || top.rightVal == true;
+                stack.Pop();
+                top = stack.Pop();
+                stack.Push((top.node, top.leftVal is null ? result : top.leftVal, top.leftVal is not null ? result : top.rightVal));
+            }
+        }
+
+        return root;
     }
 
     [ProblemSolution("242")]

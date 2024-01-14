@@ -328,7 +328,7 @@ internal class Solution01xx
 
         while (stack.Count > 0 || node is not null)
         {
-            while (node is not null && (node.left is not null || node.right is not null))
+            while (node is not null)
             {
                 stack.Push(node);
                 node = node.left;
