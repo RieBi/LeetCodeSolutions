@@ -75,8 +75,40 @@ internal class Solution01xx
         }
     }
 
+    [ProblemSolution("105")]
+    public TreeNode? BuildTree(int[] preorder, int[] inorder)
+    {
+        return getRoot(0, preorder.Length - 1, 0, inorder.Length - 1);
+
+        TreeNode? getRoot(int preStart, int preEnd, int inStart, int inEnd)
+        {
+            if (preEnd - preStart < 0 || inEnd - inStart < 0)
+                return null;
+
+            var root = preorder[preStart];
+            if (preStart == preEnd)
+                return new TreeNode(root);
+
+            var inInd = 0;
+            for (int i = inStart; i <= inEnd; i++)
+            {
+                if (inorder[i] == root)
+                {
+                    inInd = i;
+                    break;
+                }
+            }
+
+            var rightStart = inInd - inStart + preStart + 1;
+            var leftChild = getRoot(preStart + 1, rightStart - 1, inStart, inInd - 1);
+            var rightChild = getRoot(rightStart, preEnd, inInd + 1, inEnd);
+
+            return new TreeNode(root, leftChild, rightChild);
+        }
+    }
+
     [ProblemSolution("106")]
-    public TreeNode? BuildTree(int[] inorder, int[] postorder)
+    public TreeNode? BuildTree2(int[] inorder, int[] postorder)
     {
         return getRoot((0, inorder.Length - 1), (0, postorder.Length - 1));
 
@@ -108,11 +140,7 @@ internal class Solution01xx
             var rightChild = getRoot((inorderInd + 1, inorderInterval.end),
                 (rightStart, postorderInterval.end - 1));
 
-            var node = new TreeNode(root)
-            {
-                left = leftChild,
-                right = rightChild
-            };
+            var node = new TreeNode(root, leftChild, rightChild);
 
             return node;
         }
