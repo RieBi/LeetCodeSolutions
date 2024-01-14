@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set1xxx;
+﻿using System.Linq;
+
+namespace LeetCode.Set1xxx;
 internal class Solution16xx
 {
     [ProblemSolution("1611")]
@@ -89,6 +91,35 @@ internal class Solution16xx
             });
 
         return max;
+    }
+
+    [ProblemSolution("1657")]
+    public bool CloseStrings(string word1, string word2)
+    {
+        var dick1 = new Dictionary<char, int>();
+        var dick2 = new Dictionary<char, int>();
+
+        fill(dick1, word1);
+        fill(dick2, word2);
+
+        foreach (var key in dick1.Keys)
+        {
+            if (!dick2.ContainsKey(key))
+                return false;
+        }
+
+        return dick1.Values.Order().SequenceEqual(dick2.Values.Order());
+
+        static void fill(Dictionary<char, int> dick, string word)
+        {
+            foreach (var ch in word)
+            {
+                if (dick.TryGetValue(ch, out int value))
+                    dick[ch] = value + 1;
+                else
+                    dick[ch] = 1;
+            }
+        }
     }
 
     [ProblemSolution("1662")]
