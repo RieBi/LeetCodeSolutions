@@ -1,5 +1,6 @@
 ﻿using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace LeetCode.Set0xxx;
 internal class Solution02xx
@@ -260,6 +261,89 @@ internal class Solution02xx
 
             queue = nextQueue;
             count++;
+        }
+    }
+
+    [ProblemSolution("297")]
+    public class Codec
+    {
+        // Encodes a tree to a single string.
+        public string serialize(TreeNode root)
+        {
+            if (root is null)
+                return "";
+
+            var queue = new Queue<(TreeNode? node, int flag)>();
+            queue.Enqueue((root, 0));
+            var str = new StringBuilder();
+            while (queue.Count > 0)
+            {
+                var top = queue.Dequeue();
+                var node = top.node;
+                if (top.flag == 0)
+                    str.Append(node!.val);
+                else if (top.flag == 1)
+                    str.Append("l" + node!.val);
+                else if (top.flag == 2)
+                    str.Append("r" + node!.val);
+                else
+                    str.Append('n');
+
+                str.Append(',');
+
+                if (node is null)
+                    continue;
+
+                if (node.left is null && node.right is null)
+                    queue.Enqueue((null, -1));
+                else if (node.left is not null && node.right is not null)
+                {
+                    queue.Enqueue((node.left, 0));
+                    queue.Enqueue((node.right, 0));
+                }
+                else if (node.left is not null)
+                    queue.Enqueue((node.left, 1));
+                else
+                    queue.Enqueue((node.right, 2));
+            }
+
+            return str.ToString();
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode? deserialize(string data)
+        {
+            if (data == "")
+                return null;
+
+            var strs = data.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            var queue = new Queue<TreeNode>();
+            queue.Enqueue(new TreeNode(int.Parse(strs[0])));
+            var head = queue.Peek();
+            var ind = 1;
+
+            while (queue.Count > 0)
+            {
+                var top = queue.Dequeue();
+                if (strs[ind][0] == 'l')
+                    top.left = new TreeNode(int.Parse(strs[ind][1..]));
+                else if (strs[ind][0] == 'r')
+                    top.right = new TreeNode(int.Parse(strs[ind][1..]));
+                else if (strs[ind][0] != 'n')
+                {
+                    top.left = new TreeNode(int.Parse(strs[ind++]));
+                    top.right = new TreeNode(int.Parse(strs[ind]));
+                }
+
+                if (top.left is not null)
+                    queue.Enqueue(top.left);
+                if (top.right is not null)
+                    queue.Enqueue(top.right);
+
+                ind++;
+            }
+
+            return head;
         }
     }
 }
