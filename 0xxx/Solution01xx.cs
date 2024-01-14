@@ -1,6 +1,37 @@
-﻿namespace LeetCode.Set0xxx;
+﻿using System.Net.Security;
+
+namespace LeetCode.Set0xxx;
 internal class Solution01xx
 {
+    [ProblemSolution("102")]
+    public IList<IList<int>> LevelOrder(TreeNode root)
+    {
+        var queue = new Queue<TreeNode>();
+        var result = new List<IList<int>>();
+
+        if (root is not null)
+            queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            var levelCount = queue.Count;
+            result.Add([]);
+
+            for (int i = 0; i < levelCount; i++)
+            {
+                var node = queue.Dequeue();
+                result[^1].Add(node.val);
+
+                if (node.left is not null)
+                    queue.Enqueue(node.left);
+                if (node.right is not null)
+                    queue.Enqueue(node.right);
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("133")]
     public Node? CloneGraph(Node? node)
     {
