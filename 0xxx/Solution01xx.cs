@@ -206,7 +206,7 @@ internal class Solution01xx
     }
 
     [ProblemSolution("116")]
-    public Node? Connect1(Node? root)
+    public Node? Connect(Node? root)
     {
         if (root is null)
             return null;
@@ -229,7 +229,7 @@ internal class Solution01xx
     }
 
     [ProblemSolution("117")]
-    public Node? Connect(Node? root)
+    public Node? Connect2(Node? root)
     {
         if (root is null)
             return null;
