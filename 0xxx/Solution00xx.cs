@@ -181,6 +181,25 @@ internal class Solution00xx
         return str.ToString();
     }
 
+    [ProblemSolution("7")]
+    public int Reverse(int x)
+    {
+        var ar = x.ToString().ToCharArray();
+        Array.Reverse(ar);
+        var v = new string(ar);
+        try
+        {
+            if (v[v.Length - 1] == '-')
+                return -int.Parse(v.Substring(0, v.Length - 1));
+            else
+                return int.Parse(v);
+        }
+        catch (System.OverflowException)
+        {
+            return 0;
+        }
+    }
+
     [ProblemSolution("9")]
     public bool IsPalindrome(int x)
     {
