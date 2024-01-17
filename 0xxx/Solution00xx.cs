@@ -114,6 +114,42 @@ internal class Solution00xx
         return 0;
     }
 
+    [ProblemSolution("5")]
+    public string LongestPalindrome(string s)
+    {
+        var maxLen = 1;
+        string maxStr = s[0].ToString();
+        for (int i = 0; i < s.Length; i++) // 'babad'
+        {
+            var c = s[i];
+            int start = i;
+            int end = i;
+            while (end + 1 < s.Length && s[end + 1] == c)
+                end++;
+            int endSame = end;
+            while (start > 0 && end + 1 < s.Length)
+            {
+                if (s[start - 1] == s[end + 1])
+                {
+                    start--;
+                    end++;
+                }
+                else
+                    break;
+            }
+
+            var len = end - start + 1;
+            if (len > maxLen)
+            {
+                maxLen = len;
+                maxStr = s.Substring(start, len);
+            }
+            i = endSame;
+        }
+
+        return maxStr;
+    }
+
     [ProblemSolution("6")]
     public string Convert(string s, int numRows)
     {
