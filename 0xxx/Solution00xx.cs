@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set0xxx;
+﻿using System.Text;
+
+namespace LeetCode.Set0xxx;
 internal class Solution00xx
 {
     [ProblemSolution("1")]
@@ -110,6 +112,37 @@ internal class Solution00xx
         }
 
         return 0;
+    }
+
+    [ProblemSolution("6")]
+    public string Convert(string s, int numRows)
+    {
+        if (numRows == 1)
+            return s;
+
+        var lists = new List<char>[numRows];
+        for (int i = 0; i < numRows; i++)
+            lists[i] = [];
+
+        var row = 0;
+        var adder = 1;
+        foreach (var ch in s)
+        {
+            lists[row].Add(ch);
+            if (row == 0)
+                adder = 1;
+            else if (row == numRows - 1)
+                adder = -1;
+
+            row += adder;
+        }
+
+        var str = new StringBuilder();
+        foreach (var list in lists)
+            foreach (var ch in list)
+                str.Append(ch);
+
+        return str.ToString();
     }
 
     [ProblemSolution("9")]
