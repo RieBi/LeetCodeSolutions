@@ -1,6 +1,13 @@
 ﻿namespace LeetCode.Set1xxx;
 internal class Solution12xx
 {
+    [ProblemSolution("1207")]
+    public bool UniqueOccurrences(int[] arr)
+    {
+        var groups = arr.GroupBy(f => f).Select(f => f.Count());
+        return groups.Count() == groups.Distinct().Count();
+    }
+
     [ProblemSolution("1235")]
     public int JobScheduling(int[] startTime, int[] endTime, int[] profit)
     {
