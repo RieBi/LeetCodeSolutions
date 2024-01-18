@@ -247,6 +247,51 @@ internal class Solution00xx
         return max;
     }
 
+    [ProblemSolution("15")]
+    public IList<IList<int>> ThreeSum(int[] nums)
+    {
+        var frequencies = new Dictionary<int, int>();
+        foreach (var num in nums)
+        {
+            if (frequencies.TryGetValue(num, out int value))
+                frequencies[num] = value + 1;
+            else
+                frequencies[num] = 1;
+        }
+
+        var sorted = nums.Distinct().ToList();
+        sorted.Sort();
+
+        var positiveInd = sorted.BinarySearch(0);
+        if (positiveInd < 0)
+            positiveInd = ~positiveInd;
+
+        var result = new List<IList<int>>();
+        for (int i = 0; i < positiveInd; i++)
+        {
+            for (int j = positiveInd; j < sorted.Count; j++)
+            {
+                var needed = -(sorted[i] + sorted[j]);
+                if (!frequencies.TryGetValue(needed, out int value))
+                    continue;
+
+                if ((needed < 0 && needed < sorted[i]) || (needed >= 0 && needed < sorted[j]))
+                    continue;
+
+                if ((needed == sorted[i] || needed == sorted[j]) && value == 1)
+                    continue;
+
+                List<int> list = [sorted[i], sorted[j], needed];
+                result.Add(list);
+            }
+        }
+
+        if (frequencies.TryGetValue(0, out int zeroes) && zeroes >= 3)
+            result.Add([0, 0, 0]);
+
+        return result;
+    }
+
     [ProblemSolution("20")]
     public bool IsValid(string s)
     {
