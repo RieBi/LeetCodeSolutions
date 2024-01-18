@@ -357,6 +357,18 @@ internal class Solution00xx
         return groups;
     }
 
+    [ProblemSolution("70")]
+    public int ClimbStairs(int n)
+    {
+        var fc = new List<int>();
+        fc.Add(1);
+        fc.Add(2);
+        for (int i = 2; i < n; i++)
+            fc.Add(fc[i - 1] + fc[i - 2]);
+
+        return fc[n - 1];
+    }
+
     [ProblemSolution("91")]
     public int NumDecodings(string s)
     {
