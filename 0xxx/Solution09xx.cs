@@ -7,6 +7,33 @@ using System.Threading.Tasks;
 namespace LeetCode._0xxx;
 internal class Solution09xx
 {
+    [ProblemSolution("931")]
+    public int MinFallingPathSum(int[][] matrix)
+    {
+        List<(int i, int j)> dirs = [(-1, -1), (-1, 0), (-1, 1)];
+
+        var vals = new List<int>();
+        for (int i = 1; i < matrix.Length; i++)
+        {
+            for (int j = 0; j < matrix.Length; j++)
+            {
+                foreach (var dir in dirs)
+                {
+                    var newi = dir.i + i;
+                    var newj = dir.j + j;
+                    if (newi < 0 || newj < 0 || newi >= matrix.Length || newj >= matrix.Length)
+                        continue;
+                    vals.Add(matrix[i][j] + matrix[newi][newj]);
+                }
+
+                matrix[i][j] = vals.Min();
+                vals.Clear();
+            }
+        }
+
+        return matrix[^1].Min();
+    }
+
     [ProblemSolution("938")]
     public int RangeSumBST(TreeNode root, int low, int high)
     {
