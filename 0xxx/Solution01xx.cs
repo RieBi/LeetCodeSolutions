@@ -407,4 +407,17 @@ internal class Solution01xx
 
         return result;
     }
+
+    [ProblemSolution("198")]
+    public int Rob(int[] nums)
+    {
+        var dp = new int[2];
+        for (int i = 0; i < nums.Length; i++)
+        {
+            var newSum = Math.Max(dp[1], dp[0] + nums[i]);
+            (dp[0], dp[1]) = (dp[1], newSum);
+        }
+
+        return dp[1];
+    }
 }
