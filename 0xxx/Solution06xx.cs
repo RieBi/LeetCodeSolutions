@@ -74,6 +74,25 @@ internal class Solution06xx
         public bool IsFull() => count == ar.Length;
     }
 
+    [ProblemSolution("645")]
+    public int[] FindErrorNums(int[] nums)
+    {
+        var freq = new int[nums.Length];
+        foreach (var num in nums)
+            freq[num - 1]++;
+
+        var result = new int[2];
+        for (int i = 0; i < freq.Length; i++)
+        {
+            if (freq[i] == 2)
+                result[0] = i + 1;
+            if (freq[i] == 0)
+                result[1] = i + 1;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("652")]
     public IList<TreeNode> FindDuplicateSubtrees(TreeNode root)
     {
