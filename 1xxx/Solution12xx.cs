@@ -1,4 +1,7 @@
-﻿namespace LeetCode.Set1xxx;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+
+namespace LeetCode.Set1xxx;
 internal class Solution12xx
 {
     [ProblemSolution("1207")]
@@ -34,6 +37,60 @@ internal class Solution12xx
         }
 
         return dp[^1].Item2;
+    }
+
+    [ProblemSolution("1239")]
+    public int MaxLength(IList<string> arr)
+    {
+        var ints = new List<int>();
+        foreach (var word in arr)
+        {
+            ints.Add(0);
+            foreach (var ch in word)
+            {
+                var mask = 1 << (ch - 'a');
+                if ((ints[^1] & mask) != 0)
+                {
+                    ints.RemoveAt(ints.Count - 1);
+                    break;
+                }
+
+                ints[^1] |= mask;
+            }
+        }
+
+        var max = 0;
+        if (ints.Count == 0)
+            return max;
+
+        for (int i = 0; i < ints.Count; i++)
+            dfs(i, 0);
+        return max;
+
+        void dfs(int ind, int state)
+        {
+            if ((state & ints[ind]) != 0)
+                return;
+
+            state |= ints[ind];
+            max = Math.Max(max, weight(state));
+            for (int i = ind + 1; i < ints.Count; i++)
+                dfs(i, state);
+        }
+
+        static int weight(int num)
+        {
+            var mask = 1;
+            var count = 0;
+            for (int i = 0; i < 32; i++)
+            {
+                if ((mask & num) != 0)
+                    count++;
+                mask <<= 1;
+            }
+
+            return count;
+        }
     }
 
     [ProblemSolution("1266")]
