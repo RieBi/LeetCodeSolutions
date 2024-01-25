@@ -4,6 +4,27 @@ using System.Runtime.InteropServices;
 namespace LeetCode.Set1xxx;
 internal class Solution11xx
 {
+    [ProblemSolution("1143")]
+    public int LongestCommonSubsequence(string text1, string text2)
+    {
+        var dp = new int[text1.Length + 1][];
+        for (int i = 0; i < dp.Length; i++)
+            dp[i] = new int[text2.Length + 1];
+
+        for (int i = 1; i < dp.Length; i++)
+        {
+            for (int j = 1; j < dp[0].Length; j++)
+            {
+                if (text1[i - 1] == text2[j - 1])
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                else
+                    dp[i][j] = Math.Max(dp[i][j - 1], dp[i - 1][j]);
+            }
+        }
+
+        return dp[^1][^1];
+    }
+
     [ProblemSolution("1155")]
     public int NumRollsToTarget(int n, int k, int target)
     {
