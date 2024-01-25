@@ -74,6 +74,46 @@ internal class Solution14xx
         return "";
     }
 
+    [ProblemSolution("1457")]
+    public int PseudoPalindromicPaths(TreeNode root)
+    {
+        return dfs(root, 0);
+
+        static int dfs(TreeNode? node, int state)
+        {
+            if (node is null)
+                return 0;
+
+            var mask = 1 << (node.val - 1);
+            state ^= mask;
+
+            if (node.left is null && node.right is null && isLow(state))
+                return 1;
+
+            return dfs(node.left, state) + dfs(node.right, state);
+        }
+
+        static bool isLow(int num)
+        {
+            var isSet = false;
+            var mask = 1;
+            for (int i = 0; i < 9; i++)
+            {
+                if ((num & mask) != 0)
+                {
+                    if (isSet)
+                        return false;
+                    else
+                        isSet = true;
+                }
+
+                mask <<= 1;
+            }
+
+            return true;
+        }
+    }
+
     [ProblemSolution("1464")]
     public int MaxProduct(int[] nums)
     {
