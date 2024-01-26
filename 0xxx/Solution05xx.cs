@@ -53,6 +53,49 @@ internal class Solution05xx
         return mat;
     }
 
+    [ProblemSolution("576")]
+    public int FindPaths(int m, int n, int maxMove, int startRow, int startColumn)
+    {
+        List<(int i, int j)> transitions = [(0, -1), (0, 1), (1, 0), (-1, 0)];
+
+        var prev = createMatrix(m, n);
+        prev[startRow][startColumn] = 1;
+        var result = 0;
+        var modulo = 1_000_000_007;
+        for (int count = 0; count < maxMove; count++)
+        {
+            var cur = createMatrix(m, n);
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    foreach (var transition in transitions)
+                    {
+                        var newI = i + transition.i;
+                        var newJ = j + transition.j;
+
+                        if (newI < 0 || newJ < 0 || newI >= m || newJ >= n)
+                            result = (result + prev[i][j]) % modulo;
+                        else
+                            cur[newI][newJ] = (prev[i][j] + cur[newI][newJ]) % modulo;
+                    }
+                }
+            }
+
+            prev = cur;
+        }
+
+        return result;
+
+        static int[][] createMatrix(int m, int n)
+        {
+            var ar = new int[m][];
+            for (int i = 0; i < ar.Length; i++)
+                ar[i] = new int[n];
+            return ar;
+        }
+    }
+
     [ProblemSolution("599")]
     public string[] FindRestaurant(string[] list1, string[] list2)
     {
