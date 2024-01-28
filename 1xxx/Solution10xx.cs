@@ -59,4 +59,44 @@ internal class Solution10xx
             return (min, max);
         }
     }
+
+    [ProblemSolution("1074")]
+    public int NumSubmatrixSumTarget(int[][] matrix, int target)
+    {
+        var dp = new int[matrix.Length][];
+        for (int i = 0; i < dp.Length; i++)
+            dp[i] = new int[matrix[0].Length];
+
+        for (int i = 0; i < dp.Length; i++)
+        {
+            for (int j = 0; j < dp[0].Length; j++)
+            {
+                var left = j == 0 ? 0 : dp[i][j - 1];
+                var top = i == 0 ? 0 : dp[i - 1][j];
+                var corner = (i == 0 || j == 0) ? 0 : dp[i - 1][j - 1];
+                dp[i][j] = left + top - corner + matrix[i][j];
+            }
+        }
+
+        var count = 0;
+        for (int startI = 0; startI < matrix.Length; startI++)
+        {
+            for (int startJ = 0; startJ < matrix[0].Length; startJ++)
+            {
+                for (int endI = startI; endI < matrix.Length; endI++)
+                {
+                    for (int endJ = startJ; endJ < matrix[0].Length; endJ++)
+                    {
+                        var left = startJ == 0 ? 0 : dp[endI][startJ - 1];
+                        var top = startI == 0 ? 0 : dp[startI - 1][endJ];
+                        var corner = (startI == 0 || startJ == 0) ? 0 : dp[startI - 1][startJ - 1];
+                        if (dp[endI][endJ] - left - top + corner == target)
+                            count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
 }
