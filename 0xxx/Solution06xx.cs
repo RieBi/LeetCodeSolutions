@@ -74,6 +74,33 @@ internal class Solution06xx
         public bool IsFull() => count == ar.Length;
     }
 
+    [ProblemSolution("629")]
+    public int KInversePairs(int n, int k)
+    {
+        var dp = new int[n][];
+        for (int i = 0; i < dp.Length; i++)
+            dp[i] = new int[k + 1];
+
+        var modulo = 1_000_000_007;
+        dp[0][0] = 1;
+        for (int i = 1; i < dp.Length; i++)
+        {
+            var sum = 0;
+            for (int j = 0; j < dp[i].Length; j++)
+            {
+                sum += dp[i - 1][j];
+                if (j > i)
+                    sum -= dp[i - 1][j - i - 1];
+                if (sum < 0)
+                    sum += modulo;
+                sum %= modulo;
+                dp[i][j] = sum;
+            }
+        }
+
+        return dp[^1][^1];
+    }
+
     [ProblemSolution("645")]
     public int[] FindErrorNums(int[] nums)
     {
