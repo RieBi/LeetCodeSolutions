@@ -200,6 +200,35 @@ internal class Solution00xx
         }
     }
 
+    [ProblemSolution("8")]
+    public int MyAtoi(string s)
+    {
+        s = s.TrimStart();
+        var num = 0;
+        if (s.Length == 0)
+            return 0;
+
+        var multiplier = 1;
+        if (s[0] == '-')
+            multiplier = -1;
+
+        var max = multiplier == 1 ? int.MaxValue : int.MinValue;
+        var preMax = Math.Abs(max / 10);
+        var last = Math.Abs(max % 10);
+
+        var pos = s[0] is '+' or '-' ? 1 : 0;
+        for (; pos < s.Length && char.IsDigit(s[pos]); pos++)
+        {
+            var toAdd = int.Parse(s[pos].ToString());
+            if (Math.Abs(num) > preMax || Math.Abs(num) == preMax && toAdd >= last)
+                return max;
+            num *= 10;
+            num += toAdd * multiplier;
+        }
+
+        return num;
+    }
+
     [ProblemSolution("9")]
     public bool IsPalindrome(int x)
     {
