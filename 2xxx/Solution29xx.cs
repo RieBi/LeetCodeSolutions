@@ -105,6 +105,22 @@ class Solution29xx
         return (int)(result % modulo);
     }
 
+    [ProblemSolution("2966")]
+    public int[][] DivideArray(int[] nums, int k)
+    {
+        Array.Sort(nums);
+        var result = new int[nums.Length / 3][];
+        for (int i = 0; i < nums.Length; i += 3)
+        {
+            if (nums[i + 2] - nums[i] <= k)
+                result[i / 3] = [nums[i], nums[i + 1], nums[i + 2]];
+            else
+                return [];
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2970")]
     public int IncremovableSubarrayCount(int[] nums)
     {
@@ -287,6 +303,4 @@ class Solution29xx
             return Math.Max(val1, val2);
         }
     }
-
-
 }
