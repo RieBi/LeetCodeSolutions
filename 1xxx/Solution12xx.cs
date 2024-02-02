@@ -128,4 +128,31 @@ internal class Solution12xx
 
         throw new ArgumentException("Array contains no elements occuring >25% of the time");
     }
+
+    [ProblemSolution("1291")]
+    public IList<int> SequentialDigits(int low, int high)
+    {
+        var starter = 1;
+        var adder = 1;
+
+        var list = new List<int>();
+        for (int i = 1; i <= 9; i++)
+        {
+            var num = starter;
+            starter *= 10;
+            starter += i + 1;
+
+            for (int j = 0; j < (10 - i); j++)
+            {
+                if (num >= low && num <= high)
+                    list.Add(num);
+                num += adder;
+            }
+
+            adder *= 10;
+            adder += 1;
+        }
+
+        return list;
+    }
 }
