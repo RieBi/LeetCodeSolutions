@@ -26,6 +26,18 @@ internal class Solution03xx
         return dp.Count;
     }
 
+    [ProblemSolution("344")]
+    public void ReverseString(char[] s)
+    {
+        substitute(0);
+        void substitute(int index)
+        {
+            (s[index], s[s.Length - index - 1]) = (s[s.Length - index - 1], s[index]);
+            if (index < s.Length / 2 - 1)
+                substitute(++index);
+        }
+    }
+
     [ProblemSolution("347")]
     public int[] TopKFrequent(int[] nums, int k)
     {
