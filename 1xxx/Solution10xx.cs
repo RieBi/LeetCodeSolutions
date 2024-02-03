@@ -60,6 +60,24 @@ internal class Solution10xx
         }
     }
 
+    [ProblemSolution("1043")]
+    public int MaxSumAfterPartitioning(int[] arr, int k)
+    {
+        var dp = new int[arr.Length];
+        for (int i = 0; i  < arr.Length; i++)
+        {
+            var max = -1;
+            for (int j = i; j < arr.Length && j - i < k; j++)
+            {
+                max = Math.Max(max, arr[j]);
+                var prevMax = i == 0 ? 0 : dp[i - 1];
+                dp[j] = Math.Max(dp[j], prevMax + (j - i + 1) * max);
+            }
+        }
+
+        return dp[^1];
+    }
+
     [ProblemSolution("1074")]
     public int NumSubmatrixSumTarget(int[][] matrix, int target)
     {
