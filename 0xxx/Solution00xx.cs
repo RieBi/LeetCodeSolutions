@@ -373,6 +373,24 @@ internal class Solution00xx
         return myStartHead;
     }
 
+    [ProblemSolution("24")]
+    public ListNode? SwapPairs(ListNode? head)
+    {
+        return swap(head);
+        ListNode? swap(ListNode? node)
+        {
+            if (node is null || node.next is null)
+                return node;
+
+            var after = swap(node.next.next);
+            var newh = node.next;
+            node.next.next = node;
+            node.next = after;
+
+            return newh;
+        }
+    }
+
     [ProblemSolution("36")]
     public bool IsValidSudoku(char[][] board)
     {

@@ -74,6 +74,30 @@ internal class Solution02xx
         return true;
     }
 
+    [ProblemSolution("206")]
+    public ListNode? ReverseList(ListNode? head)
+    {
+        if (head is null)
+            return null;
+
+        ListNode newHead = null!;
+        traverse(head).next = null;
+        return newHead;
+
+        ListNode traverse(ListNode node)
+        {
+            if (node.next is null)
+            {
+                newHead = node;
+                return node;
+            }
+
+            var last = traverse(node.next);
+            last.next = node;
+            return node;
+        }
+    }
+
     [ProblemSolution("217")]
     public bool ContainsDuplicate(int[] nums)
     {
