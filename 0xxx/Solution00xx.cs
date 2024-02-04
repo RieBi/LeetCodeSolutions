@@ -449,6 +449,29 @@ internal class Solution00xx
         return groups;
     }
 
+    [ProblemSolution("50")]
+    public double MyPow(double x, int n)
+    {
+        if (n == 0)
+            return 1;
+        if (x == 0 || x == 1)
+            return x;
+        if (n == int.MinValue)
+        {
+            var stupid = MyPow(x, -(int.MinValue / 2));
+            return 1 / (stupid * stupid);
+        }
+          
+        if (n < 0)
+            return 1 / MyPow(x, -n);
+
+        var val = MyPow(x, n / 2);
+        if (n % 2 == 1)
+            return x * val * val;
+        else
+            return val * val;
+    }
+
     [ProblemSolution("70")]
     public int ClimbStairs(int n)
     {
