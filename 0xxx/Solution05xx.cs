@@ -3,6 +3,23 @@
 namespace LeetCode.Set0xxx;
 internal class Solution05xx
 {
+    [ProblemSolution("509")]
+    public int Fib(int n)
+    {
+        var cache = new Dictionary<int, int>();
+        return calculate(n);
+        
+        int calculate(int num)
+        {
+            if (num < 2)
+                return num;
+            else if (cache.TryGetValue(num, out int value))
+                return value;
+            else
+                return calculate(num - 1) + calculate(num - 2);
+        }
+    }
+
     [ProblemSolution("542")]
     public int[][] UpdateMatrix(int[][] mat)
     {
