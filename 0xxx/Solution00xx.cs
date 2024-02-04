@@ -461,6 +461,62 @@ internal class Solution00xx
         return fc[n - 1];
     }
 
+    [ProblemSolution("76")]
+    public string MinWindow(string s, string t)
+    {
+        var minSize = int.MaxValue;
+        var minL = -1;
+        var minR = 0;
+
+        var dickT = new Dictionary<char, int>();
+        var dickS = new Dictionary<char, int>();
+
+        foreach (var ch in t)
+        {
+            dickS[ch] = 0;
+            if (dickT.TryGetValue(ch, out int value))
+                dickT[ch] = value + 1;
+            else
+                dickT[ch] = 1;
+        }
+
+        var left = 0;
+        var right = -1;
+        var len = 0;
+        var requiredLen = dickT.Values.Sum();
+        
+        while (right < s.Length)
+        {
+            if (len == requiredLen && (!dickS.ContainsKey(s[left]) || dickS[s[left]] > dickT[s[left]]))
+            {
+                if (dickS.TryGetValue(s[left], out int value) && value > dickT[s[left]])
+                    dickS[s[left]] = value - 1;
+                left++;
+            }
+            else
+            {
+                right++;
+                if (right == s.Length)
+                    break;
+                if (dickS.TryGetValue(s[right], out int value))
+                {
+                    dickS[s[right]] = value + 1;
+                    if (value < dickT[s[right]])
+                        len++;
+                }
+            }
+
+            if (len == requiredLen && (right - left < minSize))
+            {
+                minSize = right - left;
+                minL = left;
+                minR = right;
+            }
+        }
+
+        return minL == -1 ? "" : s.Substring(minL, minR - minL + 1);
+    }
+
     [ProblemSolution("91")]
     public int NumDecodings(string s)
     {
