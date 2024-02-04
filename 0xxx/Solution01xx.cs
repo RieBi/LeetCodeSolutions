@@ -147,6 +147,23 @@ internal class Solution01xx
         }
     }
 
+    [ProblemSolution("119")]
+    public IList<int> GetRow(int rowIndex)
+    {
+        if (rowIndex == 0)
+            return [1];
+
+        var prev = GetRow(rowIndex - 1);
+        List<int> list = [1];
+        for (int i = 1; i < rowIndex; i++)
+        {
+            list.Add(prev[i - 1] + prev[i]);
+        }
+
+        list.Add(1);
+        return list;
+    }
+
     [ProblemSolution("112")]
     public bool HasPathSum(TreeNode root, int targetSum)
     {
