@@ -312,4 +312,19 @@ internal class Solution07xx
         var hash = jewels.ToHashSet();
         return stones.Count(f => hash.Contains(f));
     }
+
+    [ProblemSolution("779")]
+    public int KthGrammar(int n, int k)
+    {
+        if (n == 1)
+            return 0;
+
+        var prev = KthGrammar(n - 1, k % 2 == 0 ? k / 2 : k / 2 + 1);
+        if (k % 2 == 1)
+            return prev;
+        else if (prev == 0)
+            return 1;
+        else
+            return 0;
+    }
 }
