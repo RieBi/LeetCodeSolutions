@@ -338,6 +338,38 @@ internal class Solution00xx
         return stack.Count == 0;
     }
 
+    [ProblemSolution("21")]
+    public ListNode? MergeTwoLists(ListNode? list1, ListNode? list2)
+    {
+        if (list1 is null)
+            (list1, list2) = (list2, list1);
+        if (list1 is null)
+            return null;
+
+        ListNode head = new ListNode();
+        ListNode cur = head;
+
+        while (list1 is not null || list2 is not null)
+        {
+            if (list2 is null)
+                (list1, list2) = (list2, list1);
+            if (list1 is null || list1.val > list2!.val)
+            {
+                cur!.next = list2;
+                cur = list2!;
+                list2 = list2!.next;
+            }
+            else
+            {
+                cur.next = list1;
+                cur = list1;
+                list1 = list1.next;
+            }
+        }
+
+        return head.next;
+    }
+
     [ProblemSolution("23")]
     public ListNode? MergeKLists(ListNode?[] lists)
     {
