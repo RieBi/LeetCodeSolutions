@@ -8,6 +8,23 @@ using System.Threading.Tasks;
 namespace LeetCode._0xxx;
 internal class Solution07xx
 {
+    [ProblemSolution("700")]
+    public TreeNode? SearchBST(TreeNode root, int val)
+    {
+        return search(root);
+        TreeNode? search(TreeNode node)
+        {
+            if (node.val == val)
+                return node;
+            else if (node.val > val && node.left is not null)
+                return search(node.left);
+            else if (node.val < val && node.right is not null)
+                return search(node.right);
+            else
+                return null;
+        }
+    }
+
     [ProblemSolution("704")]
     public int Search(int[] nums, int target)
     {
