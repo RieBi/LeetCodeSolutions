@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using System.Xml.Schema;
 
 namespace LeetCode.Set0xxx;
 internal class Solution00xx
@@ -629,5 +631,44 @@ internal class Solution00xx
         }
 
         return result;
+    }
+
+    [ProblemSolution("95")]
+    public IList<TreeNode?> GenerateTrees(int n)
+    {
+        return getSubtrees(1, n);
+
+        List<TreeNode?> getSubtrees(int left, int right)
+        {
+            if (left > right)
+                return [null];
+
+            var list = new List<TreeNode?>();
+            for (int i = left; i <= right; i++)
+            {
+                var node = new TreeNode(i);
+                foreach (var l in getSubtrees(left, i - 1))
+                {
+                    foreach (var r in getSubtrees(i + 1, right))
+                    {
+                        node.left = l;
+                        node.right = r;
+                        list.Add(duplicateTree(node));
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        TreeNode? duplicateTree(TreeNode? root)
+        {
+            if (root is null)
+                return null;
+            var node = new TreeNode(root.val);
+            node.left = duplicateTree(root.left);
+            node.right = duplicateTree(root.right);
+            return node;
+        }
     }
 }
