@@ -671,4 +671,30 @@ internal class Solution00xx
             return node;
         }
     }
+
+    [ProblemSolution("98")]
+    public bool IsValidBST(TreeNode root)
+    {
+        var stack = new Stack<TreeNode>();
+        var node = root;
+        var f = false;
+        var prev = 100;
+        while (stack.Count > 0 || node is not null)
+        {
+            while (node is not null)
+            {
+                stack.Push(node);
+                node = node.left;
+            }
+
+            var top = stack.Pop();
+            if (f && prev >= top.val)
+                return false;
+            node = top.right;
+            f = true;
+            prev = top.val;
+        }
+
+        return true;
+    }
 }
