@@ -24,6 +24,34 @@ internal class Solution07xx
         return root;
     }
 
+    [ProblemSolution("701")]
+    public TreeNode InsertIntoBST(TreeNode root, int val)
+    {
+        if (root is null)
+            return new TreeNode(val);
+
+        var node = root;
+        while (node.val != val)
+        {
+            if (val > node.val)
+            {
+                if (node.right is null)
+                    node.right = new TreeNode(val);
+                else
+                    node = node.right;
+            }
+            else
+            {
+                if (node.left is null)
+                    node.left = new TreeNode(val);
+                else
+                    node = node.left;
+            }
+        }
+
+        return root;
+    }
+
     [ProblemSolution("704")]
     public int Search(int[] nums, int target)
     {
