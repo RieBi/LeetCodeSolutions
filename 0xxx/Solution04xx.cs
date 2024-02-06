@@ -103,6 +103,93 @@ internal class Solution04xx
         return result;
     }
 
+    [ProblemSolution("450")]
+    public TreeNode? DeleteNode(TreeNode? root, int key)
+    {
+        var node = find(root, key);
+        if (node is null)
+            return root;
+
+        if (node.left is null && node.right is null)
+        {
+            var parent = findParent(root, node);
+            if (parent is null)
+                return null;
+
+            if (parent.left == node)
+                parent.left = null;
+            else
+                parent.right = null;
+        }
+        else if (node.left is null || node.right is null)
+        {
+            var parent = findParent(root, node);
+            if (parent is null)
+            {
+                if (node.left is not null)
+                    root = node.left;
+                else
+                    root = node.right;
+            }
+            else
+            {
+                var child = node.left is not null ? node.left : node.right;
+                if (parent.left == node)
+                    parent.left = child;
+                else
+                    parent.right = child;
+            }
+        }
+        else
+        {
+            var success = node.right;
+            var prev = node;
+            while (success.left is not null)
+            {
+                prev = success;
+                success = success.left;
+            }
+
+            (node.val, success.val) = (success.val, node.val);
+
+            if (prev != node)
+                prev.left = success.right;
+            else
+                prev.right = success.right;
+        }
+
+        return root;
+
+        TreeNode? find(TreeNode? node, int val)
+        {
+            while (node is not null && node.val != val)
+            {
+                if (val < node.val)
+                    node = node.left;
+                else
+                    node = node.right;
+            }
+
+            return node;
+        }
+
+        TreeNode? findParent(TreeNode? root, TreeNode node)
+        {
+            if (root == node || root is null)
+                return null;
+
+            while (root!.left != node && root.right != node)
+            {
+                if (node.val < root.val)
+                    root = root.left;
+                else
+                    root = root.right;
+            }
+
+            return root;
+        }
+    }
+
     [ProblemSolution("454")]
     public int FourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4)
     {
