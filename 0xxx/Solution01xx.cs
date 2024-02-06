@@ -410,6 +410,27 @@ internal class Solution01xx
         public int GetMin() => list[^1].min;
     }
 
+    [ProblemSolution("173")]
+    public class BSTIterator(TreeNode? root)
+    {
+        private readonly Stack<TreeNode> stack = new();
+
+        public int Next()
+        {
+            while (root is not null)
+            {
+                stack.Push(root);
+                root = root.left;
+            }
+
+            var top = stack.Pop();
+            root = top.right;
+            return top.val;
+        }
+
+        public bool HasNext() => stack.Count > 0 || root is not null;
+    }
+
     [ProblemSolution("191")]
     public int HammingWeight(uint n)
     {
