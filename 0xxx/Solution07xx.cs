@@ -11,18 +11,17 @@ internal class Solution07xx
     [ProblemSolution("700")]
     public TreeNode? SearchBST(TreeNode root, int val)
     {
-        return search(root);
-        TreeNode? search(TreeNode node)
+        while (root is not null)
         {
-            if (node.val == val)
-                return node;
-            else if (node.val > val && node.left is not null)
-                return search(node.left);
-            else if (node.val < val && node.right is not null)
-                return search(node.right);
+            if (root.val == val)
+                return root;
+            else if (root.val < val)
+                root = root.right;
             else
-                return null;
+                root = root.left;
         }
+
+        return root;
     }
 
     [ProblemSolution("704")]
