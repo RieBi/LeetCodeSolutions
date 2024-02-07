@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace LeetCode.Set0xxx;
 internal class Solution04xx
@@ -188,6 +189,16 @@ internal class Solution04xx
 
             return root;
         }
+    }
+
+    [ProblemSolution("451")]
+    public string FrequencySort(string s)
+    {
+        var frequencies = s.GroupBy(f => f).Select(f => (f.Key, f.Count())).OrderByDescending(f => f.Item2);
+        var str = new StringBuilder();
+        foreach (var ch in frequencies)
+            str.Append(new string(ch.Key, ch.Item2));
+        return str.ToString();
     }
 
     [ProblemSolution("454")]
