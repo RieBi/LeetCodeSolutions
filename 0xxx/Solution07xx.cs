@@ -52,6 +52,37 @@ internal class Solution07xx
         return root;
     }
 
+    [ProblemSolution("703")]
+    public class KthLargest
+    {
+        private readonly int k;
+        private readonly PriorityQueue<int, int> list = new();
+
+        public KthLargest(int k, int[] nums)
+        {
+            this.k = k;
+            foreach (var v in nums)
+                Add(v);
+        }
+
+        public int Add(int val)
+        {
+            if (list.Count < k)
+            {
+                list.Enqueue(val, val);
+            }
+            else if (val > list.Peek())
+            {
+                list.DequeueEnqueue(val, val);
+            }
+
+            if (list.Count >= k)
+                return list.Peek();
+            else
+                return -1;
+        }
+    }
+
     [ProblemSolution("704")]
     public int Search(int[] nums, int target)
     {
