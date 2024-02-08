@@ -182,8 +182,25 @@ internal class Solution02xx
         }
     }
 
-    [ProblemSolution("236")]
+    [ProblemSolution("235")]
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
+    {
+        var min = Math.Min(p.val, q.val);
+        var max = Math.Max(p.val, q.val);
+
+        while (root!.val > max || root.val < min)
+        {
+            if (root.val > max)
+                root = root.left!;
+            else
+                root = root.right!;
+        }
+
+        return root;
+    }
+
+    [ProblemSolution("236")]
+    public TreeNode LowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q)
     {
         var stack = new Stack<(TreeNode? node, bool? leftVal, bool? rightVal)>();
         stack.Push((root, null, null));
