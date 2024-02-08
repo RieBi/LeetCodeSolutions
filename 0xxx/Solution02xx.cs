@@ -52,6 +52,25 @@ internal class Solution02xx
         return true;
     }
 
+    [ProblemSolution("204")]
+    public int CountPrimes(int n)
+    {
+        var nums = new bool[Math.Max(2, n)];
+
+        nums[0] = true;
+        nums[1] = true;
+        var top = Math.Sqrt(n);
+        for (int i = 2; i < top; i++)
+        {
+            if (nums[i])
+                continue;
+            for (int j = 2 * i; j < n; j += i)
+                nums[j] = true;
+        }
+
+        return nums.Count(f => !f);
+    }
+
     [ProblemSolution("205")]
     public bool IsIsomorphic(string s, string t)
     {
