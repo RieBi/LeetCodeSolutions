@@ -147,6 +147,27 @@ internal class Solution01xx
         }
     }
 
+    [ProblemSolution("110")]
+    public bool IsBalanced(TreeNode root)
+    {
+        var balanced = true;
+        propagate(root);
+        return balanced;
+
+        int propagate(TreeNode? node)
+        {
+            if (node is null)
+                return 0;
+
+            var left = propagate(node.left);
+            var right = propagate(node.right);
+            if (Math.Abs(right - left) > 1)
+                balanced = false;
+
+            return Math.Max(left, right) + 1;
+        }
+    }
+
     [ProblemSolution("119")]
     public IList<int> GetRow(int rowIndex)
     {
