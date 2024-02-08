@@ -124,6 +124,34 @@ internal class Solution02xx
             });
     }
 
+    [ProblemSolution("220")]
+    public bool ContainsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff)
+    {
+        var sorted = nums[0..(Math.Min(nums.Length, indexDiff + 1))].ToList();
+        sorted.Sort();
+
+        for (int i = 1; i < sorted.Count; i++)
+            if (sorted[i] - sorted[i - 1] <= valueDiff)
+                return true;
+
+        for (int i = indexDiff + 1; i < nums.Length; i++)
+        {
+            var prevInd = sorted.BinarySearch(nums[i - 1 - indexDiff]);
+            sorted.RemoveAt(prevInd);
+            var nextInd = sorted.BinarySearch(nums[i]);
+            if (nextInd < 0)
+                nextInd = ~nextInd;
+            sorted.Insert(nextInd, nums[i]);
+
+            if (nextInd > 0 && sorted[nextInd] - sorted[nextInd - 1] <= valueDiff)
+                return true;
+            if (nextInd < sorted.Count - 1 && sorted[nextInd + 1] - sorted[nextInd] <= valueDiff)
+                return true;
+        }
+
+        return false;
+    }
+
     [ProblemSolution("225")]
     public class MyStack
     {
