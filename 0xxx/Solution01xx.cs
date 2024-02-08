@@ -147,6 +147,23 @@ internal class Solution01xx
         }
     }
 
+    [ProblemSolution("108")]
+    public TreeNode? SortedArrayToBST(int[] nums)
+    {
+        return convert(0, nums.Length - 1);
+        TreeNode? convert(int left, int right)
+        {
+            if (left > right)
+                return null;
+
+            var mid = (left + right) / 2;
+            var node = new TreeNode(nums[mid]);
+            node.left = convert(left, mid - 1);
+            node.right = convert(mid + 1, right);
+            return node;
+        }
+    }
+
     [ProblemSolution("110")]
     public bool IsBalanced(TreeNode root)
     {
