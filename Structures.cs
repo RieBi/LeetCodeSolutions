@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace LeetCode;
 
-public class Node
+public class Node3
 {
     public int val;
-    public Node left;
-    public Node right;
-    public Node next;
+    public Node3 left;
+    public Node3 right;
+    public Node3 next;
 
-    public Node() { }
+    public Node3() { }
 
-    public Node(int _val)
+    public Node3(int _val)
     {
         val = _val;
     }
 
-    public Node(int _val, Node _left, Node _right, Node _next)
+    public Node3(int _val, Node3 _left, Node3 _right, Node3 _next)
     {
         val = _val;
         left = _left;
@@ -50,6 +50,25 @@ public class Node2
     {
         val = _val;
         neighbors = _neighbors;
+    }
+}
+
+public class Node
+{
+    public int val;
+    public IList<Node> children;
+
+    public Node() { }
+
+    public Node(int _val)
+    {
+        val = _val;
+    }
+
+    public Node(int _val, IList<Node> _children)
+    {
+        val = _val;
+        children = _children;
     }
 }
 

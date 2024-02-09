@@ -261,7 +261,7 @@ internal class Solution01xx
     }
 
     [ProblemSolution("116")]
-    public Node? Connect(Node? root)
+    public Node3? Connect(Node3? root)
     {
         if (root is null)
             return null;
@@ -284,7 +284,7 @@ internal class Solution01xx
     }
 
     [ProblemSolution("117")]
-    public Node? Connect2(Node? root)
+    public Node3? Connect2(Node3? root)
     {
         if (root is null)
             return null;
@@ -295,7 +295,7 @@ internal class Solution01xx
 
         while (start is not null)
         {
-            Node? child = null;
+            Node3? child = null;
             if (cur!.left is not null && cur.right is not null)
             {
                 cur.left.next = cur.right;

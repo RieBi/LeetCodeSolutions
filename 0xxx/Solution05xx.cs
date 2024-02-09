@@ -113,6 +113,29 @@ internal class Solution05xx
         }
     }
 
+    [ProblemSolution("589")]
+    public IList<int> Preorder(Node root)
+    {
+        var stack = new Stack<(Node node, int cur)>();
+        if (root is not null)
+            stack.Push((root, 0));
+        var list = new List<int>();
+
+        while (stack.Count > 0)
+        {
+            var top = stack.Pop();
+            if (top.cur == 0)
+                list.Add(top.node.val);
+            if (top.cur >= top.node.children.Count)
+                continue;
+
+            stack.Push((top.node, top.cur + 1));
+            stack.Push((top.node.children[top.cur], 0));
+        }
+
+        return list;
+    }
+
     [ProblemSolution("599")]
     public string[] FindRestaurant(string[] list1, string[] list2)
     {
