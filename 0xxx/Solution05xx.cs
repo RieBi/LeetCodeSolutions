@@ -70,6 +70,19 @@ internal class Solution05xx
         return mat;
     }
 
+    [ProblemSolution("559")]
+    public int MaxDepth(Node root)
+    {
+        if (root is null)
+            return 0;
+
+        var max = 0;
+        foreach (var child in root.children)
+            max = Math.Max(max, MaxDepth(child));
+
+        return max + 1;
+    }
+
     [ProblemSolution("576")]
     public int FindPaths(int m, int n, int maxMove, int startRow, int startColumn)
     {
