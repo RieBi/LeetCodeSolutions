@@ -70,6 +70,43 @@ internal class Solution03xx
         return result.ToArray();
     }
 
+    [ProblemSolution("368")]
+    public IList<int> LargestDivisibleSubset(int[] nums)
+    {
+        Array.Sort(nums);
+        var dp = new int[nums.Length];
+        for (int i = 0; i < nums.Length; i++)
+        {
+            dp[i] = 1;
+            for (int j = i - 1; j >= 0; j--)
+            {
+                if (nums[i] % nums[j] == 0)
+                    dp[i] = Math.Max(dp[i], dp[j] + 1);
+            }
+        }
+
+        var list = new List<int>();
+        var max = dp.Max();
+        var ind = dp.Length - 1;
+        while (dp[ind] != max)
+            ind--;
+
+        var num = nums[ind];
+        while (max >= 1)
+        {
+            if (num % nums[ind] == 0 && dp[ind] == max)
+            {
+                list.Add(nums[ind]);
+                max--;
+                num = nums[ind];
+            }
+
+            ind--;
+        }
+
+        return list;
+    }
+
     [ProblemSolution("380")]
     public class RandomizedSet
     {
