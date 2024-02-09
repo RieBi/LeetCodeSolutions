@@ -36,6 +36,32 @@ internal class Solution04xx
         return result;
     }
 
+    [ProblemSolution("429")]
+    public IList<IList<int>> LevelOrder(Node root)
+    {
+        var queue = new Queue<Node>();
+        IList<IList<int>> result = new List<IList<int>>();
+        if (root is not null)
+            queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            var levelCount = queue.Count;
+            var list = new List<int>(levelCount);
+            for (int i = 0; i < levelCount; i++)
+            {
+                var node = queue.Dequeue();
+                list.Add(node.val);
+                foreach (var child in node.children)
+                    queue.Enqueue(child);
+            }
+
+            result.Add(list);
+        }
+
+        return result;
+    }
+
     [ProblemSolution("443")]
     public int Compress(char[] chars)
     {
