@@ -123,23 +123,14 @@ internal class Solution06xx
     [ProblemSolution("647")]
     public int CountSubstrings(string s)
     {
-        var count = 0;
+        var count = s.Length;
         for (int i = 0; i < s.Length; i++)
         {
-            count++;
-            var shift = 1;
-            while (i - shift >= 0 && i + shift < s.Length && s[i - shift] == s[i + shift])
-            {
-                shift++;
+            for (int shift = 1; i - shift >= 0 && i + shift < s.Length && s[i - shift] == s[i + shift]; shift++)
                 count++;
-            }
 
-            shift = 0;
-            while (i - shift >= 0 && i + shift + 1 < s.Length && s[i - shift] == s[i + shift + 1])
-            {
-                shift++;
+            for (int shift = 0; i - shift >= 0 && i + shift + 1 < s.Length && s[i - shift] == s[i + shift + 1]; shift++)
                 count++;
-            }
         }
 
         return count;
