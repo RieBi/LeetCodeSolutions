@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.Tracing;
+using System.Text;
 
 namespace LeetCode.Set0xxx;
 internal class Solution06xx
@@ -134,6 +135,57 @@ internal class Solution06xx
         }
 
         return count;
+    }
+
+    [ProblemSolution("648")]
+    public string ReplaceWords(IList<string> dictionary, string sentence)
+    {
+        var root = new ReplaceNode();
+        foreach (var r in dictionary)
+            insert(r);
+
+        var words = sentence.Split(' ');
+        for (int i = 0; i < words.Length; i++)
+            words[i] = getRoot(words[i]);
+
+        return string.Join(' ', words);
+
+        void insert(string str)
+        {
+            var node = root!;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!node.Children.ContainsKey(str[i]))
+                    node.Children[str[i]] = new();
+
+                node = node.Children[str[i]];
+            }
+
+            node.IsRoot = true;
+        }
+
+        string getRoot(string str)
+        {
+            var node = root!;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!node.Children.ContainsKey(str[i]))
+                    return str;
+
+                node = node.Children[str[i]];
+                if (node.IsRoot)
+                    return str[..(i + 1)];
+            }
+
+            return str;
+        }
+    }
+
+    [ProblemSolution("648")]
+    public class ReplaceNode
+    {
+        public Dictionary<char, ReplaceNode> Children { get; } = new();
+        public bool IsRoot { get; set; } = default;
     }
 
     [ProblemSolution("652")]

@@ -19,12 +19,14 @@ internal class Program
 
     public static void UpdateReadmeFile()
     {
-        var count = 0;
+        var set = new HashSet<int>();
         ForEachTypeContainingAttribute<ProblemSolutionAttribute>(f =>
         {
             Console.WriteLine($"Problem: {f.ProblemName}");
-            count++;
+            set.Add(int.Parse(f.ProblemName!));
         });
+
+        var count = set.Count;
         Console.WriteLine($"Total count: {count}");
 
         var readmePath = @"..\..\..\README.md";
