@@ -36,6 +36,60 @@ internal class Solution04xx
         return result;
     }
 
+    [ProblemSolution("421")]
+    public int FindMaximumXOR(int[] nums)
+    {
+        var root = new XorNode();
+        foreach (var v in nums)
+            insert(v);
+
+        var max = 0;
+        foreach (var v in nums)
+            max = Math.Max(max, xored(v));
+
+        return max;
+
+        int xored(int cur)
+        {
+            var node = root;
+            var num = 0;
+            for (int i = 31; i >= 0; i--)
+            {
+                var map = 1 << i;
+                var bit = (cur & map) == map ? 1 : 0;
+                if (bit == 1 && node.Children[0] is not null || bit == 0 && node.Children[1] is null)
+                    node = node.Children[0];
+                else
+                {
+                    node = node.Children[1];
+                    num |= map;
+                }
+            }
+
+            return num ^ cur;
+        }
+
+        void insert(int number)
+        {
+            var node = root;
+            for (int i = 31; i >= 0; i--)
+            {
+                var map = 1 << i;
+                var ind = (number & map) == map ? 1 : 0;
+                if (node.Children[ind] is null)
+                    node.Children[ind] = new();
+
+                node = node.Children[ind];
+            }
+        }
+    }
+
+    [ProblemSolution("421")]
+    public class XorNode()
+    {
+        public XorNode[] Children { get; } = new XorNode[2];
+    }
+
     [ProblemSolution("429")]
     public IList<IList<int>> LevelOrder(Node root)
     {
