@@ -114,6 +114,41 @@ internal class Solution14xx
         }
     }
 
+    [ProblemSolution("1463")]
+    public int CherryPickup(int[][] grid)
+    {
+        var row = new int[grid[0].Length][];
+        for (int i = 0; i < row.Length; i++)
+            row[i] = new int[grid[0].Length];
+        row[0][^1] = grid[0][0] + grid[0][^1];
+
+        for (int n = 1; n < grid.Length; n++)
+        {
+            var newRow = new int[grid[0].Length][];
+            for (int m = 0; m < newRow.Length; m++)
+                newRow[m] = new int[grid[0].Length];
+
+            for (int i = 0; i < Math.Min(n + 1, newRow.Length); i++)
+            {
+                for (int j = newRow.Length - 1; j >= Math.Max(newRow.Length - 1 - n, 0); j--)
+                {
+                    var val = i == j ? grid[n][i] : grid[n][i] + grid[n][j];
+                    for (int previ = Math.Max(0, i - 1); previ <= Math.Min(newRow.Length - 1, i + 1); previ++)
+                    {
+                        for (int prevj = Math.Max(0, j - 1); prevj <= Math.Min(newRow.Length - 1, j + 1); prevj++)
+                        {
+                            newRow[i][j] = Math.Max(newRow[i][j], row[previ][prevj] + val);
+                        }
+                    }
+                }
+            }
+
+            row = newRow;
+        }
+
+        return row.Select(f => f.Max()).Max();
+    }
+
     [ProblemSolution("1464")]
     public int MaxProduct(int[] nums)
     {
