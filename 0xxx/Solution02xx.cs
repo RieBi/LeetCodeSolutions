@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System.Diagnostics.Tracing;
+using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -114,6 +115,62 @@ internal class Solution02xx
             var last = traverse(node.next);
             last.next = node;
             return node;
+        }
+    }
+
+    [ProblemSolution("208")]
+    public class Trie
+    {
+        private class TrieNode(TrieNode[] Children)
+        {
+            public TrieNode[] Children { get; } = Children;
+            public bool IsWord { get; set; } = false;
+        }
+        private readonly TrieNode root = new(new TrieNode[26]);
+
+        public void Insert(string word)
+        {
+            var node = root;
+            for (int i = 0; i < word.Length; i++)
+            {
+                var index = word[i] - 'a';
+                if (node.Children[index] is null)
+                    node.Children[index] = new TrieNode(new TrieNode[26]);
+
+                node = node.Children[index];
+            }
+
+            node.IsWord = true;
+        }
+
+        public bool Search(string word)
+        {
+            var node = root;
+            for (int i = 0; i < word.Length; i++)
+            {
+                var index = word[i] - 'a';
+                if (node.Children[index] is null)
+                    return false;
+
+                node = node.Children[index];
+            }
+
+            return node.IsWord;
+        }
+
+        public bool StartsWith(string prefix)
+        {
+            var node = root;
+            for (int i = 0; i < prefix.Length; i++)
+            {
+                var index = prefix[i] - 'a';
+                if (node.Children[index] is null)
+                    return false;
+
+                node = node.Children[index];
+            }
+
+            return true;
         }
     }
 
