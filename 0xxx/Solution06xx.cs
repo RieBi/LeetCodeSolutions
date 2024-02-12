@@ -206,4 +206,56 @@ internal class Solution06xx
 
         return result;
     }
+
+    [ProblemSolution("677")]
+    public class MapSum
+    {
+        private class MapNode()
+        {
+            public Dictionary<char, MapNode> Children { get; } = new();
+            public int Value { get; set; } = 0;
+        }
+
+        private readonly MapNode Root = new();
+
+
+        public void Insert(string key, int val)
+        {
+            var node = Root;
+            for (int i = 0; i < key.Length; i++)
+            {
+                if (!node.Children.ContainsKey(key[i]))
+                    node.Children[key[i]] = new();
+
+                node = node.Children[key[i]];
+            }
+
+            node.Value = val;
+        }
+
+        public int Sum(string prefix)
+        {
+            var node = Root;
+            for (int i = 0; i < prefix.Length; i++)
+            {
+                if (!node.Children.TryGetValue(prefix[i], out var value))
+                    return 0;
+                else
+                    node = value;
+            }
+
+            var queue = new Queue<MapNode>();
+            queue.Enqueue(node);
+            var sum = 0;
+            while (queue.Count > 0)
+            {
+                var item = queue.Dequeue();
+                sum += item.Value;
+                foreach (var child in item.Children.Values)
+                    queue.Enqueue(child);
+            }
+
+            return sum;
+        }
+    }
 }
