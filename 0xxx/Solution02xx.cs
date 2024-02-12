@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Tracing;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace LeetCode.Set0xxx;
@@ -171,6 +172,53 @@ internal class Solution02xx
             }
 
             return true;
+        }
+    }
+
+    [ProblemSolution("211")]
+    public class WordDictionary
+    {
+        public class WordNode()
+        {
+            public Dictionary<char, WordNode> Children { get; } = new();
+            public bool IsWord { get; set; } = default; 
+        }
+
+        private WordNode Root = new();
+
+        public void AddWord(string word)
+        {
+            var node = Root;
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (!node.Children.ContainsKey(word[i]))
+                    node.Children[word[i]] = new();
+
+                node = node.Children[word[i]];
+            }
+
+            node.IsWord = true;
+        }
+
+        public bool Search(string word) => Match(Root, word, 0);
+
+        private bool Match(WordNode node, string match, int index)
+        {
+            if (index == match.Length)
+                return node.IsWord;
+
+            if (match[index] == '.')
+            {
+                foreach (var child in node.Children.Values)
+                    if (Match(child, match, index + 1))
+                        return true;
+
+                return false;
+            }
+            else if (!node.Children.TryGetValue(match[index], out var value))
+                return false;
+            else
+                return Match(value, match, index + 1);
         }
     }
 
