@@ -185,23 +185,6 @@ internal class Solution01xx
         }
     }
 
-    [ProblemSolution("119")]
-    public IList<int> GetRow(int rowIndex)
-    {
-        if (rowIndex == 0)
-            return [1];
-
-        var prev = GetRow(rowIndex - 1);
-        List<int> list = [1];
-        for (int i = 1; i < rowIndex; i++)
-        {
-            list.Add(prev[i - 1] + prev[i]);
-        }
-
-        list.Add(1);
-        return list;
-    }
-
     [ProblemSolution("112")]
     public bool HasPathSum(TreeNode root, int targetSum)
     {
@@ -225,39 +208,6 @@ internal class Solution01xx
         }
 
         return false;
-    }
-
-    [ProblemSolution("133")]
-    public Node2? CloneGraph(Node2? node)
-    {
-        if (node is null)
-            return null;
-
-        var visited = new HashSet<Node2>();
-        proliferate(node);
-
-        var newNodes = new Node2[visited.Count + 1];
-        foreach (var n in visited)
-            newNodes[n.val] = new Node2(n.val);
-
-        foreach (var n in visited)
-        {
-            var newNode = newNodes[n.val];
-            foreach (var neighbor in n.neighbors)
-                newNode.neighbors.Add(newNodes[neighbor.val]);
-        }
-
-        return newNodes[1];
-
-        void proliferate(Node2 n)
-        {
-            if (visited.Contains(n))
-                return;
-
-            visited.Add(n);
-            foreach (var other in n.neighbors)
-                proliferate(other);
-        }
     }
 
     [ProblemSolution("116")]
@@ -338,6 +288,56 @@ internal class Solution01xx
         }
 
         return root;
+    }
+
+    [ProblemSolution("119")]
+    public IList<int> GetRow(int rowIndex)
+    {
+        if (rowIndex == 0)
+            return [1];
+
+        var prev = GetRow(rowIndex - 1);
+        List<int> list = [1];
+        for (int i = 1; i < rowIndex; i++)
+        {
+            list.Add(prev[i - 1] + prev[i]);
+        }
+
+        list.Add(1);
+        return list;
+    }
+
+    [ProblemSolution("133")]
+    public Node2? CloneGraph(Node2? node)
+    {
+        if (node is null)
+            return null;
+
+        var visited = new HashSet<Node2>();
+        proliferate(node);
+
+        var newNodes = new Node2[visited.Count + 1];
+        foreach (var n in visited)
+            newNodes[n.val] = new Node2(n.val);
+
+        foreach (var n in visited)
+        {
+            var newNode = newNodes[n.val];
+            foreach (var neighbor in n.neighbors)
+                newNode.neighbors.Add(newNodes[neighbor.val]);
+        }
+
+        return newNodes[1];
+
+        void proliferate(Node2 n)
+        {
+            if (visited.Contains(n))
+                return;
+
+            visited.Add(n);
+            foreach (var other in n.neighbors)
+                proliferate(other);
+        }
     }
 
     [ProblemSolution("136")]
@@ -447,6 +447,9 @@ internal class Solution01xx
 
         public int GetMin() => list[^1].min;
     }
+
+    [ProblemSolution("169")]
+    public int MajorityElement(int[] nums) => nums.GroupBy(f => f).OrderByDescending(f => f.Count()).First().Key;
 
     [ProblemSolution("173")]
     public class BSTIterator(TreeNode? root)
