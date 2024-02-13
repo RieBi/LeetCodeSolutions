@@ -222,6 +222,78 @@ internal class Solution02xx
         }
     }
 
+    [ProblemSolution("212")]
+    public IList<string> FindWords(char[][] board, string[] words)
+    {
+        var root = new WordNode();
+
+        foreach (var word in words)
+        {
+            var node = root;
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (!node.Children.ContainsKey(word[i]))
+                    node.Children[word[i]] = new();
+
+                node = node.Children[word[i]];
+            }
+
+            node.IsWord = true;
+        }
+
+        var list = new List<char>();
+        var result = new List<string>();
+
+        for (int i = 0; i < board.Length; i++)
+        {
+            for (int j = 0; j < board[0].Length; j++)
+            {
+                propagate((i, j), root);
+            }
+        }
+
+        return result;
+
+        void propagate((int i, int j) pos, WordNode node)
+        {
+            if (pos.i < 0 || pos.j < 0 || pos.i >= board.Length || pos.j >= board[0].Length
+                || !node.Children.ContainsKey(board[pos.i][pos.j]) || board[pos.i][pos.j] == '.')
+                return;
+
+            var ch = board[pos.i][pos.j];
+            list.Add(ch);
+            node = node.Children[ch];
+            if (node.IsWord)
+            {
+                var str = new StringBuilder();
+                foreach (var c in list)
+                    str.Append(c);
+                result.Add(str.ToString());
+
+                node.IsWord = false;
+            }
+
+            if (list.Count < 10)
+            {
+                board[pos.i][pos.j] = '.';
+                propagate((pos.i + 1, pos.j), node);
+                propagate((pos.i - 1, pos.j), node);
+                propagate((pos.i, pos.j + 1), node);
+                propagate((pos.i, pos.j - 1), node);
+                board[pos.i][pos.j] = ch;
+            }
+
+            list.RemoveAt(list.Count - 1);
+        }
+    }
+
+    [ProblemSolution("212")]
+    public class WordNode()
+    {
+        public Dictionary<char, WordNode> Children { get; } = [];
+        public bool IsWord { get; set; } = default;
+    }
+
     [ProblemSolution("217")]
     public bool ContainsDuplicate(int[] nums)
     {
