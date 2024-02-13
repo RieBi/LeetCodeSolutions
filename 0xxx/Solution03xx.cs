@@ -26,6 +26,111 @@ internal class Solution03xx
         return dp.Count;
     }
 
+    [ProblemSolution("336")]
+    public IList<IList<int>> PalindromePairs(string[] words)
+    {
+        var root = new PalindromNode();
+        for (int i1 = 0; i1 < words.Length; i1++)
+        {
+            string? word = words[i1];
+            var node = root;
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (!node.Children.ContainsKey(word[i]))
+                    node.Children[word[i]] = new();
+
+                node = node.Children[word[i]];
+            }
+
+            node.IsWord = true;
+            node.Index = i1;
+        }
+
+        var result = new List<IList<int>>();
+        var list = new List<char>();
+        for (int i1 = 0; i1 < words.Length; i1++)
+        {
+            string word = words[i1];
+            if (word == "")
+            {
+                for (int c = 0; c < words.Length; c++)
+                    if (c != i1 && IsPalindrome(words[c], 0, words[c].Length - 1))
+                        result.Add([i1, c]);
+            }
+
+            var node = root;
+            var i = word.Length - 1;
+            for (; i >= 0; i--)
+            {
+                if (node.Children.TryGetValue(word[i], out var value))
+                    node = value;
+                else
+                    break;
+
+                if (node.IsWord && IsPalindrome(word, 0, i - 1) && node.Index != i1)
+                    result.Add([node.Index, i1]);
+            }
+
+            if (i >= 0)
+                continue;
+
+            propagate(node, i1);
+        }
+
+        return result;
+
+        void propagate(PalindromNode node, int ind)
+        {
+            foreach (var child in node.Children)
+            {
+                list.Add(child.Key);
+                if (child.Value.IsWord && IsPalindromeList(list, 0, list.Count - 1) && child.Value.Index != ind)
+                {
+                    result.Add([child.Value.Index, ind]);
+                }
+
+                propagate(child.Value, ind);
+                list.RemoveAt(list.Count - 1);
+            }
+        }
+
+        bool IsPalindrome(string str, int left, int right)
+        {
+            while (left < right)
+            {
+                if (str[left] != str[right])
+                    return false;
+
+                left++;
+                right--;
+            }
+
+            return true;
+        }
+
+        bool IsPalindromeList(List<char> str, int left, int right)
+        {
+            while (left < right)
+            {
+                if (str[left] != str[right])
+                    return false;
+
+                left++;
+                right--;
+            }
+
+            return true;
+        }
+    }
+
+    [ProblemSolution("336")]
+    public class PalindromNode
+    {
+        public Dictionary<char, PalindromNode> Children { get; } = [];
+        public bool IsWord { get; set; } = default;
+        public int Index { get; set; } = -1;
+    }
+
     [ProblemSolution("344")]
     public void ReverseString(char[] s)
     {
