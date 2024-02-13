@@ -1,6 +1,26 @@
 ﻿namespace LeetCode.Set2xxx;
 internal class Solution21xx
 {
+    [ProblemSolution("2108")]
+    public string FirstPalindrome(string[] words)
+    {
+        foreach (var word in words)
+        {
+            var left = 0;
+            var right = word.Length - 1;
+            for (; left < right; left++, right--)
+            {
+                if (word[left] != word[right])
+                    break;
+            }
+
+            if (word[left] == word[right])
+                return word;
+        }
+
+        return "";
+    }
+
     [ProblemSolution("2125")]
     public int NumberOfBeams(string[] bank)
     {
