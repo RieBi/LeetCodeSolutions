@@ -75,4 +75,29 @@ internal class Solution21xx
 
         return (int)result;
     }
+
+    [ProblemSolution("2149")]
+    public int[] RearrangeArray(int[] nums)
+    {
+        var stash = new Queue<int>();
+        var stash2 = new Queue<int>();
+        var l = 0;
+        var r = 0;
+
+        while (l < nums.Length)
+        {
+            var s = l % 2 == 0 ? stash : stash2;
+            if (s.Count == 0)
+            {
+                if (Math.Sign(nums[r]) == 1)
+                    stash.Enqueue(nums[r++]);
+                else
+                    stash2.Enqueue(nums[r++]);
+            }
+            else
+                nums[l++] = s.Dequeue();
+        }
+
+        return nums;
+    }
 }
