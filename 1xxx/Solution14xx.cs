@@ -159,6 +159,22 @@ internal class Solution14xx
             .Aggregate(1, (a, b) => a * b);
     }
 
+    [ProblemSolution("1481")]
+    public int FindLeastNumOfUniqueInts(int[] arr, int k)
+    {
+        var groups = arr.GroupBy(f => f).Select(f => f.Count()).Order().ToList();
+        var total = groups.Count;
+        for (int i = 0; i < groups.Count; i++)
+        {
+            if (groups[i] > k)
+                break;
+            total--;
+            k -= groups[i];
+        }
+
+        return total;
+    }
+
     [ProblemSolution("1496")]
     public bool IsPathCrossing(string path)
     {
