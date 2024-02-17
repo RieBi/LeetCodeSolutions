@@ -93,6 +93,41 @@ internal class Solution16xx
         return max;
     }
 
+    [ProblemSolution("1642")]
+    public int FurthestBuilding(int[] heights, int bricks, int ladders)
+    {
+        var queue = new PriorityQueue<int, int>();
+        var n = 0;
+        for (int i = 1; i < heights.Length && ladders > 0; i++)
+        {
+            if (heights[i] > heights[i - 1])
+            {
+                var diff = heights[i] - heights[i - 1];
+                ladders--;
+                queue.Enqueue(diff, diff);
+            }
+
+            n++;
+        }
+
+        while (n < heights.Length - 1)
+        {
+            var diff = heights[n + 1] - heights[n];
+            if (diff > 0)
+            {
+                queue.Enqueue(diff, diff);
+                bricks -= queue.Dequeue();
+            }
+
+            if (bricks >= 0)
+                n++;
+            else
+                break;
+        }
+
+        return n;
+    }
+
     [ProblemSolution("1657")]
     public bool CloseStrings(string word1, string word2)
     {
