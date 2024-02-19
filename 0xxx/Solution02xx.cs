@@ -374,6 +374,9 @@ internal class Solution02xx
         public bool Empty() => queue.Count == 0;
     }
 
+    [ProblemSolution("231")]
+    public bool IsPowerOfTwo(int n) => (n & (n - 1)) == 0 && n > 0;
+
     [ProblemSolution("232")]
     public class MyQueue
     {
