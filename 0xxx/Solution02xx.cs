@@ -502,6 +502,13 @@ internal class Solution02xx
         }
     }
 
+    [ProblemSolution("268")]
+    public int MissingNumber(int[] nums)
+    {
+        var sum = nums.Sum();
+        return (nums.Length * (nums.Length + 1)) / 2 - sum;
+    }
+
     [ProblemSolution("279")]
     public int NumSquares(int n)
     {
