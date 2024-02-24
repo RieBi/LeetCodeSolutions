@@ -37,6 +37,24 @@ internal class Solution02xx
         }
     }
 
+    [ProblemSolution("201")]
+    public int RangeBitwiseAnd(int left, int right)
+    {
+        var num = 0;
+        for (int i = 31; i >= 0; i--)
+        {
+            var map = 1 << i;
+            var lmap = left & map;
+            var rmap = right & map;
+            if (lmap == rmap)
+                num |= lmap;
+            else
+                break;
+        }
+
+        return num;
+    }
+
     [ProblemSolution("202")]
     public bool IsHappy(int n)
     {
