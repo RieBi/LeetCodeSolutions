@@ -85,4 +85,23 @@ internal class Solution09xx
 
         return sum;
     }
+
+    [ProblemSolution("997")]
+    public int FindJudge(int n, int[][] trust)
+    {
+        var trustee = new int[n + 1];
+        var trusted = new int[n + 1];
+
+        foreach (var relation in trust)
+        {
+            trustee[relation[0]]++;
+            trusted[relation[1]]++;
+        }
+
+        for (int i = 1; i < trustee.Length; i++)
+            if (trustee[i] == 0 && trusted[i] == n - 1)
+                return i;
+
+        return -1;
+    }
 }
