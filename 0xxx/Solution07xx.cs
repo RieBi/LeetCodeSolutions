@@ -385,4 +385,52 @@ internal class Solution07xx
         else
             return 0;
     }
+
+    [ProblemSolution("787")]
+    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k)
+    {
+        var prices = new List<(int dst, int price)>[n];
+        for (int i = 0; i < n; i++)
+            prices[i] = [];
+
+        foreach (var f in flights)
+            prices[f[0]].Add((f[1], f[2]));
+
+        var queue = new SortedSet<(int price, int dst, int k)>
+        {
+            (0, src, 0)
+        };
+
+        var been = new int[n][];
+        for (int i = 0; i < n; i++)
+        {
+            been[i] = new int[k + 2];
+            for (int j = 0; j < been[i].Length; j++)
+                been[i][j] = int.MaxValue;
+        }
+
+        been[src][0] = 0;
+        while (queue.Count > 0)
+        {
+            var top = queue.Min;
+            queue.Remove(top);
+
+            if (top.k > k)
+                continue;
+
+            foreach (var other in prices[top.dst])
+            {
+                var price = top.price + other.price;
+                if (price < been[other.dst][top.k + 1])
+                {
+                    queue.Remove((been[other.dst][top.k + 1], other.dst, top.k + 1));
+                    been[other.dst][top.k + 1] = price;
+                    queue.Add((price, other.dst, top.k + 1));
+                }
+            }
+        }
+
+        var least = been[dst].Min();
+        return least == int.MaxValue ? -1 : least;
+    }
 }
