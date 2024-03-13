@@ -83,4 +83,20 @@ internal class Solution24xx
 
         int calculateDiffVal(int j, int i) => onesRow[i] + onesCol[j] - zeroesRow[i] - zeroesCol[j];
     }
+
+    [ProblemSolution("2485")]
+    public int PivotInteger(int n)
+    {
+        var total = (n * (n + 1)) / 2;
+        var cur = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            cur += i;
+            total -= i - 1;
+            if (cur == total)
+                return i;
+        }
+
+        return -1;
+    }
 }
