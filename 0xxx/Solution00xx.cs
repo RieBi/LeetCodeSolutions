@@ -8,17 +8,15 @@ internal class Solution00xx
     [ProblemSolution("1")]
     public int[] TwoSum(int[] nums, int target)
     {
-        Dictionary<int, int> dick = new Dictionary<int, int>();
+        Dictionary<int, int> dick = [];
         for (int i = 0; i < nums.Length; i++)
         {
-            int value;
-            if (dick.TryGetValue(nums[i], out value) && value != i)
-                return new int[] { i, value };
+            if (dick.TryGetValue(nums[i], out int value) && value != i)
+                return [i, value];
             dick[target - nums[i]] = i;
-
         }
 
-        return new int[0];
+        return [];
     }
 
     [ProblemSolution("2")]
@@ -45,8 +43,10 @@ internal class Solution00xx
         }
         if (remainder != 0)
         {
-            lnew.next = new ListNode();
-            lnew.next.val = remainder;
+            lnew.next = new ListNode
+            {
+                val = remainder
+            };
         }
 
         return lstart.next!;
@@ -191,8 +191,8 @@ internal class Solution00xx
         var v = new string(ar);
         try
         {
-            if (v[v.Length - 1] == '-')
-                return -int.Parse(v.Substring(0, v.Length - 1));
+            if (v[^1] == '-')
+                return -int.Parse(v[..^1]);
             else
                 return int.Parse(v);
         }
@@ -348,7 +348,7 @@ internal class Solution00xx
         if (list1 is null)
             return null;
 
-        ListNode head = new ListNode();
+        ListNode head = new();
         ListNode cur = head;
 
         while (list1 is not null || list2 is not null)
@@ -396,8 +396,7 @@ internal class Solution00xx
                 myHead = myHead.next;
             }
 
-            if (myStartHead is null)
-                myStartHead = myHead;
+            myStartHead ??= myHead;
 
             lists[listInd] = lists[listInd]!.next;
             if (lists[listInd] is not null)
@@ -411,7 +410,8 @@ internal class Solution00xx
     public ListNode? SwapPairs(ListNode? head)
     {
         return swap(head);
-        ListNode? swap(ListNode? node)
+
+        static ListNode? swap(ListNode? node)
         {
             if (node is null || node.next is null)
                 return node;
@@ -448,7 +448,8 @@ internal class Solution00xx
             return true;
         });
 
-        var regionsValid = () => {
+        bool regionsValid()
+        {
             for (int i = 0; i < 9; i += 3)
             {
                 for (int j = 0; j < 9; j += 3)
@@ -468,7 +469,7 @@ internal class Solution00xx
             }
 
             return true;
-        };
+        }
 
         return rowsValid && colsValid && regionsValid();
     }
@@ -478,7 +479,7 @@ internal class Solution00xx
     {
         var groups = strs
             .GroupBy(f => new string(f.Order().ToArray()))
-            .Select(f => (IList<string>)f.ToList())
+            .Select(f => (IList<string>)[.. f])
             .ToList();
         return groups;
     }
@@ -504,6 +505,44 @@ internal class Solution00xx
             return x * val * val;
         else
             return val * val;
+    }
+
+    [ProblemSolution("57")]
+    public int[][] Insert(int[][] intervals, int[] newInterval)
+    {
+        var result = new List<int[]>();
+        if (intervals.Length > 0 && newInterval[1] < intervals[0][0])
+            result.Add(newInterval);
+
+        for (int i = 0; i < intervals.Length; i++)
+        {
+            var done = false;
+            var cur = intervals[i];
+            while (cur[0] <= newInterval[0] && cur[1] >= newInterval[0] || newInterval[0] <= cur[0] && newInterval[1] >= cur[0])
+            {
+                newInterval[0] = Math.Min(newInterval[0], cur[0]);
+                newInterval[1] = Math.Max(newInterval[1], cur[1]);
+                done = true;
+                i++;
+                if (i >= intervals.Length)
+                    break;
+                cur = intervals[i];
+            }
+
+            if (done)
+                result.Add(newInterval);
+
+            if (i >= intervals.Length)
+                break;
+
+            result.Add(intervals[i]);
+            if (i < intervals.Length - 1 && newInterval[0] > cur[1] && newInterval[1] < intervals[i + 1][0])
+                result.Add(newInterval);
+        }
+
+        if (result.Count == 0 || newInterval[0] > intervals[^1][1])
+            result.Add(newInterval);
+        return [.. result];
     }
 
     [ProblemSolution("70")]
@@ -595,18 +634,18 @@ internal class Solution00xx
             var sum = 0;
             var oneInd = i - 1;
             var oneNum = oneInd == -1 ? 1 : dp[oneInd];
-            if (int.TryParse(s.Substring(i, 1), out int n1) && n1 >= 1 && n1 <= 26)
+            if (int.TryParse(s.AsSpan(i, 1), out int n1) && n1 >= 1 && n1 <= 26)
                 sum += oneNum;
 
             var twoInd = i - 2;
             var twoNum = twoInd < 0 ? 1 : dp[twoInd];
-            if (i > 0 && int.TryParse(s.Substring(i - 1, 2), out int n2) && s[i - 1] != '0' && n2 >= 1 && n2 <= 26)
+            if (i > 0 && int.TryParse(s.AsSpan(i - 1, 2), out int n2) && s[i - 1] != '0' && n2 >= 1 && n2 <= 26)
                 sum += twoNum;
 
             dp[i] = sum;
         }
 
-        return dp.Last();
+        return dp[^1];
     }
 
     [ProblemSolution("94")]
@@ -646,14 +685,11 @@ internal class Solution00xx
             var list = new List<TreeNode?>();
             for (int i = left; i <= right; i++)
             {
-                var node = new TreeNode(i);
                 foreach (var l in getSubtrees(left, i - 1))
                 {
                     foreach (var r in getSubtrees(i + 1, right))
                     {
-                        node.left = l;
-                        node.right = r;
-                        list.Add(duplicateTree(node));
+                        list.Add(duplicateTree(new TreeNode(i, l, r)));
                     }
                 }
             }
@@ -665,9 +701,11 @@ internal class Solution00xx
         {
             if (root is null)
                 return null;
-            var node = new TreeNode(root.val);
-            node.left = duplicateTree(root.left);
-            node.right = duplicateTree(root.right);
+            var node = new TreeNode(root.val)
+            {
+                left = duplicateTree(root.left),
+                right = duplicateTree(root.right)
+            };
             return node;
         }
     }
