@@ -63,7 +63,7 @@ internal class Solution00xx
             var valueExists = charsIndices.TryGetValue(s[i], out int index);
             if (valueExists && index >= curStart)
                 curStart = index + 1;
-            
+
             charsIndices[s[i]] = i;
             maxSubstring = Math.Max(maxSubstring, i - curStart + 1);
         }
@@ -472,6 +472,29 @@ internal class Solution00xx
         }
 
         return rowsValid && colsValid && regionsValid();
+    }
+
+    [ProblemSolution("41")]
+    public int FirstMissingPositive(int[] nums)
+    {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            while (nums[i] != i + 1 && nums[i] > 0 && nums[i] <= nums.Length)
+            {
+                if (nums[nums[i] - 1] == nums[i])
+                    break;
+                else
+                    (nums[i], nums[nums[i] - 1]) = (nums[nums[i] - 1], nums[i]);
+            }
+        }
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] != i + 1)
+                return i + 1;
+        }
+
+        return nums.Length + 1;
     }
 
     [ProblemSolution("49")]
