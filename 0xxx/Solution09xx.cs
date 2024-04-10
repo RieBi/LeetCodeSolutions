@@ -86,6 +86,27 @@ internal class Solution09xx
         return sum;
     }
 
+    [ProblemSolution("950")]
+    public int[] DeckRevealedIncreasing(int[] deck)
+    {
+        Array.Sort(deck);
+        var result = new int[deck.Length];
+
+        for (int i = 0; i < deck.Length; i += 2)
+            result[i] = deck[i / 2];
+
+        for (int i = 1; i < deck.Length; i += 2)
+        {
+            var k = i;
+            while (k % 2 == 1)
+                k += (deck.Length - (k / 2 + 1));
+
+            result[i] = deck[k / 2];
+        }
+
+        return result;
+    }
+
     [ProblemSolution("997")]
     public int FindJudge(int n, int[][] trust)
     {
