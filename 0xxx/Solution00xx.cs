@@ -648,6 +648,52 @@ internal class Solution00xx
         return minL == -1 ? "" : s.Substring(minL, minR - minL + 1);
     }
 
+    [ProblemSolution("85")]
+    public int MaximalRectangle(char[][] matrix)
+    {
+        var inted = new int[matrix.Length][];
+        for (int i = 0; i < inted.Length; i++)
+            inted[i] = new int[matrix[0].Length];
+
+        for (int i = 0; i < inted.Length; i++)
+            for (int j = 0; j < inted[0].Length; j++)
+                if (matrix[i][j] == '1')
+                    inted[i][j] = 1;
+
+        for (int i = 0; i < inted.Length; i++)
+            for (int j = 1; j < inted[0].Length; j++)
+                if (inted[i][j] == 1)
+                    inted[i][j] = 1 + inted[i][j - 1];
+
+        var max = 0;
+        for (int i = 0; i < inted.Length; i++)
+        {
+            for (int j = 0; j < inted[0].Length; j++)
+            {
+                if (inted[i][j] == 0)
+                    continue;
+
+                var val = inted[i][j];
+                var streak = 0;
+                for (int k = i; k >= 0; k--)
+                {
+                    if (inted[k][j] != 0)
+                    {
+                        val = Math.Min(val, inted[k][j]);
+                        streak++;
+                        max = Math.Max(max, val * streak);
+                    }
+                    else
+                        break;
+                }
+
+                max = Math.Max(max, val * streak);
+            }
+        }
+
+        return max;
+    }
+
     [ProblemSolution("91")]
     public int NumDecodings(string s)
     {
