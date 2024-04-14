@@ -116,7 +116,7 @@ internal class Solution04xx
     public IList<IList<int>> LevelOrder(Node root)
     {
         var queue = new Queue<Node>();
-        IList<IList<int>> result = new List<IList<int>>();
+        List<IList<int>> result = [];
         if (root is not null)
             queue.Enqueue(root);
 
@@ -166,7 +166,7 @@ internal class Solution04xx
         }
 
         var countStr2 = count.ToString();
-        chars[pos++] = chars[chars.Length - 1];
+        chars[pos++] = chars[^1];
         if (count > 1)
         {
             foreach (var ch in countStr2)
@@ -189,8 +189,7 @@ internal class Solution04xx
             for (int j = i - 1; j >= 0; j--)
             {
                 var diff = (long)nums[i] - nums[j];
-                var value = 0;
-                dp[i].TryGetValue(diff, out value);
+                dp[i].TryGetValue(diff, out int value);
                 value++;
 
                 if (dp[j].TryGetValue(diff, out int value2))
