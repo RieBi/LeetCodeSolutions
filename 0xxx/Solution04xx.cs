@@ -4,6 +4,28 @@ using System.Text;
 namespace LeetCode.Set0xxx;
 internal class Solution04xx
 {
+    [ProblemSolution("404")]
+    public int SumOfLeftLeaves(TreeNode root)
+    {
+        var queue = new Queue<(TreeNode node, bool isLeft)>();
+        queue.Enqueue((root, false));
+
+        var sum = 0;
+        while (queue.Count > 0)
+        {
+            var (node, left) = queue.Dequeue();
+            if (left && node.left is null && node.right is null)
+                sum += node.val;
+
+            if (node.left is not null)
+                queue.Enqueue((node.left, true));
+            if (node.right is not null)
+                queue.Enqueue((node.right, false));
+        }
+
+        return sum;
+    }
+
     [ProblemSolution("413")]
     public int NumberOfArithmeticSlices0(int[] nums)
     {
