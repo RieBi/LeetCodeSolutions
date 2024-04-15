@@ -307,6 +307,33 @@ internal class Solution01xx
         return list;
     }
 
+    [ProblemSolution("129")]
+    public int SumNumbers(TreeNode root)
+    {
+        var sum = 0;
+        propagate(root, 0);
+        return sum;
+
+        void propagate(TreeNode? node, int prev)
+        {
+            if (node is null)
+                return;
+
+            prev *= 10;
+            prev += node.val;
+
+            if (node.left is null && node.right is null)
+            {
+                sum += prev;
+            }
+            else
+            {
+                propagate(node.left, prev);
+                propagate(node.right, prev);
+            }
+        }
+    }
+
     [ProblemSolution("133")]
     public Node2? CloneGraph(Node2? node)
     {
