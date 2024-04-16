@@ -75,6 +75,46 @@ internal class Solution06xx
         public bool IsFull() => count == ar.Length;
     }
 
+    [ProblemSolution("623")]
+    public TreeNode AddOneRow(TreeNode root, int val, int depth)
+    {
+        if (depth == 1)
+        {
+            var newroot = new TreeNode(val, root);
+            return newroot;
+        }
+
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        var level = 1;
+
+        while (level < depth - 1)
+        {
+            var count = queue.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var last = queue.Dequeue();
+                if (last.left is not null)
+                    queue.Enqueue(last.left);
+                if (last.right is not null)
+                    queue.Enqueue(last.right);
+            }
+
+            level++;
+        }
+
+        while (queue.Count > 0)
+        {
+            var last = queue.Dequeue();
+            var newleft = new TreeNode(val, left: last.left);
+            last.left = newleft;
+            var newright = new TreeNode(val, right: last.right);
+            last.right = newright;
+        }
+
+        return root;
+    }
+
     [ProblemSolution("629")]
     public int KInversePairs(int n, int k)
     {
@@ -169,10 +209,10 @@ internal class Solution06xx
             var node = root!;
             for (int i = 0; i < str.Length; i++)
             {
-                if (!node.Children.ContainsKey(str[i]))
+                if (!node.Children.TryGetValue(str[i], out ReplaceNode? value))
                     return str;
 
-                node = node.Children[str[i]];
+                node = value;
                 if (node.IsRoot)
                     return str[..(i + 1)];
             }
@@ -184,7 +224,7 @@ internal class Solution06xx
     [ProblemSolution("648")]
     public class ReplaceNode
     {
-        public Dictionary<char, ReplaceNode> Children { get; } = new();
+        public Dictionary<char, ReplaceNode> Children { get; } = [];
         public bool IsRoot { get; set; } = default;
     }
 
@@ -262,9 +302,9 @@ internal class Solution06xx
     [ProblemSolution("677")]
     public class MapSum
     {
-        private class MapNode()
+        private sealed class MapNode()
         {
-            public Dictionary<char, MapNode> Children { get; } = new();
+            public Dictionary<char, MapNode> Children { get; } = [];
             public int Value { get; set; } = 0;
         }
 
