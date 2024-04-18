@@ -364,6 +364,33 @@ internal class Solution04xx
         return count;
     }
 
+    [ProblemSolution("463")]
+    public int IslandPerimeter(int[][] grid)
+    {
+        var total = 0;
+        var adjacent = new (int i, int j)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
+
+        for (int i = 0; i < grid.Length; i++)
+        {
+            for (int j = 0; j < grid[0].Length; j++)
+            {
+                if (grid[i][j] == 1)
+                {
+                    foreach (var other in adjacent)
+                    {
+                        var oi = other.i + i;
+                        var oj = other.j + j;
+
+                        if (oi < 0 || oj < 0 || oi >= grid.Length || oj >= grid[0].Length || grid[oi][oj] == 0)
+                            total++;
+                    }
+                }
+            }
+        }
+
+        return total;
+    }
+
     [ProblemSolution("475")]
     public int FindRadius(int[] houses, int[] heaters)
     {
