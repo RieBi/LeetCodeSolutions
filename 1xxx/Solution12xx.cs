@@ -129,6 +129,28 @@ internal class Solution12xx
         throw new ArgumentException("Array contains no elements occuring >25% of the time");
     }
 
+    [ProblemSolution("1289")]
+    public int MinFallingPathSum(int[][] grid)
+    {
+        for (int i = 1; i < grid.Length; i++)
+        {
+            for (int j = 0; j < grid[0].Length; j++)
+            {
+                var min = int.MaxValue;
+                for (int p = 0; p < grid[0].Length; p++)
+                {
+                    if (p == j)
+                        continue;
+                    min = Math.Min(min, grid[i][j] + grid[i - 1][p]);
+                }
+
+                grid[i][j] = min;
+            }
+        }
+
+        return grid[^1].Min();
+    }
+
     [ProblemSolution("1291")]
     public IList<int> SequentialDigits(int low, int high)
     {
