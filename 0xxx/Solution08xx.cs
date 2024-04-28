@@ -133,8 +133,7 @@ internal class Solution08xx
     [ProblemSolution("841")]
     public bool CanVisitAllRooms(IList<IList<int>> rooms)
     {
-        var keys = new HashSet<int>();
-        keys.Add(0);
+        var keys = new HashSet<int>() { 0 };
         var queue = new Queue<int>();
         queue.Enqueue(0);
 
@@ -143,9 +142,9 @@ internal class Solution08xx
             var room = queue.Dequeue();
             foreach (var key in rooms[room])
             {
+                keys.Add(key);
                 if (!keys.Contains(key))
                 {
-                    keys.Add(key);
                     queue.Enqueue(key);
                 }
             }
@@ -186,7 +185,7 @@ internal class Solution08xx
 
         return leaves1.SequenceEqual(leaves2);
 
-        void fillLeaves(List<int> list, TreeNode node)
+        static void fillLeaves(List<int> list, TreeNode node)
         {
             if (node.left is null && node.right is null)
             {
