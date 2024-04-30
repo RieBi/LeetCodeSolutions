@@ -32,6 +32,37 @@ internal class Solution19xx
         return (maxSet[0] * maxSet[1] - minSet[0] * minSet[1]);
     }
 
+    [ProblemSolution("1915")]
+    public long WonderfulSubstrings(string word)
+    {
+        var N = word.Length;
+
+        var freq = new Dictionary<int, int>();
+
+        freq[0] = 1;
+
+        var mask = 0;
+        var res = 0L;
+        for (int i = 0; i < N; i++)
+        {
+            char c = word[i];
+            var bit = c - 'a';
+
+            mask ^= (1 << bit);
+
+            res += freq.TryGetValue(mask, out var value) ? value : 0;
+
+            freq[mask] = freq.TryGetValue(mask, out value) ? value + 1 : 1;
+
+            for (int j = 0; j < 10; j++)
+            {
+                res += freq.TryGetValue(mask ^ (1 << j), out value) ? value : 0;
+            }
+        }
+
+        return res;
+    }
+
     [ProblemSolution("1921")]
     public int EliminateMaximum(int[] dist, int[] speed)
     {
