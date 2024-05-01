@@ -3,6 +3,16 @@
 namespace LeetCode.Set2xxx;
 internal class Solution20xx
 {
+    [ProblemSolution("2000")]
+    public string ReversePrefix(string word, char ch)
+    {
+        var ind = word.IndexOf(ch);
+        if (ind == -1)
+            return word;
+
+        return new string(word[..(ind + 1)].Reverse().ToArray()) + word[(ind + 1)..];
+    }
+
     [ProblemSolution("2092")]
     public IList<int> FindAllPeople(int n, int[][] meetings, int firstPerson)
     {
