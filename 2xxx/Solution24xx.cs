@@ -37,6 +37,13 @@ internal class Solution24xx
         return rooms.ToList().IndexOf(max);
     }
 
+    [ProblemSolution("2441")]
+    public int FindMaxK(int[] nums)
+    {
+        var negatives = nums.Where(f => f < 0).ToHashSet();
+        return nums.Where(f => f > 0).Aggregate(-1, (a, b) => negatives.Contains(-b) ? Math.Max(a, b) : a);
+    }
+
     [ProblemSolution("2482")]
     public int[][] OnesMinusZeros(int[][] grid)
     {
