@@ -1,4 +1,5 @@
-﻿using System.Net.Security;
+﻿using System.Data;
+using System.Net.Security;
 
 namespace LeetCode.Set0xxx;
 
@@ -473,6 +474,29 @@ internal class Solution01xx
         public int Top() => list[^1].val;
 
         public int GetMin() => list[^1].min;
+    }
+
+    [ProblemSolution("165")]
+    public int CompareVersion(string version1, string version2)
+    {
+        var revs1 = version1.Split('.').Select(f => int.Parse(f)).ToList();
+        var revs2 = version2.Split('.').Select(f => int.Parse(f)).ToList();
+
+        var maxCount = Math.Max(revs1.Count, revs2.Count);
+        while (revs1.Count < maxCount)
+            revs1.Add(0);
+        while (revs2.Count < maxCount)
+            revs2.Add(0);
+
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (revs1[i] < revs2[i])
+                return -1;
+            else if (revs1[i] > revs2[i])
+                return 1;
+        }
+
+        return 0;
     }
 
     [ProblemSolution("169")]
