@@ -199,4 +199,31 @@ internal class Solution08xx
                 fillLeaves(list, node.right);
         }
     }
+
+    [ProblemSolution("881")]
+    public int NumRescueBoats(int[] people, int limit)
+    {
+        var sorted = people.Order().ToList();
+        var l = 0;
+        var r = sorted.Count - 1;
+
+        var c = 0;
+        while (l < r)
+        {
+            if (sorted[l] + sorted[r] <= limit)
+            {
+                l++;
+                r--;
+            }
+            else
+                r--;
+
+            c++;
+        }
+
+        if (l == r)
+            c++;
+
+        return c;
+    }
 }
