@@ -481,6 +481,17 @@ internal class Solution02xx
         return root;
     }
 
+    [ProblemSolution("237")]
+    public void DeleteNode(ListNode node)
+    {
+        node.val = node.next!.val;
+
+        if (node.next!.next is null)
+            node.next = null;
+        else
+            DeleteNode(node.next);
+    }
+
     [ProblemSolution("242")]
     public bool IsAnagram(string s, string t)
     {
