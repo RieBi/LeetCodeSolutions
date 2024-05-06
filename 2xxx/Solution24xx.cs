@@ -106,4 +106,31 @@ internal class Solution24xx
 
         return -1;
     }
+
+    [ProblemSolution("2487")]
+    public ListNode RemoveNodes(ListNode head)
+    {
+        var stack = new Stack<ListNode>();
+        var cur = head;
+        
+        while (cur != null)
+        {
+            while (stack.Count > 0 && stack.Peek().val < cur.val)
+                stack.Pop();
+
+            stack.Push(cur);
+            cur = cur.next;
+        }
+
+        var list = stack.Reverse().ToList();
+        head = list[0];
+        cur = head;
+        for (int i = 1; i < list.Count; i++)
+        {
+            cur.next = list[i];
+            cur = cur.next;
+        }
+
+        return head;
+    }
 }
