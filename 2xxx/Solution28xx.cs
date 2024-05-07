@@ -3,6 +3,32 @@ using System.Text;
 namespace LeetCode.Set2xxx;
 internal class Solution28xx
 {
+    [ProblemSolution("2816")]
+    public ListNode DoubleIt(ListNode head)
+    {
+        var stack = new Stack<ListNode>();
+        var cur = head;
+        while (cur is not null)
+        {
+            stack.Push(cur);
+            cur = cur.next;
+        }
+
+        var rem = 0;
+        while (stack.Count > 0)
+        {
+            var node = stack.Pop();
+            var num = node.val * 2 + rem;
+            rem = num / 10;
+            node.val = num % 10;
+        }
+
+        if (rem > 0)
+            head = new ListNode(rem, head);
+
+        return head;
+    }
+
     [ProblemSolution("2849")]
     public bool IsReachableAtTime(int sx, int sy, int fx, int fy, int t)
     {
