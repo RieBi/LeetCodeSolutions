@@ -3,6 +3,27 @@
 namespace LeetCode.Set0xxx;
 internal class Solution05xx
 {
+    [ProblemSolution("506")]
+    public string[] FindRelativeRanks(int[] score)
+    {
+        var ranks = score
+            .Zip(Enumerable.Range(0, score.Length))
+            .OrderByDescending(f => f.First)
+            .ToList();
+
+        var result = new string[score.Length];
+        for (int i = 0; i < score.Length; i++)
+        {
+            var ind = ranks[i].Second;
+            result[ind] = i == 0 ? "Gold Medal" :
+                i == 1 ? "Silver Medal" :
+                i == 2 ? "Bronze Medal" :
+                (i + 1).ToString();
+        }
+
+        return result;
+    }
+
     [ProblemSolution("509")]
     public int Fib(int n)
     {
