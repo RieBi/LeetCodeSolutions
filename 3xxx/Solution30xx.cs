@@ -134,4 +134,20 @@ internal class Solution30xx
         minSum = Math.Min(sum, minSum);
         return minSum;
     }
+
+    [ProblemSolution("3075")]
+    public long MaximumHappinessSum(int[] happiness, int k)
+    {
+        var suitable = happiness.OrderDescending().Take(k).ToList();
+        var sum = 0L;
+        for (int turn = 0; turn < suitable.Count; turn++)
+        {
+            var val = suitable[turn] - turn;
+            if (val <= 0)
+                break;
+            sum += val;
+        }
+
+        return sum;
+    }
 }
