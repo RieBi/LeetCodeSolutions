@@ -278,6 +278,41 @@ internal class Solution00xx
         return max;
     }
 
+    [ProblemSolution("12")]
+    public string IntToRoman(int num)
+    {
+        List<int> values = [1, 5, 10, 50, 100, 500, 1000];
+        List<char> romans = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+
+        var str = new StringBuilder();
+        while (num > 0)
+        {
+            var first = num.ToString()[0];
+            var val = values.Last(f => num >= f);
+            var ind = values.IndexOf(val);
+
+            if (first == '4')
+            {
+                str.Append(romans[ind]);
+                str.Append(romans[ind + 1]);
+                num -= values[ind + 1] - values[ind];
+            }
+            else if (first == '9')
+            {
+                str.Append(romans[ind - 1]);
+                str.Append(romans[ind + 1]);
+                num -= values[ind + 1] - values[ind - 1];
+            }
+            else
+            {
+                str.Append(romans[ind]);
+                num -= values[ind];
+            }
+        }
+
+        return str.ToString();
+    }
+
     [ProblemSolution("15")]
     public IList<IList<int>> ThreeSum(int[] nums)
     {
