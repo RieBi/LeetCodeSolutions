@@ -41,6 +41,31 @@ internal class Solution05xx
         }
     }
 
+    [ProblemSolution("523")]
+    public bool CheckSubarraySum(int[] nums, int k)
+    {
+        var hash = new Dictionary<int, int>();
+        var sum = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            sum = (sum + nums[i]) % k;
+            if (sum == 0 && i > 0)
+                return true;
+
+            if (hash.TryGetValue(sum, out var value))
+            {
+                if (i - value > 1)
+                    return true;
+            }
+            else
+            {
+                hash[sum] = i;
+            }
+        }
+
+        return false;
+    }
+
     [ProblemSolution("542")]
     public int[][] UpdateMatrix(int[][] mat)
     {
