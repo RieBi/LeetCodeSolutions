@@ -107,6 +107,28 @@ internal class Solution09xx
         return result;
     }
 
+    [ProblemSolution("974")]
+    public int SubarraysDivByK(int[] nums, int k)
+    {
+        var hash = new Dictionary<int, int>();
+        hash[0] = 1;
+        var mod = 0;
+        var total = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            mod = ((mod + nums[i] % k) + k) % k;
+            if (hash.TryGetValue(mod, out var value))
+            {
+                total += value;
+                hash[mod] = value + 1;
+            }
+            else
+                hash[mod] = 1;
+        }
+
+        return total;
+    }
+
     [ProblemSolution("997")]
     public int FindJudge(int n, int[][] trust)
     {
