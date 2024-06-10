@@ -78,6 +78,13 @@ internal class Solution10xx
         return dp[^1];
     }
 
+    [ProblemSolution("1051")]
+    public int HeightChecker(int[] heights)
+    {
+        return heights.Zip(heights.Order())
+            .Count(f => f.First != f.Second);
+    }
+
     [ProblemSolution("1074")]
     public int NumSubmatrixSumTarget(int[][] matrix, int target)
     {
