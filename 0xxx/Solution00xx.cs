@@ -358,6 +358,36 @@ internal class Solution00xx
         return result;
     }
 
+    [ProblemSolution("16")]
+    public int ThreeSumClosest(int[] nums, int target)
+    {
+        var closest = int.MaxValue;
+        Array.Sort(nums);
+
+        for (int i = 0; i < nums.Length - 2; i++)
+        {
+            var k = nums.Length - 1;
+            for (int j = i + 1; j < k;)
+            {
+                var sum = nums[i] + nums[j] + nums[k];
+                if (sum == target)
+                    return sum;
+
+                if (Math.Abs(sum - target) < Math.Abs(closest - target))
+                    closest = sum;
+
+                if (sum < target)
+                    j++;
+                else if (sum > target)
+                    k--;
+                else
+                    throw new IndexOutOfRangeException("Something bad happened");
+            }
+        }
+
+        return closest;
+    }
+
     [ProblemSolution("20")]
     public bool IsValid(string s)
     {
