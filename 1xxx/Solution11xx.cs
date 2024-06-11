@@ -4,6 +4,46 @@ using System.Runtime.InteropServices;
 namespace LeetCode.Set1xxx;
 internal class Solution11xx
 {
+    [ProblemSolution("1122")]
+    public int[] RelativeSortArray(int[] arr1, int[] arr2)
+    {
+        var groups = arr1.GroupBy(f => f).ToDictionary(
+            f => f.Key,
+            f => f.Count());
+
+        var result = new int[arr1.Length];
+        var ind = 0;
+        for (int i = 0; i < arr2.Length; i++)
+        {
+            if (groups.TryGetValue(arr2[i], out var value))
+            {
+                for (int j = 0; j < value; j++)
+                {
+                    result[ind++] = arr2[i];
+                }
+
+                groups.Remove(arr2[i]);
+            }
+        }
+
+        var endInd = ind;
+        while (ind < result.Length)
+        {
+            var pair = groups.First();
+            for (int i = 0; i < pair.Value; i++)
+            {
+                result[ind++] = pair.Key;
+            }
+
+            groups.Remove(pair.Key);
+        }
+
+        if (endInd < result.Length)
+            Array.Sort(result, endInd, result.Length - endInd);
+
+        return result;
+    }
+
     [ProblemSolution("1143")]
     public int LongestCommonSubsequence(string text1, string text2)
     {
