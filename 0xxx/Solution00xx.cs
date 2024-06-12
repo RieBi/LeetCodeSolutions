@@ -657,6 +657,30 @@ internal class Solution00xx
         }
     }
 
+    [ProblemSolution("75")]
+    public void SortColors(int[] nums)
+    {
+        var left = 0;
+        var right = nums.Length;
+        var ind = 0;
+        while (ind < right)
+        {
+            if (nums[ind] == 0)
+            {
+                (nums[left], nums[ind]) = (nums[ind], nums[left]);
+                left++;
+            }
+            else if (nums[ind] == 2)
+            {
+                right--;
+                (nums[right], nums[ind]) = (nums[ind], nums[right]);
+                ind--;
+            }
+
+            ind++;
+        }
+    }
+
     [ProblemSolution("76")]
     public string MinWindow(string s, string t)
     {
