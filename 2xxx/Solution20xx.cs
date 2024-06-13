@@ -13,6 +13,15 @@ internal class Solution20xx
         return new string(word[..(ind + 1)].Reverse().ToArray()) + word[(ind + 1)..];
     }
 
+    [ProblemSolution("2037")]
+    public int MinMovesToSeat(int[] seats, int[] students)
+    {
+        Array.Sort(seats);
+        Array.Sort(students);
+        return Enumerable.Range(0, seats.Length)
+            .Sum(f => Math.Abs(seats[f] - students[f]));
+    }
+
     [ProblemSolution("2092")]
     public IList<int> FindAllPeople(int n, int[][] meetings, int firstPerson)
     {
