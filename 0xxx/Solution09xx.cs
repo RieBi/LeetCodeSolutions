@@ -86,6 +86,26 @@ internal class Solution09xx
         return sum;
     }
 
+    [ProblemSolution("945")]
+    public int MinIncrementForUnique(int[] nums)
+    {
+        Array.Sort(nums);
+        var min = nums[0];
+        var steps = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] < min)
+            {
+                steps += min - nums[i];
+                nums[i] = min;
+            }
+
+            min = nums[i] + 1;
+        }
+
+        return steps;
+    }
+
     [ProblemSolution("950")]
     public int[] DeckRevealedIncreasing(int[] deck)
     {
