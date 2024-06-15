@@ -3,6 +3,34 @@
 namespace LeetCode.Set0xxx;
 internal class Solution05xx
 {
+    [ProblemSolution("502")]
+    public int FindMaximizedCapital(int k, int w, int[] profits, int[] capital)
+    {
+        List<(int profit, int capital)> sorted = profits
+            .Zip(capital)
+            .OrderByDescending(f => f.Second)
+            .ToList();
+
+        var profitQueue = new PriorityQueue<int, int>();
+
+        for (int i = 0; i < k; i++)
+        {
+            while (sorted.Count > 0 && sorted[^1].capital <= w)
+            {
+                var item = sorted[^1];
+                sorted.RemoveAt(sorted.Count - 1);
+                profitQueue.Enqueue(item.profit, -item.profit);
+            }
+
+            if (profitQueue.TryDequeue(out var profit, out _))
+                w += profit;
+            else
+                break;
+        }
+
+        return w;
+    }
+
     [ProblemSolution("506")]
     public string[] FindRelativeRanks(int[] score)
     {
