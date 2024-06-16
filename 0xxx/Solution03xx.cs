@@ -26,6 +26,40 @@ internal class Solution03xx
         return dp.Count;
     }
 
+    [ProblemSolution("330")]
+    public int MinPatches(int[] nums, int n)
+    {
+        var sum = 1L;
+        var max = 1L;
+        var i = nums[0] == 1 ? 1 : 0;
+        var count = i == 0 ? 1 : 0;
+
+        while (i < nums.Length && sum < n)
+        {
+            if (nums[i] <= sum + 1)
+            {
+                sum += nums[i];
+                max = nums[i];
+                i++;
+            }
+            else
+            {
+                max = sum + 1;
+                sum += max;
+                count++;
+            }
+        }
+
+        while (sum < n)
+        {
+            max = sum + 1;
+            sum += max;
+            count++;
+        }
+
+        return count;
+    }
+
     [ProblemSolution("336")]
     public IList<IList<int>> PalindromePairs(string[] words)
     {
