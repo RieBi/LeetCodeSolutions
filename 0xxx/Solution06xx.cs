@@ -142,6 +142,20 @@ internal class Solution06xx
         return dp[^1][^1];
     }
 
+    [ProblemSolution("633")]
+    public bool JudgeSquareSum(int c)
+    {
+        for (long i = 0; i * i <= c; i++)
+        {
+            var b2 = c - i * i;
+            var bf = Math.Sqrt(b2);
+            if (bf == Math.Floor(bf))
+                return true;
+        }
+
+        return false;
+    }
+
     [ProblemSolution("645")]
     public int[] FindErrorNums(int[] nums)
     {
