@@ -8,6 +8,31 @@ using System.Threading.Tasks;
 namespace LeetCode._0xxx;
 internal class Solution08xx
 {
+    [ProblemSolution("826")]
+    public int MaxProfitAssignment(int[] difficulty, int[] profit, int[] worker)
+    {
+        List<(int difficulty, int profit)> jobs = difficulty.Zip(profit)
+            .OrderBy(f => f.Second)
+            .ToList();
+
+        var workers = worker.Order().ToList();
+
+        var total = 0;
+        while (jobs.Count > 0 && workers.Count > 0)
+        {
+            var last = jobs[^1];
+            jobs.RemoveAt(jobs.Count - 1);
+
+            while (workers.Count > 0 && workers[^1] >= last.difficulty)
+            {
+                workers.RemoveAt(workers.Count - 1);
+                total += last.profit;
+            }
+        }
+
+        return total;
+    }
+
     [ProblemSolution("834")]
     public int[] SumOfDistancesInTree(int n, int[][] edges)
     {
