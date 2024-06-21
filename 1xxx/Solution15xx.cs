@@ -79,6 +79,45 @@ internal class Solution15xx
         return -1;
     }
 
+    [ProblemSolution("1552")]
+    public int MaxDistance(int[] position, int m)
+    {
+        Array.Sort(position);
+        var min = 1;
+        var max = position[^1] / (m - 1);
+
+        var low = min;
+        var high = max;
+        var ans = 0;
+
+        while (low <= high)
+        {
+            var mid = (low + high) / 2;
+            var balls = 1;
+            var lastBall = position[0];
+            for (int i = 1; i < position.Length; i++)
+            {
+                if (position[i] - lastBall >= mid)
+                {
+                    balls++;
+                    lastBall = position[i];
+                    if (balls == m)
+                        break;
+                }
+            }
+
+            if (balls == m)
+            {
+                low = mid + 1;
+                ans = mid;
+            }
+            else
+                high = mid - 1;
+        }
+
+        return ans;
+    }
+
     [ProblemSolution("1561")]
     public int MaxCoins(int[] piles)
     {
