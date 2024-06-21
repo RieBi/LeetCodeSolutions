@@ -85,6 +85,28 @@ internal class Solution10xx
             .Count(f => f.First != f.Second);
     }
 
+    [ProblemSolution("1052")]
+    public int MaxSatisfied(int[] customers, int[] grumpy, int minutes)
+    {
+        var guaranteed = customers.Where((a, i) => grumpy[i] == 0).Sum();
+        var extra = customers.Take(minutes).Where((a, i) => grumpy[i] == 1).Sum();
+
+        var max = extra;
+
+        for (int ind = minutes; ind < customers.Length; ind++)
+        {
+            var before = ind - minutes;
+            if (grumpy[before] == 1)
+                extra -= customers[before];
+            if (grumpy[ind] == 1)
+                extra += customers[ind];
+
+            max = Math.Max(max, extra);
+        }
+
+        return max + guaranteed;
+    }
+
     [ProblemSolution("1074")]
     public int NumSubmatrixSumTarget(int[][] matrix, int target)
     {
