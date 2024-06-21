@@ -175,6 +175,51 @@ internal class Solution14xx
         return total;
     }
 
+    [ProblemSolution("1482")]
+    public int MinDays(int[] bloomDay, int m, int k)
+    {
+        if (bloomDay.Length < (long)m * k)
+            return -1;
+
+        var low = bloomDay.Min();
+        var high = bloomDay.Max();
+        var ans = 0;
+
+        while (low <= high)
+        {
+            var mid = (low + high) / 2;
+
+            var bouqets = 0;
+            var row = 0;
+            for (int i = 0; i < bloomDay.Length; i++)
+            {
+                if (bloomDay[i] <= mid)
+                {
+                    row++;
+                    if (row == k)
+                    {
+                        bouqets++;
+                        row = 0;
+                        if (bouqets == m)
+                            break;
+                    }
+                }
+                else
+                    row = 0;
+            }
+
+            if (bouqets == m)
+            {
+                high = mid - 1;
+                ans = mid;
+            }
+            else
+                low = mid + 1;
+        }
+
+        return ans;
+    }
+
     [ProblemSolution("1496")]
     public bool IsPathCrossing(string path)
     {
