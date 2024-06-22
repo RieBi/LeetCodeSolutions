@@ -93,6 +93,32 @@ internal class Solution12xx
         }
     }
 
+    [ProblemSolution("1248")]
+    public int NumberOfSubarrays(int[] nums, int k)
+    {
+        var indices = new List<int>();
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] % 2 == 1)
+                indices.Add(i);
+        }
+
+        var niceCount = 0;
+
+        for (int i = 0; i + k - 1 < indices.Count; i++)
+        {
+            var ind = indices[i];
+            var ind2 = indices[i + k - 1];
+            var prev = i == 0 ? -1 : indices[i - 1];
+            var next = i + k - 1 == indices.Count - 1 ? nums.Length : indices[i + k];
+            var sum1 = ind - prev;
+            var sum2 = next - ind2;
+            niceCount += sum1 * sum2;
+        }
+
+        return niceCount;
+    }
+
     [ProblemSolution("1266")]
     public int MinTimeToVisitAllPoints(int[][] points)
     {
