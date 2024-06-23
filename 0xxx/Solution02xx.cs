@@ -492,6 +492,36 @@ internal class Solution02xx
             DeleteNode(node.next);
     }
 
+    [ProblemSolution("239")]
+    public int[] MaxSlidingWindow(int[] nums, int k)
+    {
+        var result = new int[nums.Length - k + 1];
+        var dequeue = new LinkedList<int>();
+
+        for (int i = 0; i < k - 1; i++)
+            add(i);
+
+        for (int i = k - 1; i < nums.Length; i++)
+        {
+            var start = i - k + 1;
+            if (dequeue.Count > 0 && dequeue.First!.Value < start)
+                dequeue.RemoveFirst();
+
+            add(i);
+            result[start] = nums[dequeue.First.Value];
+        }
+
+        return result;
+
+        void add(int ind)
+        {
+            while (dequeue.Count > 0 && nums[dequeue.Last!.Value] < nums[ind])
+                dequeue.RemoveLast();
+
+            dequeue.AddLast(ind);
+        }
+    }
+
     [ProblemSolution("242")]
     public bool IsAnagram(string s, string t)
     {
