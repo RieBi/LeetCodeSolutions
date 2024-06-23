@@ -74,6 +74,54 @@ internal class Solution14xx
         return "";
     }
 
+    [ProblemSolution("1438")]
+    public int LongestSubarray(int[] nums, int limit)
+    {
+        var result = 0;
+        var maxList = new LinkedList<int>();
+        var minList = new LinkedList<int>();
+
+        var left = 0;
+        var right = 0;
+        while (right < nums.Length)
+        {
+            addMax(right);
+            addMin(right);
+            right++;
+
+            while (get(maxList) - get(minList) > limit)
+                left++;
+
+            result = Math.Max(result, right - left);
+        }
+
+        return result;
+
+        int get(LinkedList<int> list)
+        {
+            while (list.Count > 0 && list.First.Value < left)
+                list.RemoveFirst();
+
+            return nums[list.First.Value];
+        }
+
+        void addMax(int ind)
+        {
+            while (maxList.Count > 0 && nums[maxList.Last!.Value] < nums[ind])
+                maxList.RemoveLast();
+
+            maxList.AddLast(ind);
+        }
+
+        void addMin(int ind)
+        {
+            while (minList.Count > 0 && nums[minList.Last!.Value] > nums[ind])
+                minList.RemoveLast();
+
+            minList.AddLast(ind);
+        }
+    }
+
     [ProblemSolution("1457")]
     public int PseudoPalindromicPaths(TreeNode root)
     {
