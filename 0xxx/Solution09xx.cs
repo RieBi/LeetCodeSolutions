@@ -149,6 +149,36 @@ internal class Solution09xx
         return total;
     }
 
+    [ProblemSolution("995")]
+    public int MinKBitFlips(int[] nums, int k)
+    {
+        var switches = 0;
+        var queue = new Queue<int>();
+        for (int i = 0; i + k - 1 < nums.Length; i++)
+        {
+            while (queue.Count > 0 && queue.Peek() <= i - k)
+                queue.Dequeue();
+
+            var num = (nums[i] + queue.Count) % 2;
+            if (num == 1)
+                continue;
+
+            switches++;
+            queue.Enqueue(i);
+        }
+
+        for (int i = nums.Length - k + 1; i < nums.Length; i++)
+        {
+            while (queue.Count > 0 && queue.Peek() <= i - k)
+                queue.Dequeue();
+
+            if ((nums[i] + queue.Count) % 2 == 0)
+                return -1;
+        }
+
+        return switches;
+    }
+
     [ProblemSolution("997")]
     public int FindJudge(int n, int[][] trust)
     {
