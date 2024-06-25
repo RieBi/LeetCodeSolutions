@@ -60,6 +60,30 @@ internal class Solution10xx
         }
     }
 
+    [ProblemSolution("1038")]
+    public TreeNode BstToGst(TreeNode root)
+    {
+        var initialRoot = root;
+        var sum = 0;
+        var stack = new Stack<TreeNode>();
+        while (stack.Count > 0 || root != null)
+        {
+            while (root != null)
+            {
+                stack.Push(root);
+                root = root.right!;
+            }
+
+            var node = stack.Pop();
+            var preSum = sum;
+            sum += node.val;
+            node.val += preSum;
+            root = node.left!;
+        }
+
+        return initialRoot;
+    }
+
     [ProblemSolution("1043")]
     public int MaxSumAfterPartitioning(int[] arr, int k)
     {
