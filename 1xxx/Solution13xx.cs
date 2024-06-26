@@ -53,4 +53,40 @@ internal class Solution13xx
 
         return steps;
     }
+
+    [ProblemSolution("1382")]
+    public TreeNode BalanceBST(TreeNode root)
+    {
+        var list = new List<int>();
+
+        var initial = root;
+        var node = root;
+        var stack = new Stack<TreeNode>();
+        while (stack.Count > 0 || node != null)
+        {
+            while (node is not null)
+            {
+                stack.Push(node);
+                node = node.left;
+            }
+
+            var last = stack.Pop();
+            list.Add(last.val);
+            node = last.right;
+        }
+
+        return getNode(0, list.Count - 1);
+
+        TreeNode? getNode(int l, int r)
+        {
+            if (l > r || l < 0 || r >= list.Count)
+                return null;
+
+            var mid = (l + r) / 2;
+            var resultRoot = new TreeNode(list[mid]);
+            resultRoot.left = getNode(l, mid - 1);
+            resultRoot.right = getNode(mid + 1, r);
+            return resultRoot;
+        }
+    }
 }
