@@ -108,4 +108,13 @@ internal class Solution17xx
 
         return (int)(total %= modulo);
     }
+
+    [ProblemSolution("1791")]
+    public int FindCenter(int[][] edges)
+    {
+        List<int> nums = [edges[0][0], edges[0][1], edges[1][0], edges[1][1]];
+        return nums.GroupBy(f => f)
+            .OrderByDescending(f => f.Count())
+            .First().Key;
+    }
 }
