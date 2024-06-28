@@ -50,4 +50,25 @@ internal class Solution22xx
 
         return max;
     }
+
+    [ProblemSolution("2285")]
+    public long MaximumImportance(int n, int[][] roads)
+    {
+        var grouped = roads
+            .SelectMany(f => f)
+            .GroupBy(f => f)
+            .Select(f => f.Count())
+            .OrderDescending()
+            .ToList();
+
+        var sum = 0L;
+        var low = n - grouped.Count;
+        var ind = 0;
+        while (n > low)
+        {
+            sum += (long)n-- * grouped[ind++];
+        }
+
+        return sum;
+    }
 }
