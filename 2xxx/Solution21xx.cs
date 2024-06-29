@@ -100,4 +100,58 @@ internal class Solution21xx
 
         return nums;
     }
+
+    [ProblemSolution("2192")]
+    public IList<IList<int>> GetAncestors(int n, int[][] edges)
+    {
+        var ancestors = new Dictionary<int, List<int>>();
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var a = edges[i][0];
+            var b = edges[i][1];
+
+            if (ancestors.TryGetValue(b, out var value))
+                value.Add(a);
+            else
+                ancestors[b] = [a];
+        }
+
+        var result = new List<IList<int>>();
+        for (int i = 0; i < n; i++)
+        {
+            var list = new List<int>();
+            var set = new HashSet<int>();
+            if (ancestors.TryGetValue(i, out var ancList))
+            {
+                foreach (var el in ancList)
+                {
+                    list.Add(el);
+                    set.Add(el);
+                }
+
+                var ind = 0;
+                while (ind < list.Count)
+                {
+                    if (ancestors.TryGetValue(list[ind], out ancList))
+                    {
+                        foreach (var el in ancList)
+                        {
+                            if (!set.Contains(el))
+                            {
+                                list.Add(el);
+                                set.Add(el);
+                            }
+                        }
+                    }
+
+                    ind++;
+                }
+            }
+
+            list.Sort();
+            result.Add(list);
+        }
+
+        return result;
+    }
 }
