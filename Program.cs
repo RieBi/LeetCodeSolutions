@@ -10,7 +10,7 @@ using System.Threading.Tasks.Sources;
 
 namespace LeetCode;
 
-internal class Program
+public static partial class Program
 {
     public static void Main()
     {
@@ -31,7 +31,7 @@ internal class Program
 
         var readmePath = @"..\..\..\README.md";
         var filetext = File.ReadAllText(readmePath);
-        filetext = Regex.Replace(filetext, @"\*\*\*\d* problems\*\*\*", $"***{count} problems***");
+        filetext = ReadmeFileRegex().Replace(filetext, $"***{count} problems***");
         File.WriteAllText(readmePath, filetext);
 
         Console.WriteLine("Overwritten the readme file");
@@ -56,15 +56,13 @@ internal class Program
                 action(typeAttribute);
         }
     }
+
+    [GeneratedRegex(@"\*\*\*\d* problems\*\*\*")]
+    private static partial Regex ReadmeFileRegex();
 }
 
 [AttributeUsage(AttributeTargets.Class|AttributeTargets.Method)]
-internal class ProblemSolutionAttribute : Attribute
+internal class ProblemSolutionAttribute(string? problemName = null) : Attribute
 {
-    public string? ProblemName { get; set; }
-
-    public ProblemSolutionAttribute(string? problemName = null)
-    {
-        ProblemName = problemName;
-    }
+    public string? ProblemName { get; set; } = problemName;
 }
