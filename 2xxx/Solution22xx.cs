@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
 namespace LeetCode.Set2xxx;
-internal class Solution22xx
+internal class Solution22XX
 {
     [ProblemSolution("2225")]
     public IList<IList<int>> FindWinners(int[][] matches)

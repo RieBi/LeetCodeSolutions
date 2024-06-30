@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 
 namespace LeetCode.Set1xxx;
-internal class Solution12xx
+internal class Solution12XX
 {
     [ProblemSolution("1207")]
     public bool UniqueOccurrences(int[] arr)

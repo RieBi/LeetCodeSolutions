@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set2xxx;
-internal class Solution26xx
+internal class Solution26XX
 {
     [ProblemSolution("2610")]
     public IList<IList<int>> FindMatrix(int[] nums)

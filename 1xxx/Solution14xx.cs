@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace LeetCode.Set2xxx;
-internal class Solution14xx
+internal class Solution14XX
 {
     [ProblemSolution("1422")]
     public int MaxScore(string s)

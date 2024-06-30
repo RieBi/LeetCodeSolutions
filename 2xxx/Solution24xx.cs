@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set2xxx;
-internal class Solution24xx
+internal class Solution24XX
 {
     [ProblemSolution("2402")]
     public int MostBooked(int n, int[][] meetings)

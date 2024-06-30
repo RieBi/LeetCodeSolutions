@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set2xxx;
-class Solution29xx
+class Solution29XX
 {
     [ProblemSolution("2900")]
     public IList<string> GetWordsInLongestSubsequence(int _, string[] words, int[] groups)

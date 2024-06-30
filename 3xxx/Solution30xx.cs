@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set3xxx;
-internal class Solution30xx
+internal class Solution30XX
 {
     [ProblemSolution("3010")]
     public int MinimumCost(int[] nums)

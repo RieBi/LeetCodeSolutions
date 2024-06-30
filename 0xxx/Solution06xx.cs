@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace LeetCode.Set0xxx;
-internal class Solution06xx
+internal class Solution06XX
 {
     [ProblemSolution("606")]
     public string Tree2str(TreeNode root)

@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml.Schema;
 
 namespace LeetCode.Set0xxx;
-internal class Solution00xx
+internal class Solution00XX
 {
     [ProblemSolution("1")]
     public int[] TwoSum(int[] nums, int target)

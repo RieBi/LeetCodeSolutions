@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 namespace LeetCode.Set0xxx;
-internal class Solution02xx
+internal class Solution02XX
 {
     [ProblemSolution("200")]
     public int NumIslands(char[][] grid)

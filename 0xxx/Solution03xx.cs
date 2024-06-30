@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace LeetCode.Set0xxx;
-internal class Solution03xx
+internal class Solution03XX
 {
     [ProblemSolution("300")]
     public int LengthOfLIS(int[] nums)

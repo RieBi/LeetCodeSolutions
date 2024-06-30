@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace LeetCode.Set2xxx;
-internal class Solution23xx
+internal class Solution23XX
 {
     [ProblemSolution("2353")]
     public class FoodRatings

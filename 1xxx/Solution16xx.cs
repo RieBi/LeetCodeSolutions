@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 namespace LeetCode.Set1xxx;
-internal class Solution16xx
+internal class Solution16XX
 {
     [ProblemSolution("1611")]
     public int MinimumOneBitOperations(int n)

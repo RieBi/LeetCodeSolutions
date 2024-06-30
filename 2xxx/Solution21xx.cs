@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set2xxx;
-internal class Solution21xx
+internal class Solution21XX
 {
     [ProblemSolution("2108")]
     public string FirstPalindrome(string[] words)

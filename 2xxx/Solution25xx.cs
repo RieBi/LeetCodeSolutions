@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set2xxx;
-internal class Solution25xx
+internal class Solution25XX
 {
     [ProblemSolution("2540")]
     public int GetCommon(int[] nums1, int[] nums2)

@@ -3,7 +3,7 @@ using System.Net.Security;
 
 namespace LeetCode.Set0xxx;
 
-internal class Solution01xx
+internal class Solution01XX
 {
     [ProblemSolution("101")]
     public bool IsSymmetric(TreeNode root)

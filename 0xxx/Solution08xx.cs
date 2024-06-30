@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LeetCode._0xxx;
-internal class Solution08xx
+internal class Solution08XX
 {
     [ProblemSolution("826")]
     public int MaxProfitAssignment(int[] difficulty, int[] profit, int[] worker)

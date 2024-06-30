@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 namespace LeetCode.Set1xxx;
-internal class Solution11xx
+internal class Solution11XX
 {
     [ProblemSolution("1122")]
     public int[] RelativeSortArray(int[] arr1, int[] arr2)

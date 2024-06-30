@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LeetCode._0xxx;
-internal class Solution09xx
+internal class Solution09XX
 {
     [ProblemSolution("907")]
     public int SumSubarrayMins(int[] arr)

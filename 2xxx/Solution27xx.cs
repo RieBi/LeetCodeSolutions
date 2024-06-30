@@ -1,7 +1,7 @@
 ﻿using System.Reflection.Metadata;
 
 namespace LeetCode.Set2xxx;
-internal class Solution27xx
+internal class Solution27XX
 {
     [ProblemSolution("2706")]
     public int BuyChoco(int[] prices, int money)

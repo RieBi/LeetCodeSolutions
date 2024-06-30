@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace LeetCode.Set0xxx;
-internal class Solution04xx
+internal class Solution04XX
 {
     [ProblemSolution("404")]
     public int SumOfLeftLeaves(TreeNode root)

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace LeetCode.Set1xxx;
-internal class Solution15xx
+internal class Solution15XX
 {
     public int GetLengthOfOptimalCompression(string s, int k)
     {

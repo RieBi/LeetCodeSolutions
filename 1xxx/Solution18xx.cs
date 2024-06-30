@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set1xxx;
-internal class Solution18xx
+internal class Solution18XX
 {
     [ProblemSolution("1814")]
     public int CountNicePairs(int[] nums)

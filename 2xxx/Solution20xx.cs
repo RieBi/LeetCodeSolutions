@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
 namespace LeetCode.Set2xxx;
-internal class Solution20xx
+internal class Solution20XX
 {
     [ProblemSolution("2000")]
     public string ReversePrefix(string word, char ch)

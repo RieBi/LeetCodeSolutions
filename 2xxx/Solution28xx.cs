@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Text;
 namespace LeetCode.Set2xxx;
-internal class Solution28xx
+internal class Solution28XX
 {
     [ProblemSolution("2816")]
     public ListNode DoubleIt(ListNode head)

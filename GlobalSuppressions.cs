@@ -6,4 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "Module")]
-[assembly: SuppressMessage("Minor Code Smell", "S6603:The collection-specific \"TrueForAll\" method should be used instead of the \"All\" extension", Justification = "<Pending>", Scope = "member", Target = "~M:LeetCode.Set0xxx.Solution00xx.IsValidSudoku(System.Char[][])~System.Boolean")]
+[assembly: SuppressMessage("Minor Code Smell", "S6603:The collection-specific \"TrueForAll\" method should be used instead of the \"All\" extension", Justification = "<Pending>", Scope = "member", Target = "~M:LeetCode.Set0xxx.Solution00XX.IsValidSudoku(System.Char[][])~System.Boolean")]

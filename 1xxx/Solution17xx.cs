@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set1xxx;
-internal class Solution17xx
+internal class Solution17XX
 {
     [ProblemSolution("1704")]
     public bool HalvesAreAlike(string s)

@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set1xxx;
-internal class Solution19xx
+internal class Solution19XX
 {
     [ProblemSolution("1903")]
     public string LargestOddNumber(string num)

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LeetCode._0xxx;
-internal class Solution07xx
+internal class Solution07XX
 {
     [ProblemSolution("700")]
     public TreeNode? SearchBST(TreeNode root, int val)

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace LeetCode.Set0xxx;
-internal class Solution05xx
+internal class Solution05XX
 {
     [ProblemSolution("502")]
     public int FindMaximizedCapital(int k, int w, int[] profits, int[] capital)

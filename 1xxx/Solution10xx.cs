@@ -1,5 +1,5 @@
 ﻿namespace LeetCode.Set1xxx;
-internal class Solution10xx
+internal class Solution10XX
 {
     [ProblemSolution("1020")]
     public int NumEnclaves(int[][] grid)
