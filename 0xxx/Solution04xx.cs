@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-namespace LeetCode.Set0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution04XX
 {
     [ProblemSolution("404")]

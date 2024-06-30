@@ -1,8 +1,7 @@
 ﻿using System.Data;
 using System.Net.Security;
 
-namespace LeetCode.Set0xxx;
-
+namespace LeetCode.Set0XXX;
 internal class Solution01XX
 {
     [ProblemSolution("101")]

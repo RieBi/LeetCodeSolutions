@@ -1,4 +1,4 @@
-﻿namespace LeetCode.Set2xxx;
+﻿namespace LeetCode.Set2XXX;
 internal class Solution24XX
 {
     [ProblemSolution("2402")]

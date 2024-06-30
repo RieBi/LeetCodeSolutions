@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeetCode._0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution08XX
 {
     [ProblemSolution("826")]

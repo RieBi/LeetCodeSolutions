@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace LeetCode.Set1xxx;
+namespace LeetCode.Set1XXX;
 internal class Solution11XX
 {
     [ProblemSolution("1122")]

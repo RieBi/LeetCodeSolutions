@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace LeetCode.Set1xxx;
+namespace LeetCode.Set1XXX;
 internal class Solution16XX
 {
     [ProblemSolution("1611")]

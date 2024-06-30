@@ -1,6 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Text;
-namespace LeetCode.Set2xxx;
+namespace LeetCode.Set2XXX;
 internal class Solution28XX
 {
     [ProblemSolution("2816")]

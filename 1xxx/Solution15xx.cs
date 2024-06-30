@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace LeetCode.Set1xxx;
+namespace LeetCode.Set1XXX;
 internal class Solution15XX
 {
     public int GetLengthOfOptimalCompression(string s, int k)

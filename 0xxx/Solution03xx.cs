@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Text;
 
-namespace LeetCode.Set0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution03XX
 {
     [ProblemSolution("300")]

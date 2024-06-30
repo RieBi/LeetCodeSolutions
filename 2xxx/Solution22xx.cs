@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace LeetCode.Set2xxx;
+namespace LeetCode.Set2XXX;
 internal class Solution22XX
 {
     [ProblemSolution("2225")]

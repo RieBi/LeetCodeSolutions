@@ -2,7 +2,7 @@
 using System.Text;
 using System.Xml.Schema;
 
-namespace LeetCode.Set0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution00XX
 {
     [ProblemSolution("1")]

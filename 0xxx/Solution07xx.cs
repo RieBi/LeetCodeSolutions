@@ -5,7 +5,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeetCode._0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution07XX
 {
     [ProblemSolution("700")]

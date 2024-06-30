@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace LeetCode.Set0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution02XX
 {
     [ProblemSolution("200")]

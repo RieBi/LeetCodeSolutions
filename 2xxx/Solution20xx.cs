@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LeetCode.Set2xxx;
+namespace LeetCode.Set2XXX;
 internal class Solution20XX
 {
     [ProblemSolution("2000")]

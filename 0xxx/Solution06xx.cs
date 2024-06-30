@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.Tracing;
 using System.Text;
 
-namespace LeetCode.Set0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution06XX
 {
     [ProblemSolution("606")]

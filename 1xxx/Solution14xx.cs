@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LeetCode.Set2xxx;
+namespace LeetCode.Set1XXX;
 internal class Solution14XX
 {
     [ProblemSolution("1422")]

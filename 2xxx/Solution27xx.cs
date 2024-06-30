@@ -1,6 +1,6 @@
 ﻿using System.Reflection.Metadata;
 
-namespace LeetCode.Set2xxx;
+namespace LeetCode.Set2XXX;
 internal class Solution27XX
 {
     [ProblemSolution("2706")]

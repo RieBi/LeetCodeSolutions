@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 
-namespace LeetCode.Set1xxx;
+namespace LeetCode.Set1XXX;
 internal class Solution12XX
 {
     [ProblemSolution("1207")]

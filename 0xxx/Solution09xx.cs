@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LeetCode._0xxx;
+namespace LeetCode.Set0XXX;
 internal class Solution09XX
 {
     [ProblemSolution("907")]
