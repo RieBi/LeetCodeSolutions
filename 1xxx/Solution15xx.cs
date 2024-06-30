@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set1xxx;
+﻿using System.Text;
+
+namespace LeetCode.Set1xxx;
 internal class Solution15xx
 {
     public int GetLengthOfOptimalCompression(string s, int k)
@@ -130,6 +132,125 @@ internal class Solution15xx
         }
 
         return result;
+    }
+
+    [ProblemSolution("1579")]
+    public int MaxNumEdgesToRemove(int n, int[][] edges)
+    {
+        var red = new HashSet<(int a, int b)>();
+        var green = new HashSet<(int a, int b)>();
+        var blue = new HashSet<(int a, int b)>();
+
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var el = edges[i];
+            var pair = (el[1] - 1, el[2] - 1);
+            if (el[0] == 3)
+                blue.Add(pair);
+            else if (el[0] == 1)
+                red.Add(pair);
+            else if (el[0] == 2)
+                green.Add(pair);
+        }
+
+        var blueList = blue.ToList();
+        var ind = new int[n];
+        fill(ind);
+
+        for (int i = 0; i < blueList.Count; i++)
+        {
+            var edge = blueList[i];
+            merge(edge.a, edge.b, ind, ab => blue.Remove(ab));
+        }
+
+        var redList = red.ToList();
+        var greenInd = ind.ToArray();
+
+        for (int i = 0; i < redList.Count; i++)
+        {
+            var edge = redList[i];
+            if (blue.Contains(edge))
+            {
+                red.Remove(edge);
+                continue;
+            }
+
+            merge(edge.a, edge.b, ind, ab => red.Remove(ab));
+        }
+
+        if (isNoPath(ind))
+            return -1;
+
+        var greenList = green.ToList();
+        ind = greenInd;
+
+        for (int i = 0; i < greenList.Count; i++)
+        {
+            var edge = greenList[i];
+            if (blue.Contains(edge))
+            {
+                green.Remove(edge);
+                continue;
+            }
+
+            merge(edge.a, edge.b, ind, ab => green.Remove(ab));
+        }
+
+        if (isNoPath(ind))
+            return -1;
+
+        var afterCount = red.Count + green.Count + blue.Count;
+        return edges.Length - afterCount;
+
+
+        int find(int el, int[] nodes)
+        {
+            var start = el;
+
+            while (nodes[el] != el)
+                el = nodes[el];
+
+            while (nodes[start] != el)
+            {
+                var temp = nodes[start];
+                nodes[start] = el;
+                start = temp;
+            }
+
+            return el;
+        }
+
+        void merge(int el1, int el2, int[] nodes, Action<(int a, int b)> action)
+        {
+            var root1 = find(el1, nodes);
+            var root2 = find(el2, nodes);
+
+            if (root1 == root2)
+            {
+                action((el1, el2));
+                return;
+            }
+
+            nodes[root1] = root2;
+        }
+
+        void fill(int[] nodes)
+        {
+            for (int i = 0; i < nodes.Length; i++)
+                nodes[i] = i;
+        }
+
+        bool isNoPath(int[] nodes)
+        {
+            var startRoot = find(0, nodes);
+            for (int i = 1; i < nodes.Length; i++)
+            {
+                if (startRoot != find(i, nodes))
+                    return true;
+            }
+
+            return false;
+        }
     }
 
     [ProblemSolution("1578")]
