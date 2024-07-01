@@ -100,6 +100,16 @@ internal class Solution15XX
         return false;
     }
 
+    [ProblemSolution("1551")]
+    public int MinOperations(int n)
+    {
+        var l = n / 2;
+        var m = n % 2;
+        var a1 = 1 + m;
+        var an = 2 * l - 1 + m;
+        return l * (a1 + an) / 2;
+    }
+
     [ProblemSolution("1552")]
     public int MaxDistance(int[] position, int m)
     {
