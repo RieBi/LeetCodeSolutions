@@ -598,6 +598,39 @@ internal class Solution02XX
         }
     }
 
+    [ProblemSolution("289")]
+    public void GameOfLife(int[][] board)
+    {
+        for (int i = 0; i < board.Length; i++)
+        {
+            for (int j = 0; j < board[i].Length; j++)
+            {
+                byte alives = 0;
+                for (int i1 = Math.Max(i - 1, 0); i1 <= Math.Min(board.Length - 1, i + 1); i1++)
+                {
+                    for (int j1 = Math.Max(j - 1, 0); j1 <= Math.Min(board[i].Length - 1, j + 1); j1++)
+                    {
+                        if (board[i1][j1] > 0)
+                            alives++;
+                    }
+                }
+
+                if (board[i][j] == 1 && (alives < 3 || alives > 4))
+                    board[i][j] = 2;
+                else if (board[i][j] == 0 && alives == 3)
+                    board[i][j] = -1;
+            }
+        }
+
+        for (int i = 0; i < board.Length; i++)
+        {
+            for (int j = 0; j < board[i].Length; j++)
+            {
+                board[i][j] = Math.Abs(board[i][j] % 2);
+            }
+        }
+    }
+
     [ProblemSolution("297")]
     public class Codec
     {
