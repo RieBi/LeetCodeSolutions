@@ -1,8 +1,37 @@
-﻿using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace LeetCode.Set1XXX;
 internal class Solution15XX
 {
+    [ProblemSolution("1509")]
+    public int MinDifference(int[] nums)
+    {
+        if (nums.Length < 5)
+            return 0;
+
+        var lowSet = new SortedSet<(int, int)>();
+        var highSet = new SortedSet<(int, int)>();
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            lowSet.Add((nums[i], i));
+            highSet.Add((nums[i], i));
+
+            if (i > 3)
+            {
+                lowSet.Remove(lowSet.Max);
+                highSet.Remove(highSet.Min);
+            }
+        }
+
+        return lowSet
+            .Select(f => f.Item1)
+            .Zip(highSet.Select(f => f.Item1))
+            .Min(f => f.Second - f.First);
+    }
+
+    [ProblemSolution("1531")]
     public int GetLengthOfOptimalCompression(string s, int k)
     {
         var n = s.Length;
