@@ -101,6 +101,29 @@ internal class Solution21XX
         return nums;
     }
 
+    [ProblemSolution("2181")]
+    public ListNode MergeNodes(ListNode head)
+    {
+        var zero = head;
+        var node = zero;
+        var sum = 0;
+        while (node.next is not null)
+        {
+            node = node.next;
+            sum += node.val;
+
+            if (node.val == 0)
+            {
+                node.val = sum;
+                zero.next = node;
+                sum = 0;
+                zero = node;
+            }
+        }
+
+        return head.next;
+    }
+
     [ProblemSolution("2192")]
     public IList<IList<int>> GetAncestors(int n, int[][] edges)
     {
