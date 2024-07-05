@@ -22,6 +22,41 @@ internal class Solution20XX
             .Sum(f => Math.Abs(seats[f] - students[f]));
     }
 
+    [ProblemSolution("2058")]
+    public int[] NodesBetweenCriticalPoints(ListNode head)
+    {
+        var firstInd = -1;
+        var lastInd = -1;
+
+        var minDist = int.MaxValue;
+
+        var ind = 0;
+        var node = head;
+        while (node.next is not null && node.next.next is not null)
+        {
+            var prevVal = node.val;
+            node = node.next;
+            ind++;
+            var curVal = node.val;
+            var nextVal = node.next!.val;
+
+            if ((curVal > prevVal && curVal > nextVal) || (curVal < prevVal && curVal < nextVal))
+            {
+                if (firstInd == -1)
+                    firstInd = ind;
+
+                if (lastInd != -1)
+                    minDist = Math.Min(minDist, ind - lastInd);
+                lastInd = ind;
+            }
+        }
+
+        if (firstInd == -1 || firstInd == lastInd)
+            return [-1, -1];
+        else
+            return [minDist, lastInd - firstInd];
+    }
+
     [ProblemSolution("2092")]
     public IList<int> FindAllPeople(int n, int[][] meetings, int firstPerson)
     {
