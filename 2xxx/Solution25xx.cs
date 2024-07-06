@@ -18,4 +18,14 @@ internal class Solution25XX
 
         return -1;
     }
+
+    [ProblemSolution("2582")]
+    public int PassThePillow(int n, int time)
+    {
+        time %= (n - 1) * 2;
+        if (time < n)
+            return time + 1;
+        else
+            return n - (time % n + 1);
+    }
 }
