@@ -31,6 +31,23 @@ internal class Solution15XX
             .Min(f => f.Second - f.First);
     }
 
+    [ProblemSolution("1518")]
+    public int NumWaterBottles(int numBottles, int numExchange)
+    {
+        var empty = 0;
+        var drank = 0;
+        while (numBottles > 0)
+        {
+            drank += numBottles;
+            empty += numBottles;
+
+            numBottles = empty / numExchange;
+            empty %= numExchange;
+        }
+
+        return drank;
+    }
+
     [ProblemSolution("1531")]
     public int GetLengthOfOptimalCompression(string s, int k)
     {
