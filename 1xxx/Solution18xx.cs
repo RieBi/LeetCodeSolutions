@@ -42,6 +42,19 @@ internal class Solution18XX
         return (int)(total % modulo);
     }
 
+    [ProblemSolution("1823")]
+    public int FindTheWinner(int n, int k)
+    {
+        var ans = 0;
+        for (int i = 2; i <= n; i++)
+        {
+            ans += k;
+            ans %= i;
+        }
+
+        return ans + 1;
+    }
+
     [ProblemSolution("1838")]
     public int MaxFrequency(int[] nums, int k)
     {
