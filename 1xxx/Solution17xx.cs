@@ -1,6 +1,24 @@
 ﻿namespace LeetCode.Set1XXX;
 internal class Solution17XX
 {
+    [ProblemSolution("1701")]
+    public double AverageWaitingTime(int[][] customers)
+    {
+        var time = 0L;
+        var totalWaitTime = .0;
+        for (int i = 0; i < customers.Length; i++)
+        {
+            var (start, prepare) = (customers[i][0], customers[i][1]);
+
+            time = Math.Max(time, start);
+            time += prepare;
+
+            totalWaitTime += time - start;
+        }
+
+        return totalWaitTime / customers.Length;
+    }
+
     [ProblemSolution("1704")]
     public bool HalvesAreAlike(string s)
     {
