@@ -391,4 +391,19 @@ internal class Solution15XX
 
         return total;
     }
+
+    [ProblemSolution("1598")]
+    public int MinOperations(string[] logs)
+    {
+        var folder = 0;
+        for (int i = 0; i < logs.Length; i++)
+        {
+            if (logs[i].StartsWith("..") && folder > 0)
+                folder--;
+            else if (!logs[i].StartsWith('.'))
+                folder++;
+        }
+
+        return folder;
+    }
 }
