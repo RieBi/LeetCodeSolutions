@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace LeetCode.Set1XXX;
 internal class Solution11XX
@@ -130,6 +131,51 @@ internal class Solution11XX
             }
 
             return true;
+        }
+    }
+
+    [ProblemSolution("1190")]
+    public string ReverseParentheses(string s)
+    {
+        var dictionary = new Dictionary<int, int>();
+        var stack = new Stack<int>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '(')
+                stack.Push(i);
+            else if (s[i] == ')')
+            {
+                var ind = stack.Pop();
+                dictionary[ind] = i;
+                dictionary[i] = ind;
+            }
+        }
+
+        var str = new StringBuilder();
+
+        traverse(1, 0);
+        return str.ToString();
+
+        void traverse(int dir, int ind)
+        {
+            var otherSymbol = dir == 1 ? '(' : ')';
+            var endSymbol = dir == 1 ? ')' : '(';
+
+            if (s[ind] == endSymbol)
+                ind = dictionary[ind] + dir;
+
+            while (ind >= 0 && ind < s.Length && s[ind] != endSymbol)
+            {
+                if (s[ind] == otherSymbol)
+                {
+                    traverse(-dir, ind);
+                    ind = dictionary[ind];
+                }
+                else
+                    str.Append(s[ind]);
+
+                ind += dir;
+            }
         }
     }
 }
