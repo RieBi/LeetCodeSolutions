@@ -47,6 +47,46 @@ internal class Solution17XX
         return total;
     }
 
+    [ProblemSolution("1717")]
+    public int MaximumGain(string s, int x, int y)
+    {
+        var aCount = 0;
+        var bCount = 0;
+
+        var points = 0;
+        var high = x > y ? 'b' : 'a';
+        var highPoints = Math.Max(x, y);
+        var minPoints = Math.Min(x, y);
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == 'a')
+                aCount++;
+            else if (s[i] == 'b')
+                bCount++;
+            else
+                updateStop();
+
+            if (aCount > 0 && bCount > 0 && s[i] == high)
+            {
+                points += highPoints;
+                aCount--;
+                bCount--;
+            }
+        }
+
+        updateStop();
+
+        return points;
+
+        void updateStop()
+        {
+            var min = Math.Min(aCount, bCount);
+            points += minPoints * min;
+            (aCount, bCount) = (0, 0);
+        }
+    }
+
     [ProblemSolution("1727")]
     public int LargestSubmatrix(int[][] matrix)
     {
