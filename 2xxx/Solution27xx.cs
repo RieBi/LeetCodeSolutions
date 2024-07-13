@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Net.WebSockets;
+using System.Reflection.Metadata;
 
 namespace LeetCode.Set2XXX;
 internal class Solution27XX
@@ -139,5 +140,68 @@ internal class Solution27XX
 
             return list;
         }
+    }
+
+    [ProblemSolution("2751")]
+    public IList<int> SurvivedRobotsHealths(int[] positions, int[] healths, string directions)
+    {
+        var robots = Enumerable.Range(0, positions.Length)
+            .Select(f => new Robot()
+            {
+                Index = f,
+                Position = positions[f],
+                Health = healths[f],
+                Direction = directions[f] == 'R' ? 1 : -1
+            })
+            .OrderBy(f => f.Position)
+            .ToList();
+
+        var stack = new Stack<int>();
+        for (int i = 0; i < robots.Count; i++)
+        {
+            var robot = robots[i];
+            if (robot.Direction == 1)
+                stack.Push(i);
+            else
+            {
+                while (stack.Count > 0)
+                {
+                    var last = robots[stack.Peek()];
+                    if (robot.Health > last.Health)
+                    {
+                        last.Health = -1;
+                        robot.Health -= 1;
+                        stack.Pop();
+                    }
+                    else if (robot.Health == last.Health)
+                    {
+                        last.Health = -1;
+                        stack.Pop();
+                        robot.Health = -1;
+                        break;
+                    }
+                    else
+                    {
+                        robot.Health = -1;
+                        last.Health -= 1;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return robots.Where(f => f.Health > 0)
+            .OrderBy(f => f.Index)
+            .Select(f => f.Health)
+            .ToList();
+    }
+
+    [ProblemSolution("2751")]
+    private sealed class Robot()
+    {
+        public required int Index { get; set; }
+        public required int Position { get; set; } 
+        public required int Health { get; set; }
+        public required int Direction { get; set; }
     }
 }
