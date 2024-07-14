@@ -261,6 +261,82 @@ internal class Solution07XX
         }
     }
 
+    [ProblemSolution("726")]
+    public string CountOfAtoms(string formula)
+    {
+        var d = parse(0, out _);
+        var builder = new StringBuilder();
+
+        foreach (var v in d.OrderBy(f => f.Key))
+            builder.Append($"{v.Key}{(v.Value > 1 ? v.Value : "")}");
+
+        return builder.ToString();
+
+        Dictionary<string, int> parse(int ind, out int end)
+        {
+            var dick = new Dictionary<string, int>();
+
+            while (ind < formula.Length)
+            {
+                if (char.IsUpper(formula[ind]))
+                {
+                    var start = ind;
+                    ind++;
+                    while (ind < formula.Length && char.IsLower(formula[ind]))
+                        ind++;
+
+                    var element = formula[start..ind];
+
+                    ind = parseInt(ind, out var count);
+
+                    if (dick.TryGetValue(element, out var value))
+                        dick[element] = value + count;
+                    else
+                        dick[element] = count;
+                }
+                else if (formula[ind] == '(')
+                {
+                    var result = parse(ind + 1, out ind);
+                    ind = parseInt(ind, out var multiplier);
+
+                    merge(dick, result, multiplier);
+                }
+                else if (formula[ind] == ')')
+                    break;
+                else
+                    throw new InvalidOperationException();
+            }
+
+            end = ind + 1;
+            return dick;
+        }
+
+        int parseInt(int ind, out int parsed)
+        {
+            var start = ind;
+            while (ind < formula.Length && char.IsNumber(formula[ind]))
+                ind++;
+
+            if (start == ind)
+                parsed = 1;
+            else
+                parsed = int.Parse(formula[start..ind]);
+
+            return ind;
+        }
+
+        void merge(Dictionary<string, int> merged, Dictionary<string, int> mergee, int multiplier)
+        {
+            foreach (var v in mergee)
+            {
+                if (merged.TryGetValue(v.Key, out var value))
+                    merged[v.Key] = value + v.Value * multiplier;
+                else
+                    merged[v.Key] = v.Value * multiplier;
+            }
+        }
+    }
+
     [ProblemSolution("733")]
     public int[][] FloodFill(int[][] image, int sr, int sc, int color)
     {
