@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text;
 
 namespace LeetCode.Set2XXX;
 internal class Solution20XX
@@ -116,5 +117,64 @@ internal class Solution20XX
                 result.Add(i);
 
         return result;
+    }
+
+    [ProblemSolution("2096")]
+    public string GetDirections(TreeNode root, int startValue, int destValue)
+    {
+        var node = root;
+        var stack = new Stack<TreeNode>();
+        var paths = new string[2];
+
+        while (node is not null || stack.Count > 0)
+        {
+            if (node is not null)
+            {
+                if (node.val == startValue || node.val == destValue)
+                {
+                    var result = getPath(stack.ToList(), node.val);
+                    if (node.val == startValue)
+                        paths[0] = result;
+                    else
+                        paths[1] = result;
+                }
+
+                stack.Push(node);
+                node = node.left;
+            }
+            else
+            {
+                node = stack.Pop().right;
+            }
+        }
+
+        var minLen = paths.Min(f => f.Length);
+        var ind = 0;
+        while (ind < minLen && paths[0][ind] == paths[1][ind])
+            ind++;
+
+        return new string('U', paths[0].Length - ind) + paths[1][ind..];
+
+        string getPath(List<TreeNode> list, int target)
+        {
+            var cur = root;
+            var str = new StringBuilder();
+            while (cur!.val != target)
+            {
+                if (list.Count > 0 && list[^1] == cur)
+                {
+                    cur = cur.left;
+                    list.RemoveAt(list.Count - 1);
+                    str.Append("L");
+                }
+                else
+                {
+                    cur = cur.right;
+                    str.Append("R");
+                }
+            }
+
+            return str.ToString();
+        }
     }
 }
