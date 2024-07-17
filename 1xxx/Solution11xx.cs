@@ -5,6 +5,51 @@ using System.Text;
 namespace LeetCode.Set1XXX;
 internal class Solution11XX
 {
+    [ProblemSolution("1110")]
+    public IList<TreeNode> DelNodes(TreeNode root, int[] to_delete)
+    {
+        var tbd = to_delete.ToHashSet();
+        var result = new List<TreeNode>();
+
+        if (!tbd.Contains(root.val))
+            result.Add(root);
+
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            var c = queue.Count;
+            for (int i = 0; i < c; i++)
+            {
+                var node = queue.Dequeue();
+                if (node.left is not null)
+                    queue.Enqueue(node.left);
+                if (node.right is not null)
+                    queue.Enqueue(node.right);
+
+                if (tbd.Contains(node.val))
+                {
+                    if (!tbd.Contains(node.left?.val ?? to_delete[0]))
+                        result.Add(node.left!);
+
+                    if (!tbd.Contains(node.right?.val ?? to_delete[0]))
+                        result.Add(node.right!);
+                }
+                else
+                {
+                    if (tbd.Contains(node.left?.val ?? 0))
+                        node.left = null;
+
+                    if (tbd.Contains(node.right?.val ?? 0))
+                        node.right = null;
+                }
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1122")]
     public int[] RelativeSortArray(int[] arr1, int[] arr2)
     {
