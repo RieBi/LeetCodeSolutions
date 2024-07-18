@@ -48,6 +48,75 @@ internal class Solution15XX
         return drank;
     }
 
+    [ProblemSolution("1530")]
+    public int CountPairs(TreeNode root, int distance)
+    {
+        var result = 0;
+
+        traverse(root, 0);
+
+        return result;
+
+        List<int> traverse(TreeNode? node, int height)
+        {
+            if (node is null)
+                return [];
+
+            if (node.left is null && node.right is null)
+                return [height];
+
+            var lList = traverse(node.left, height + 1);
+            var rList = traverse(node.right, height + 1);
+
+            count(lList, rList, height * 2 + distance);
+
+            return merge(lList, rList);
+        }
+
+        void count(List<int> lList, List<int> rList, int plausibleDistance)
+        {
+            if (lList.Count == 0 || rList.Count == 0)
+                return;
+
+            var left = 0;
+            var right = rList.Count - 1;
+
+            for (; left < lList.Count; left++)
+            {
+                while (right >= 0 && lList[left] + rList[right] > plausibleDistance)
+                    right--;
+
+                if (right == -1)
+                    return;
+
+                result += right + 1;
+            }
+        }
+
+        List<int> merge(List<int> lList, List<int> rList)
+        {
+            var merged = new List<int>();
+
+            var left = 0;
+            var right = 0;
+
+            while (left < lList.Count && right < rList.Count)
+            {
+                if (lList[left] <= rList[right])
+                    merged.Add(lList[left++]);
+                else
+                    merged.Add(rList[right++]);
+            }
+
+            if (left >= lList.Count)
+                merged.AddRange(rList[right..]);
+            else
+                merged.AddRange(lList[left..]);
+
+            return merged;
+        }
+    }
+
     [ProblemSolution("1531")]
     public int GetLengthOfOptimalCompression(string s, int k)
     {
