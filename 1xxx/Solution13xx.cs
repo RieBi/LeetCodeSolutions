@@ -54,6 +54,45 @@ internal class Solution13XX
         return steps;
     }
 
+    [ProblemSolution("1380")]
+    public IList<int> LuckyNumbers(int[][] matrix)
+    {
+        var minRows = new int[matrix.Length];
+        var maxCols = new int[matrix[0].Length];
+
+        for (int i = 0; i < matrix.Length; i++)
+        {
+            var minVal = matrix[i][0];
+            for (int j = 1; j < matrix[i].Length; j++)
+                minVal = Math.Min(minVal, matrix[i][j]);
+
+            minRows[i] = minVal;
+        }
+
+        for (int j = 0; j < matrix[0].Length; j++)
+        {
+            var maxVal = matrix[0][j];
+            for (int i = 1; i < matrix.Length; i++)
+                maxVal = Math.Max(maxVal, matrix[i][j]);
+
+            maxCols[j] = maxVal;
+        }
+
+        IList<int> result = [];
+
+        for (int i = 0; i < matrix.Length; i++)
+        {
+            for (int j = 0; j < matrix[i].Length; j++)
+            {
+                var val = matrix[i][j];
+                if (val == minRows[i] && val == maxCols[j])
+                    result.Add(val);
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1382")]
     public TreeNode BalanceBST(TreeNode root)
     {
