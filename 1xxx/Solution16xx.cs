@@ -3,6 +3,26 @@
 namespace LeetCode.Set1XXX;
 internal class Solution16XX
 {
+    [ProblemSolution("1605")]
+    public int[][] RestoreMatrix(int[] rowSum, int[] colSum)
+    {
+        var result = new int[rowSum.Length][];
+        for (int i = 0; i < rowSum.Length; i++)
+        {
+            result[i] = new int[colSum.Length];
+            for (int j = 0; j < colSum.Length && rowSum[i] > 0; j++)
+            {
+                var added = Math.Min(rowSum[i], colSum[j]);
+
+                result[i][j] = added;
+                rowSum[i] -= added;
+                colSum[j] -= added;
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1611")]
     public int MinimumOneBitOperations(int n)
     {
