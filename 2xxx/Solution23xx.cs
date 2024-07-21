@@ -146,4 +146,99 @@ internal class Solution23XX
 
         return totalAmount + timeM + timeP + timeG;
     }
+
+    [ProblemSolution("2392")]
+    public int[][] BuildMatrix(int k, int[][] rowConditions, int[][] colConditions)
+    {
+        var rowGraph = new (int top, List<int> bot)[k];
+        for (int i = 0; i < k; i++)
+            rowGraph[i] = (0, []);
+
+        for (int i = 0; i < rowConditions.Length; i++)
+        {
+            var topCond = rowConditions[i][0] - 1;
+            var botCond = rowConditions[i][1] - 1;
+
+            rowGraph[topCond].bot.Add(botCond);
+            rowGraph[botCond].top++;
+        }
+
+        var empty = new Stack<int>();
+        for (int i = 0; i < rowGraph.Length; i++)
+        {
+            if (rowGraph[i].top == 0)
+                empty.Push(i);
+        }
+
+        var rowOrder = new int[k];
+        var rowInd = 0;
+
+        while (empty.Count > 0)
+        {
+            var node = empty.Pop();
+            rowOrder[rowInd++] = node;
+            
+            foreach (var other in rowGraph[node].bot)
+            {
+                rowGraph[other].top--;
+                if (rowGraph[other].top == 0)
+                    empty.Push(other);
+            }
+        }
+
+        if (rowInd != k)
+            return [];
+
+        var colGraph = new (int left, List<int> right)[k];
+        for (int i = 0; i < k; i++)
+            colGraph[i] = (0, []);
+
+        for (int i = 0; i < colConditions.Length; i++)
+        {
+            var leftCond = colConditions[i][0] - 1;
+            var rightCond = colConditions[i][1] - 1;
+
+            colGraph[leftCond].right.Add(rightCond);
+            colGraph[rightCond].left++;
+        }
+
+        for (int i = 0; i < colGraph.Length; i++)
+        {
+            if (colGraph[i].left == 0)
+                empty.Push(i);
+        }
+
+        var colOrder = new int[k];
+        var colInd = 0;
+
+        while (empty.Count > 0)
+        {
+            var node = empty.Pop();
+            colOrder[node] = colInd++;
+
+            foreach (var other in colGraph[node].right)
+            {
+                colGraph[other].left--;
+                if (colGraph[other].left == 0)
+                    empty.Push(other);
+            }
+        }
+
+        if (colInd != k)
+            return [];
+
+        var result = new int[k][];
+        for (int i = 0; i < k; i++)
+            result[i] = new int[k];
+
+        for (int i = 0; i < k; i++)
+        {
+            var ni = i;
+            var nj = colOrder[rowOrder[i]];
+
+            result[ni][nj] = rowOrder[i] + 1;
+        }
+
+        return result;
+    }
 }

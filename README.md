@@ -7,4 +7,4 @@ The repository is structured in the following way:
 - :paperclip: Each solution to a problem is in a method or a class supplied with ProblemSolutionAttribute attribute
 - :sunglasses: Running the solution would log the numbers of completed problems to the console, and the total number of them, and would as well update this file
 
-:bulb: Currently, there are ***286 problems*** solved in the repository. More to come! :bulb:
+:bulb: Currently, there are ***287 problems*** solved in the repository. More to come! :bulb:
