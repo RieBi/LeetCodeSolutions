@@ -37,6 +37,15 @@ internal class Solution24XX
         return rooms.ToList().IndexOf(max);
     }
 
+    [ProblemSolution("2418")]
+    public string[] SortPeople(string[] names, int[] heights)
+    {
+        Array.Sort(heights, names);
+        Array.Reverse(names);
+
+        return names;
+    }
+
     [ProblemSolution("2441")]
     public int FindMaxK(int[] nums)
     {
