@@ -97,6 +97,17 @@ internal class Solution16XX
         return result;
     }
 
+    [ProblemSolution("1636")]
+    public int[] FrequencySort(int[] nums)
+    {
+        return nums
+            .GroupBy(f => f)
+            .OrderBy(f => f.Count())
+            .ThenByDescending(f => f.Key)
+            .SelectMany(f => f)
+            .ToArray();
+    }
+
     [ProblemSolution("1637")]
     public int MaxWidthOfVerticalArea(int[][] points)
     {
