@@ -124,6 +124,47 @@ internal class Solution21XX
         return head.next;
     }
 
+    [ProblemSolution("2191")]
+    public int[] SortJumbled(int[] mapping, int[] nums)
+    {
+        var keys = nums
+            .Select(f => toShuffled(f))
+            .Zip(Enumerable.Range(0, nums.Length))
+            .ToArray();
+
+        Array.Sort(keys, nums);
+        return nums;
+
+        int toShuffled(int num)
+        {
+            var power = 1;
+            var result = 0;
+
+            if (num == 0)
+            {
+                var digit = num % 10;
+                digit = mapping[digit];
+                num /= 10;
+
+                result += digit * power;
+                power *= 10;
+                return result;
+            }
+
+            while (num > 0)
+            {
+                var digit = num % 10;
+                digit = mapping[digit];
+                num /= 10;
+
+                result += digit * power;
+                power *= 10;
+            }
+
+            return result;
+        }
+    }
+
     [ProblemSolution("2192")]
     public IList<IList<int>> GetAncestors(int n, int[][] edges)
     {
