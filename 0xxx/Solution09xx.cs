@@ -38,6 +38,42 @@ internal class Solution09XX
         return (int)(total % modulo);
     }
 
+    [ProblemSolution("912")]
+    public int[] SortArray(int[] nums)
+    {
+        for (int i = nums.Length / 2; i >= 0; i--)
+            heapify(i, nums.Length - 1);
+
+        for (int last = nums.Length - 1; last > 0; last--)
+        {
+            (nums[0], nums[last]) = (nums[last], nums[0]);
+            heapify(0, last - 1);
+        }
+
+        return nums;
+
+        void heapify(int start, int end)
+        {
+            var max = start;
+            do
+            {
+                start = max;
+
+                var left = max * 2 + 1;
+                var right = max * 2 + 2;
+
+                if (left <= end && nums[left] > nums[max])
+                    max = left;
+                if (right <= end && nums[right] > nums[max])
+                    max = right;
+
+                if (start != max)
+                    (nums[start], nums[max]) = (nums[max], nums[start]);
+            }
+            while (start != max);
+        }
+    }
+
     [ProblemSolution("931")]
     public int MinFallingPathSum(int[][] matrix)
     {
