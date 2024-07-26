@@ -1,6 +1,66 @@
 ﻿namespace LeetCode.Set1XXX;
 internal class Solution13XX
 {
+    [ProblemSolution("1334")]
+    public int FindTheCity(int n, int[][] edges, int distanceThreshold)
+    {
+        var resCounts = new int[n];
+        var graph = new List<(int other, int dist)>[n];
+
+        for (int i = 0; i < n; i++)
+            graph[i] = [];
+
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var (from, to, dist) = (edges[i][0], edges[i][1], edges[i][2]);
+            graph[from].Add((to, dist));
+            graph[to].Add((from, dist));
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            var visited = new bool[n];
+            var distances = new int[n];
+            var valid = 0;
+            var queue = new SortedSet<(int dist, int node)>();
+
+            for (int j = 0; j < n; j++)
+                distances[j] = int.MaxValue;
+
+            queue.Add((0, i));
+            visited[i] = true;
+            distances[i] = 0;
+
+            while (queue.Count > 0)
+            {
+                var (curDist, last) = queue.Min;
+                queue.Remove((curDist, last));
+
+                visited[last] = true;
+                if (curDist > distanceThreshold)
+                    break;
+                else
+                    valid++;
+
+                foreach (var other in graph[last])
+                {
+                    var newDist = curDist + other.dist;
+                    if (!visited[other.other] && newDist < distances[other.other])
+                    {
+                        queue.Remove((distances[other.other], other.other));
+                        queue.Add((newDist, other.other));
+                        distances[other.other] = newDist;
+                    }
+                }
+            }
+
+            resCounts[i] = valid;
+        }
+
+        var min = resCounts.Min();
+        return Array.LastIndexOf(resCounts, min);
+    }
+
     [ProblemSolution("1335")]
     public int MinDifficulty(int[] jobDifficulty, int d)
     {
