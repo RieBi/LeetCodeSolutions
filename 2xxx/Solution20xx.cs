@@ -23,6 +23,129 @@ internal class Solution20XX
             .Sum(f => Math.Abs(seats[f] - students[f]));
     }
 
+    [ProblemSolution("2045")]
+    public int SecondMinimum(int n, int[][] edges, int time, int change)
+    {
+        var nodes = new (List<int> others, List<int> dist)[n];
+        for (int i = 0; i < n; i++)
+            nodes[i] = ([], []);
+
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var from = edges[i][0] - 1;
+            var to = edges[i][1] - 1;
+
+            nodes[from].others.Add(to);
+            nodes[to].others.Add(from);
+        }
+
+        nodes[0].dist.Add(0);
+        var queue = new Queue<int>();
+        queue.Enqueue(0);
+
+        var newQueue = new Queue<int>();
+        var set = new HashSet<int>();
+
+        while (queue.Count > 0)
+        {
+            var c = queue.Count;
+            for (int i = 0; i < c; i++)
+            {
+                var last = queue.Dequeue();
+                foreach (var other in nodes[last].others)
+                {
+                    if (nodes[other].dist.Count == 0)
+                    {
+                        nodes[other].dist.Add(nodes[last].dist[0] + 1);
+                        queue.Enqueue(other);
+                    }
+                    else
+                    {
+                        var otherDist = nodes[other].dist[0];
+                        var newDist = nodes[last].dist[0] + 1;
+                        var diff = newDist - otherDist;
+                        if (diff % 2 == 1)
+                        {
+                            if (nodes[other].dist.Count == 1)
+                                nodes[other].dist.Add(newDist);
+                            else
+                                nodes[other].dist[1] = Math.Min(nodes[other].dist[1], newDist);
+
+                            if (!set.Contains(other))
+                            {
+                                newQueue.Enqueue(other);
+                                set.Add(other);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        while (newQueue.Count > 0)
+        {
+            var c = newQueue.Count;
+            for (int i = 0; i < c; i++)
+            {
+                var last = newQueue.Dequeue();
+                set.Remove(last);
+
+                foreach (var other in nodes[last].others)
+                {
+                    var otherDistList = nodes[other].dist;
+                    var otherDist = otherDistList.Count == 1 ? otherDistList[0] : otherDistList[1];
+                    var newDist = nodes[last].dist[1] + 1;
+
+                    var diff = newDist - otherDist;
+                    var improved = otherDistList.Count == 1 || newDist < otherDist;
+                    if (improved && diff % 2 == 1)
+                    {
+                        if (otherDistList.Count == 1)
+                            otherDistList.Add(newDist);
+                        else
+                            otherDistList[1] = newDist;
+
+                        if (!set.Contains(other))
+                        {
+                            newQueue.Enqueue(other);
+                            set.Add(other);
+                        }
+                    }
+                }
+            }
+        }
+
+        var lastDist = nodes[n - 1].dist;
+        var guaranteed = calculateTime(lastDist[0]);
+
+        var secondDist = lastDist.Count == 1 ? int.MaxValue : lastDist[1];
+        var next = Math.Min(lastDist[0] + 2, secondDist);
+        var nextTime = calculateTime(next);
+
+        return nextTime;
+
+        int calculateTime(int steps)
+        {
+            var cur = 0;
+            var curTime = 0;
+
+            while (cur < steps)
+            {
+                var cycle = curTime % (change * 2);
+                if (cycle >= change)
+                {
+                    var diff = change * 2 - cycle;
+                    curTime += diff;
+                }
+
+                cur++;
+                curTime += time;
+            }
+
+            return curTime;
+        }
+    }
+
     [ProblemSolution("2058")]
     public int[] NodesBetweenCriticalPoints(ListNode head)
     {
