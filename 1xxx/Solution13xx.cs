@@ -188,4 +188,38 @@ internal class Solution13XX
             return resultRoot;
         }
     }
+
+    [ProblemSolution("1395")]
+    public int NumTeams(int[] rating)
+    {
+        var less = new int[rating.Length];
+        var more = new int[rating.Length];
+
+        for (int i = 0; i < rating.Length; i++)
+        {
+            var num = rating[i];
+            for (int j = i + 1; j < rating.Length; j++)
+            {
+                if (rating[j] < num)
+                    less[i]++;
+                else if (rating[j] > num)
+                    more[i]++;
+            }
+        }
+
+        var result = 0;
+        for (int i = 0; i < rating.Length; i++)
+        {
+            for (int j = i + 1; j < rating.Length; j++)
+            {
+                if (rating[j] < rating[i])
+                    result += less[j];
+
+                if (rating[j] > rating[i])
+                    result += more[j];
+            }
+        }
+
+        return result;
+    }
 }
