@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace LeetCode.Set1XXX;
 internal class Solution16XX
@@ -157,6 +158,24 @@ internal class Solution16XX
         }
 
         return n;
+    }
+
+    [ProblemSolution("1653")]
+    public int MinimumDeletions(string s)
+    {
+        var prev = 0;
+
+        var result = int.MaxValue;
+        for (int i = 0; i < s.Length; i++)
+        {
+            result = Math.Min(result, prev * 2 - i);
+
+            if (s[i] == 'b')
+                prev++;
+        }
+
+        result = Math.Min(result, prev * 2 - s.Length);
+        return result - prev + s.Length;
     }
 
     [ProblemSolution("1657")]
