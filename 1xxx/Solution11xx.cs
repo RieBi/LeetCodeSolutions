@@ -1,10 +1,34 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Text;
 
 namespace LeetCode.Set1XXX;
 internal class Solution11XX
 {
+    [ProblemSolution("1105")]
+    public int MinHeightShelves(int[][] books, int shelfWidth)
+    {
+        var dp = new int[books.Length + 1];
+        dp[0] = 0;
+        dp[1] = books[0][1];
+
+        for (int i = 2; i <= books.Length; i++)
+        {
+            var remaining = shelfWidth -  books[i - 1][0];
+            var maxHeight = books[i - 1][1];
+
+            dp[i] = dp[i - 1] + maxHeight;
+
+            for (int j = i - 1; j > 0 && remaining - books[j - 1][0] >= 0; j--)
+            {
+                remaining -= books[j - 1][0];
+                maxHeight = Math.Max(maxHeight, books[j - 1][1]);
+
+                dp[i] = Math.Min(dp[i], dp[j - 1] + maxHeight);
+            }
+        }
+
+        return dp[^1];
+    }
+
     [ProblemSolution("1110")]
     public IList<TreeNode> DelNodes(TreeNode root, int[] to_delete)
     {
