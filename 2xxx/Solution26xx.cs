@@ -27,4 +27,10 @@ internal class Solution26XX
 
         return result;
     }
+
+    [ProblemSolution("2678")]
+    public int CountSeniors(string[] details)
+    {
+        return details.Count(f => f[^4] > '6' || f[^4] == '6' && f[^3] != '0');
+    }
 }
