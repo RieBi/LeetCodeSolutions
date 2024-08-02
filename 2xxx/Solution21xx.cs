@@ -39,6 +39,32 @@ internal class Solution21XX
         return sum;
     }
 
+    [ProblemSolution("2134")]
+    public int MinSwaps(int[] nums)
+    {
+        var ones = nums.Count(f => f == 1);
+        if (ones == 0 || ones == nums.Length)
+            return 0;
+
+        var result = int.MaxValue;
+        var sum = 0;
+
+        for (int i = 0; i < ones - 1; i++)
+            sum += nums[i];
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            var end = i + ones - 1;
+            sum += nums[end % nums.Length];
+            if (i > 0)
+                sum -= nums[i - 1];
+
+            result = Math.Min(result, ones - sum);
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2147")]
     public int NumberOfWays(string corridor)
     {
