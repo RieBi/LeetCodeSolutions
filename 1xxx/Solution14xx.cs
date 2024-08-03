@@ -162,6 +162,24 @@ internal class Solution14XX
         }
     }
 
+    [ProblemSolution("1460")]
+    public bool CanBeEqual(int[] target, int[] arr)
+    {
+        var frequencies = target
+            .GroupBy(f => f)
+            .ToDictionary(f => f.Key, f => f.Count());
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (frequencies.TryGetValue(arr[i], out var value) && value > 0)
+                frequencies[arr[i]] = value - 1;
+            else
+                return false;
+        }
+
+        return true;
+    }
+
     [ProblemSolution("1463")]
     public int CherryPickup(int[][] grid)
     {
