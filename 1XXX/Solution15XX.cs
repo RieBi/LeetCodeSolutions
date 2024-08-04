@@ -4,6 +4,33 @@ using System.Text;
 namespace LeetCode.Set1XXX;
 internal class Solution15XX
 {
+    [ProblemSolution("1508")]
+    public int RangeSum(int[] nums, int n, int left, int right)
+    {
+        var pref = new int[nums.Length + 1];
+        for (int i = 1; i < pref.Length; i++)
+            pref[i] = pref[i - 1] + nums[i - 1];
+
+        var sums = new List<int>(n);
+        for (int i = 0; i < nums.Length; i++)
+        {
+            for (int j = i; j < nums.Length; j++)
+            {
+                sums.Add(pref[j + 1] - pref[i]);
+            }
+        }
+
+        sums.Sort();
+
+        var result = 0;
+        left--;
+
+        for (; left < right; left++)
+            result = (result + sums[left]) % 1_000_000_007;
+
+        return result;
+    }
+
     [ProblemSolution("1509")]
     public int MinDifference(int[] nums)
     {
