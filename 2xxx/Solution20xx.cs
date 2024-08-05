@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Text;
 
 namespace LeetCode.Set2XXX;
 internal class Solution20XX
@@ -144,6 +143,17 @@ internal class Solution20XX
 
             return curTime;
         }
+    }
+
+    [ProblemSolution("2053")]
+    public string KthDistinct(string[] arr, int k)
+    {
+        return arr
+            .GroupBy(f => f)
+            .Where(f => f.Count() == 1)
+            .Select(f => f.Key)
+            .Skip(k - 1)
+            .FirstOrDefault(string.Empty);
     }
 
     [ProblemSolution("2058")]
