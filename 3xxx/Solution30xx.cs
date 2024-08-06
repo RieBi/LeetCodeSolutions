@@ -135,8 +135,24 @@ internal class Solution30XX
         return minSum;
     }
 
-    [ProblemSolution("3016")]
+    [ProblemSolution("3014")]
     public int MinimumPushes(string word)
+    {
+        var frequencies = new byte[26];
+        for (int i = 0; i < word.Length; i++)
+            frequencies[word[i] - 'a']++;
+
+        Array.Sort(frequencies, (a, b) => b - a);
+
+        var sum = 0;
+        for (int i = 0; i < frequencies.Length && frequencies[i] > 0; i++)
+            sum += i / 8 + 1;
+
+        return sum;
+    }
+
+    [ProblemSolution("3016")]
+    public int MinimumPushes2(string word)
     {
         var c = 0;
         return word
