@@ -135,6 +135,20 @@ internal class Solution30XX
         return minSum;
     }
 
+    [ProblemSolution("3016")]
+    public int MinimumPushes(string word)
+    {
+        var c = 0;
+        return word
+            .GroupBy(f => f)
+            .OrderByDescending(f => f.Count())
+            .Aggregate(0, (a, b) =>
+            {
+                var mult = c++ / 8 + 1;
+                return a + mult * b.Count();
+            });
+    }
+
     [ProblemSolution("3075")]
     public long MaximumHappinessSum(int[] happiness, int k)
     {
