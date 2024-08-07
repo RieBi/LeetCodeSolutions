@@ -568,6 +568,65 @@ internal class Solution02XX
         return (nums.Length * (nums.Length + 1)) / 2 - sum;
     }
 
+    [ProblemSolution("273")]
+    public string NumberToWords(int num)
+    {
+        if (num == 0)
+            return "Zero";
+
+        string[] nums = [
+            "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+            "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+        ];
+
+        string[] enties = [
+            "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"
+        ];
+
+        string[] digit3s = [
+            string.Empty, "Thousand", "Million", "Billion"
+        ];
+
+        var strs = new List<string>();
+
+        var place = 0;
+        while (num > 0)
+        {
+            var digits = num % 1000;
+            var str = new StringBuilder();
+
+            var hundreds = digits / 100;
+            if (hundreds > 0)
+                str.Append(nums[hundreds] + " Hundred");
+
+            var digit2 = digits % 100;
+
+            if (digit2 > 0)
+            {
+                if (digit2 < 20)
+                    str.Append($" {nums[digit2]}");
+                else
+                {
+                    str.Append($" {enties[digit2 / 10 - 2]}");
+                    if (digit2 % 10 != 0)
+                        str.Append($" {nums[digit2 % 10]}");
+                }
+            }
+
+            if (digits > 0 && place > 0)
+                    str.Append($" {digit3s[place]}");
+
+            place++;
+            num /= 1000;
+
+            if (str.Length > 0)
+                strs.Add(str.ToString().Trim());
+        }
+
+        strs.Reverse();
+        return string.Join(' ', strs).Trim();
+    }
+
     [ProblemSolution("279")]
     public int NumSquares(int n)
     {
