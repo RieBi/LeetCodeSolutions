@@ -251,4 +251,43 @@ internal class Solution08XX
 
         return c;
     }
+
+    [ProblemSolution("885")]
+    public int[][] SpiralMatrixIII(int rows, int cols, int rStart, int cStart)
+    {
+        var lines = 2;
+        var total = rows * cols;
+
+        var iPos = rStart;
+        var jPos = cStart;
+
+        var result = new int[total][];
+        result[0] = [iPos, jPos];
+        var resultInd = 1;
+
+        while (resultInd < total)
+        {
+            var length = lines / 2;
+            (int i, int j) transform = (lines % 4) switch
+            {
+                2 => (0, 1),
+                3 => (1, 0),
+                0 => (0, -1),
+                _ => (-1, 0)
+            };
+
+            for (int i = 0; i < length; i++)
+            {
+                iPos += transform.i;
+                jPos += transform.j;
+
+                if (iPos >= 0 && jPos >= 0 && iPos < rows && jPos < cols)
+                    result[resultInd++] = [iPos, jPos];
+            }
+
+            lines++;
+        }
+
+        return result;
+    }
 }
