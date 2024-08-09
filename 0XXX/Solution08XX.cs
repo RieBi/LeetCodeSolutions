@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -153,6 +154,55 @@ internal class Solution08XX
         }
 
         return total;
+    }
+
+    [ProblemSolution("840")]
+    public int NumMagicSquaresInside(int[][] grid)
+    {
+        var result = 0;
+        for (int i = 2; i < grid.Length; i++)
+        {
+            for (int j = 2; j < grid[0].Length; j++)
+            {
+                result += calculate(i, j);
+            }
+        }
+
+        return result;
+
+        int calculate(int i, int j)
+        {
+            var sum = grid[i][j] + grid[i - 1][j - 1] + grid[i - 2][j - 2];
+
+            if (grid[i][j - 2] + grid[i - 1][j - 1] + grid[i - 2][j] != sum)
+                return 0;
+
+            for (int r = i - 2; r <= i; r++)
+            {
+                if (grid[r][j] + grid[r][j - 1] + grid[r][j - 2] != sum)
+                    return 0;
+            }
+
+            for (int c = j - 2; c <= j; c++)
+            {
+                if (grid[i][c] + grid[i - 1][c] + grid[i - 2][c] != sum)
+                    return 0;
+            }
+
+            var ar = new BitArray(9);
+            for (int r = i - 2; r <= i; r++)
+            {
+                for (int c = j - 2; c <= j; c++)
+                {
+                    var n = grid[r][c];
+                    if (n < 1 || n > 9)
+                        return 0;
+                    ar[n - 1] = true;
+                }
+            }
+
+            return ar.HasAllSet() ? 1 : 0;
+        }
     }
 
     [ProblemSolution("841")]
