@@ -163,6 +163,105 @@ internal class Solution09XX
         return result;
     }
 
+    [ProblemSolution("959")]
+    public int RegionsBySlashes(string[] grid)
+    {
+        var state = new byte[grid.Length][];
+        for (int i = 0; i < state.Length; i++)
+            state[i] = new byte[grid[0].Length];
+
+        var total = 0;
+
+        for (int i = 0; i < state.Length; i++)
+        {
+            for (int j = 0; j < state[0].Length; j++)
+            {
+                if ((state[i][j] & 1) == 0)
+                {
+                    total++;
+                    propagate(i, j, 3);
+                }
+
+                if ((state[i][j] & 2) == 0)
+                {
+                    total++;
+                    propagate(i, j, 1);
+                }
+            }
+        }
+
+        return total;
+
+        void propagate(int i, int j, byte dir)
+        {
+            if (i < 0 || j < 0 || i >= grid.Length || j >= grid[0].Length)
+                return;
+
+            var ch = grid[i][j];
+            var num = state[i][j];
+            bool on;
+
+            if (ch == '/')
+            {
+                if (dir is 0 or 3)
+                    on = (num & 1) > 0;
+                else
+                    on = (num & 2) > 0;
+            }
+            else if (ch == '\\')
+            {
+                if (dir is 2 or 3)
+                    on = (num & 1) > 0;
+                else
+                    on = (num & 2) > 0;
+            }
+            else
+                on = num > 0;
+
+            if (on)
+                return;
+
+            if (ch == '/')
+            {
+                if (dir is 0 or 3)
+                {
+                    state[i][j] |= 1;
+                    propagate(i - 1, j, 2);
+                    propagate(i, j - 1, 1);
+                }
+                else
+                {
+                    state[i][j] |= 2;
+                    propagate(i + 1, j, 0);
+                    propagate(i, j + 1, 3);
+                }
+            }
+            else if (ch == '\\')
+            {
+                if (dir is 2 or 3)
+                {
+                    state[i][j] |= 1;
+                    propagate(i + 1, j, 0);
+                    propagate(i, j - 1, 1);
+                }
+                else
+                {
+                    state[i][j] |= 2;
+                    propagate(i - 1, j, 2);
+                    propagate(i, j + 1, 3);
+                }
+            }
+            else
+            {
+                state[i][j] = 3;
+                propagate(i + 1, j, 0);
+                propagate(i, j - 1, 1);
+                propagate(i - 1, j, 2);
+                propagate(i, j + 1, 3);
+            }
+        }
+    }
+
     [ProblemSolution("974")]
     public int SubarraysDivByK(int[] nums, int k)
     {
