@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace LeetCode.Set1XXX;
@@ -303,6 +304,88 @@ internal class Solution15XX
         }
 
         return result;
+    }
+
+    [ProblemSolution("1568")]
+    public int MinDays(int[][] grid)
+    {
+        var total1 = 0;
+
+        for (int i = 0; i < grid.Length; i++)
+            for (int j = 0; j < grid[0].Length; j++)
+                if (grid[i][j] == 1)
+                    total1++;
+
+        if (total1 <= 1)
+            return total1;
+
+        for (int i = 0; i < grid.Length; i++)
+        {
+            for (int j = 0; j < grid[0].Length; j++)
+            {
+                if (grid[i][j] == 1)
+                {
+                    var count = propagate(i, j, createState());
+                    if (count != total1)
+                        return 0;
+
+                    i = grid.Length;
+                    break;
+                }
+            }
+        }
+
+        List<(int i, int j)> transform = [(0, 1), (0, -1), (1, 0), (-1, 0)];
+
+        for (int i = 0; i < grid.Length; i++)
+        {
+            for (int j = 0; j < grid[0].Length; j++)
+            {
+                if (grid[i][j] == 1)
+                {
+                    grid[i][j] = 0;
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        var num = propagate(i + transform[k].i, j + transform[k].j, createState());
+                        if (num > 0 && num < total1 - 1)
+                            return 1;
+                    }
+
+                    grid[i][j] = 1;
+                }
+            }
+        }
+
+        return 2;
+
+        bool[][] createState()
+        {
+            var result = new bool[grid.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = new bool[grid[0].Length];
+
+            return result;
+        }
+
+        int propagate(int i, int j, bool[][] state)
+        {
+            if (i < 0 || j < 0 || i >= state.Length || j >= state[0].Length)
+                return 0;
+
+            if (grid[i][j] == 0 || state[i][j])
+                return 0;
+
+            var total = 1;
+            state[i][j] = true;
+
+            total += propagate(i + 1, j, state);
+            total += propagate(i - 1, j, state);
+            total += propagate(i, j + 1, state);
+            total += propagate(i, j - 1, state);
+
+            return total;
+        }
     }
 
     [ProblemSolution("1579")]
