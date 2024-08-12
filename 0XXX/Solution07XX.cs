@@ -261,6 +261,9 @@ internal class Solution07XX
         }
     }
 
+    [ProblemSolution("709")]
+    public string ToLowerCase(string s) => s.ToLowerInvariant();
+
     [ProblemSolution("726")]
     public string CountOfAtoms(string formula)
     {
