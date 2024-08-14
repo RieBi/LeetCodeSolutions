@@ -539,6 +539,95 @@ internal class Solution00XX
         return rowsValid && colsValid && regionsValid();
     }
 
+    [ProblemSolution("40")]
+    public IList<IList<int>> CombinationSum2(int[] candidates, int target)
+    {
+        candidates = candidates.Where(f => f <= target).Order().ToArray();
+
+        if (candidates.Length == 0)
+            return [];
+
+        var smaller = new int[candidates.Length];
+        var lessInd = 0;
+
+        for (int i = 1; i < candidates.Length; i++)
+        {
+            if (candidates[i] > candidates[i - 1])
+                lessInd = i - 1;
+
+            smaller[i] = lessInd;
+        }
+
+        var pref = new int[candidates.Length];
+
+        var prefSum = 0;
+        for (int i = 0; i < candidates.Length; i++)
+        {
+            prefSum += candidates[i];
+            pref[i] = prefSum;
+        }
+
+        var stack = new Stack<int>();
+        stack.Push(candidates.Length - 1);
+
+        var sum = candidates[^1];
+
+        var result = new List<IList<int>>();
+
+        while (stack.Count > 0)
+        {
+            if (sum == target)
+                result.Add(stack.Select(f => candidates[f]).ToList());
+
+            if (stack.Count == 1 && pref[stack.Peek()] < target)
+                break;
+
+            if (sum >= target)
+            {
+                while (stack.Count > 0 && candidates[stack.Peek()] == candidates[0])
+                    sum -= candidates[stack.Pop()];
+
+                if (stack.Count == 0)
+                    break;
+
+                var top = stack.Pop();
+                sum -= candidates[top];
+
+                stack.Push(smaller[top]);
+                sum += candidates[smaller[top]];
+            }
+            else
+            {
+                if (stack.Peek() == 0)
+                {
+                    while (stack.Count > 0 && candidates[stack.Peek()] == candidates[0])
+                        sum -= candidates[stack.Pop()];
+
+                    if (stack.Count == 0)
+                        break;
+
+                    var top = stack.Pop();
+                    sum -= candidates[top];
+
+                    if (smaller[top] < 0)
+                        break;
+
+                    stack.Push(smaller[top]);
+                    sum += candidates[smaller[top]];
+                }
+                else
+                {
+                    var top = stack.Peek();
+
+                    stack.Push(top - 1);
+                    sum += candidates[top - 1];
+                }
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("41")]
     public int FirstMissingPositive(int[] nums)
     {
