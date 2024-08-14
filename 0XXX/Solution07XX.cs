@@ -264,6 +264,38 @@ internal class Solution07XX
     [ProblemSolution("709")]
     public string ToLowerCase(string s) => s.ToLowerInvariant();
 
+    [ProblemSolution("719")]
+    public int SmallestDistancePair(int[] nums, int k)
+    {
+        Array.Sort(nums);
+
+        var low = 0;
+        var high = nums[^1] - nums[0];
+
+        while (low < high)
+        {
+            var mid = (low + high) / 2;
+
+            var count = 0;
+            var l = 0;
+
+            for (int r = 0; r < nums.Length; r++)
+            {
+                while (nums[r] - nums[l] > mid)
+                    l++;
+
+                count += r - l;
+            }
+
+            if (count < k)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+
+        return low;
+    }
+
     [ProblemSolution("726")]
     public string CountOfAtoms(string formula)
     {
