@@ -228,6 +228,40 @@ internal class Solution08XX
         return keys.Count == rooms.Count;
     }
 
+    [ProblemSolution("860")]
+    public bool LemonadeChange(int[] bills)
+    {
+        var bill5 = 0;
+        var bill10 = 0;
+
+        for (int i = 0; i < bills.Length; i++)
+        {
+            var bill = bills[i];
+            if (bill == 5)
+                bill5++;
+            else if (bill == 10)
+            {
+                bill10++;
+                bill5--;
+            }
+            else
+            {
+                if (bill10 > 0 && bill5 > 0)
+                {
+                    bill10--;
+                    bill5--;
+                }
+                else
+                    bill5 -= 3;
+            }
+
+            if (bill5 < 0 || bill10 < 0)
+                return false;
+        }
+
+        return true;
+    }
+
     [ProblemSolution("867")]
     public int[][] Transpose(int[][] matrix)
     {
