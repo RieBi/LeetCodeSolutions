@@ -115,6 +115,20 @@ internal class Solution06XX
         return root;
     }
 
+    [ProblemSolution("624")]
+    public int MaxDistance(IList<IList<int>> arrays)
+    {
+        var ars = (List<IList<int>>)arrays;
+
+        ars.Sort((a, b) => a[0] - b[0]);
+        var max = Math.Abs(ars[0][^1] - ars[1][0]);
+
+        for (int i = 1; i < ars.Count; i++)
+            max = Math.Abs(Math.Max(max, ars[i][^1] - ars[0][0]));
+
+        return max;
+    }
+
     [ProblemSolution("629")]
     public int KInversePairs(int n, int k)
     {
