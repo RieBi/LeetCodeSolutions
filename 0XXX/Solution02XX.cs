@@ -561,6 +561,38 @@ internal class Solution02XX
         }
     }
 
+    [ProblemSolution("264")]
+    public int NthUglyNumber(int n)
+    {
+        var nums = new int[n];
+        nums[0] = 1;
+        
+        var ind2 = 0;
+        var ind3 = 0;
+        var ind5 = 0;
+
+        var next2 = 2;
+        var next3 = 3;
+        var next5 = 5;
+
+        for (int i = 1; i < n; i++)
+        {
+            var min = Math.Min(Math.Min(next2, next3), next5);
+            nums[i] = min;
+
+            if (min == next2)
+                next2 = nums[++ind2] * 2;
+
+            if (min == next3)
+                next3 = nums[++ind3] * 3;
+            
+            if (min == next5)
+                next5 = nums[++ind5] * 5;
+        }
+
+        return nums[^1];
+    }
+
     [ProblemSolution("268")]
     public int MissingNumber(int[] nums)
     {
