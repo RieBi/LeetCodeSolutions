@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Tracing;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace LeetCode.Set0XXX;
@@ -254,6 +255,42 @@ internal class Solution06XX
     {
         public Dictionary<char, ReplaceNode> Children { get; } = [];
         public bool IsRoot { get; set; } = default;
+    }
+
+    [ProblemSolution("650")]
+    public int MinSteps(int n)
+    {
+        var root = (int)Math.Ceiling(Math.Sqrt(n));
+
+        var notPrimes = new bool[root + 1];
+        for (int i = 2; i * i < notPrimes.Length; i++)
+        {
+            if (notPrimes[i])
+                continue;
+
+            for (int j = i * 2; j < notPrimes.Length; j += i)
+                notPrimes[j] = true;
+        }
+
+        var total = 0;
+        var ind = 2;
+        while (ind < notPrimes.Length && n > 1)
+        {
+            while (n % ind == 0)
+            {
+                total += ind;
+                n /= ind;
+            }
+
+            ind++;
+            while (ind < notPrimes.Length && notPrimes[ind])
+                ind++;
+        }
+
+        if (n > 1)
+            total += n;
+
+        return total;
     }
 
     [ProblemSolution("652")]
