@@ -114,6 +114,47 @@ internal class Solution11XX
         return result;
     }
 
+    [ProblemSolution("1140")]
+    public int StoneGameII(int[] piles)
+    {
+        var suf = new int[piles.Length + 1];
+        for (int i = suf.Length - 2; i >= 0; i--)
+            suf[i] = suf[i + 1] + piles[i];
+
+        var dp = new int[piles.Length][];
+        for (int i = 0; i < dp.Length; i++)
+            dp[i] = new int[piles.Length];
+
+        for (int i = piles.Length - 1; i >= 0; i--)
+            for (int j = piles.Length - 1; j >= 0; j--)
+                dp[i][j] = calculateResult(i, j + 1);
+
+        return dp[0][0];
+
+        int calculateResult(int i, int m)
+        {
+            if (i >= piles.Length)
+                return 0;
+
+            var max = 0;
+            var last = Math.Min(i + m * 2 - 1, piles.Length - 1);
+
+            var sum = 0;
+            for (int actual = i; actual <= last; actual++)
+            {
+                var diff = actual - i + 1;
+                sum += piles[actual];
+
+                var next = actual == piles.Length - 1 ? 0 : dp[actual + 1][Math.Max(m, diff) - 1];
+                var netProfit = sum + suf[actual + 1] - next;
+
+                max = Math.Max(max, netProfit);
+            }
+
+            return max;
+        }
+    }
+
     [ProblemSolution("1143")]
     public int LongestCommonSubsequence(string text1, string text2)
     {
