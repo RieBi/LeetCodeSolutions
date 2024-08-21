@@ -364,6 +364,49 @@ internal class Solution06XX
         return result;
     }
 
+    [ProblemSolution("664")]
+    public int StrangePrinter(string s)
+    {
+        var str = new StringBuilder();
+        str.Append(s[0]);
+
+        for (int i = 1; i < s.Length; i++)
+            if (s[i] != s[i - 1])
+                str.Append(s[i]);
+
+        s = str.ToString();
+
+        var n = s.Length;
+        var memoize = new int?[n][];
+        for (int i = 0; i < memoize.Length; i++)
+            memoize[i] = new int?[n];
+
+        return calculate(0, s.Length - 1);
+
+        int calculate(int start, int end)
+        {
+            if (start > end)
+                return 0;
+
+            if (memoize[start][end] is not null)
+                return memoize[start][end]!.Value;
+
+            var minTurns = 1 + calculate(start + 1, end);
+
+            for (int i = start + 1; i <= end; i++)
+            {
+                if (s[i] == s[start])
+                {
+                    var turnsWithMatch = calculate(start, i - 1) + calculate(i + 1, end);
+                    minTurns = Math.Min(minTurns, turnsWithMatch);
+                }
+            }
+
+            memoize[start][end] = minTurns;
+            return minTurns;
+        }
+    }
+
     [ProblemSolution("677")]
     public class MapSum
     {
