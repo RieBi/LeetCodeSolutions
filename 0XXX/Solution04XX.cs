@@ -417,6 +417,17 @@ internal class Solution04XX
         return radius;
     }
 
+    [ProblemSolution("476")]
+    public int FindComplement(int num)
+    {
+        var mask = 1 << 30;
+        while ((mask & num) == 0)
+            mask >>= 1;
+
+        mask = (mask - 1) * 2 + 1;
+        return ~num & mask;
+    }
+
     [ProblemSolution("494")]
     public int FindTargetSumWays(int[] nums, int target)
     {
