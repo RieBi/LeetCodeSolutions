@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace LeetCode.Set0XXX;
-internal class Solution05XX
+internal partial class Solution05XX
 {
     [ProblemSolution("502")]
     public int FindMaximizedCapital(int k, int w, int[] profits, int[] capital)
@@ -245,6 +246,52 @@ internal class Solution05XX
         }
 
         return list;
+    }
+
+    [ProblemSolution("592")]
+    public string FractionAddition(string expression)
+    {
+        var regex = new Regex(@"(?<fr>[+-]?\d+\/\d+)(?<fr>[+-]\d+\/\d+)*");
+        var match = regex.Match(expression);
+        var fractions = match.Groups["fr"].Captures.Select(f => f.Value).ToList();
+
+        var (numerator, denominator) = getParts(fractions[0]);
+        for (int i = 1; i < fractions.Count; i++)
+        {
+            var (num2, den2) = getParts(fractions[i]);
+
+            var newDen = lcm(denominator, den2);
+            numerator *= newDen / denominator;
+            num2 *= newDen / den2;
+            denominator = newDen;
+            numerator += num2;
+        }
+
+        var div = gcd(Math.Abs(numerator), denominator);
+
+        numerator /= div;
+        denominator /= div;
+
+        return $"{numerator}/{denominator}";
+
+        (int numerator, int denominator) getParts(string fraction)
+        {
+            var slash = fraction.IndexOf('/');
+            return (int.Parse(fraction[..slash]), int.Parse(fraction[(slash + 1)..]));
+        }
+
+        static int gcd(int a, int b)
+        {
+            if (a < b)
+                (a, b) = (b, a);
+
+            while (b != 0)
+                (a, b) = (b, a % b);
+
+            return a;
+        }
+
+        static int lcm(int a, int b) => Math.Abs(a * b) / gcd(a, b);
     }
 
     [ProblemSolution("599")]
