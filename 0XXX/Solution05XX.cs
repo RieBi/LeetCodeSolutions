@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace LeetCode.Set0XXX;
@@ -156,6 +157,114 @@ internal partial class Solution05XX
             max = Math.Max(max, MaxDepth(child));
 
         return max + 1;
+    }
+
+    [ProblemSolution("564")]
+    public string NearestPalindromic(string n)
+    {
+        if (n.Length > 1 && n[0] == '1' && n[^1] == '1'
+            && n.Skip(1).Take(n.Length - 2).All(f => f == '0'))
+            return new string('9', n.Length - 1);
+
+        if (n.Length > 1 && n.All(f => f == '9'))
+            return $"1{new string('0', n.Length - 1)}1";
+
+        var str = new StringBuilder(n);
+        for (int i = str.Length / 2; i < str.Length; i++)
+            str[i] = str[^(i + 1)];
+
+        var result = str.ToString();
+        var midInd = str.Length / 2;
+        var numberN = long.Parse(n);
+
+        string? resultHigh = null;
+        string? resultLow = null;
+
+        if (result[midInd] != '0')
+        {
+            var build = new StringBuilder(result);
+            var newChar = (char)(str[midInd] - 1);
+            (build[midInd], build[^(midInd + 1)]) = (newChar, newChar);
+
+            resultLow = build.ToString();        }
+
+        if (result[midInd] != '9')
+        {
+            var build = new StringBuilder(result);
+            var newChar = (char)(str[midInd] + 1);
+            (build[midInd], build[^(midInd + 1)]) = (newChar, newChar);
+
+            resultHigh = build.ToString();
+        }
+
+        if (resultHigh is not null)
+        {
+            var numRes = long.Parse(result);
+            var numHigh = long.Parse(resultHigh);
+
+            if (Math.Abs(numberN - numHigh) < Math.Abs(numberN - numRes))
+                result = resultHigh;
+        }
+
+        if (resultLow is not null)
+        {
+            var numRes = long.Parse(result);
+            var numLow = long.Parse(resultLow);
+
+            if (Math.Abs(numberN - numLow) < Math.Abs(numberN - numRes))
+                result = resultLow;
+        }
+
+        if (result == n)
+        {
+            var mid = str[midInd];
+
+            var adder = mid == '0' ? 1 : -1;
+            var newChar = (char)(str[midInd] + adder);
+
+            (str[midInd], str[^(midInd + 1)]) = (newChar, newChar);
+            result = str.ToString();
+
+            if (adder == 1)
+            {
+                for (int i = midInd; i < str.Length - 1; i++)
+                    (str[midInd], str[^(midInd + 1)]) = ('9', '9');
+
+                newChar = (char)(str[0] - 1);
+                (str[0], str[^1]) = (newChar, newChar);
+
+                var resNum = long.Parse(result.ToString());
+                var num = long.Parse(str.ToString());
+
+                if (Math.Abs(numberN - num) <= Math.Abs(numberN - resNum))
+                    result = str.ToString();
+            }
+        }
+
+        var numberResult = long.Parse(result);
+
+        if (numberResult > numberN)
+        {
+            var diff = numberResult - numberN;
+            var potentialLower = (numberN - diff).ToString();
+
+            var isPalindrom = true;
+            for (int i = 0; i < potentialLower.Length / 2; i++)
+            {
+                if (potentialLower[i] != potentialLower[^(i + 1)])
+                {
+                    isPalindrom = false;
+                    break;
+                }
+            }
+
+            if (isPalindrom)
+                result = potentialLower;
+        }
+
+
+
+        return result;
     }
 
     [ProblemSolution("576")]
