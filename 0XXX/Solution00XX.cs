@@ -388,6 +388,42 @@ internal class Solution00XX
         return closest;
     }
 
+    [ProblemSolution("17")]
+    public IList<string> LetterCombinations(string digits)
+    {
+        if (digits.Length == 0)
+            return [];
+
+        List<string> letters = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
+
+        var capacity = 1;
+        for (int i = 0; i < digits.Length; i++)
+            capacity *= letters[digits[i] - '2'].Length;
+
+        var result = new List<string>(capacity);
+        var str = new StringBuilder();
+
+        addCombinations(0);
+        return result;
+
+        void addCombinations(int ind)
+        {
+            var cur = letters[digits[ind] - '2'];
+
+            for (int i = 0; i < cur.Length; i++)
+            {
+                str.Append(cur[i]);
+
+                if (ind == digits.Length - 1)
+                    result.Add(str.ToString());
+                else
+                    addCombinations(ind + 1);
+
+                str.Remove(str.Length - 1, 1);
+            }
+        }
+    }
+
     [ProblemSolution("20")]
     public bool IsValid(string s)
     {
