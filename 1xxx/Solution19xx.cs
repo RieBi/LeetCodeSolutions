@@ -8,6 +8,55 @@ internal class Solution19XX
         return largestOddDigit == -1 ? "" : num.Substring(0, largestOddDigit + 1);
     }
 
+    [ProblemSolution("1905")]
+    public int CountSubIslands(int[][] grid1, int[][] grid2)
+    {
+        var result = 0;
+
+        List<(int i, int j)> dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)];
+
+        for (int i = 0; i < grid2.Length; i++)
+        {
+            for (int j = 0; j < grid2[0].Length; j++)
+            {
+                if (grid2[i][j] == 1)
+                    traverse(i, j);
+            }
+        }
+
+        return result;
+
+        void traverse(int i, int j)
+        {
+            var queue = new Queue<(int i, int j)>();
+            queue.Enqueue((i, j));
+            grid2[i][j] = 0;
+
+            var matched = true;
+
+            while (queue.Count > 0)
+            {
+                var last = queue.Dequeue();
+                if (grid1[last.i][last.j] == 0)
+                    matched = false;
+
+                for (int d = 0; d < 4; d++)
+                {
+                    (int i, int j) other = (last.i + dirs[d].i, last.j + dirs[d].j);
+                    if (other.i >= 0 && other.j >= 0 && other.i < grid2.Length && other.j < grid2[0].Length
+                        && grid2[other.i][other.j] == 1)
+                    {
+                        grid2[other.i][other.j] = 0;
+                        queue.Enqueue(other);
+                    }
+                }
+            }
+
+            if (matched)
+                result++;
+        }
+    }
+
     [ProblemSolution("1913")]
     public int MaxProductDifference(int[] nums)
     {

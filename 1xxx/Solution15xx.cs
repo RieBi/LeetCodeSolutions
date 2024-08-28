@@ -59,6 +59,50 @@ internal class Solution15XX
             .Min(f => f.Second - f.First);
     }
 
+    [ProblemSolution("1514")]
+    public double MaxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node)
+    {
+        var nodes = new List<(int other, double prob)>[n];
+        for (int i = 0; i < n; i++)
+            nodes[i] = [];
+
+        var prob = new double[n];
+        prob[start_node] = 1;
+
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var a = edges[i][0];
+            var b = edges[i][1];
+
+            nodes[a].Add((b, succProb[i]));
+            nodes[b].Add((a, succProb[i]));
+        }
+
+        var queue = new SortedSet<(double, int)>
+        {
+            (1, start_node)
+        };
+
+        while (queue.Count > 0)
+        {
+            var last = queue.Max;
+            queue.Remove(last);
+
+            foreach ((var other, var otherProb) in nodes[last.Item2])
+            {
+                var newProb = last.Item1 * otherProb;
+                if (newProb > prob[other])
+                {
+                    queue.Remove((prob[other], other));
+                    queue.Add((newProb, other));
+                    prob[other] = newProb;
+                }
+            }
+        }
+
+        return prob[end_node];
+    }
+
     [ProblemSolution("1518")]
     public int NumWaterBottles(int numBottles, int numExchange)
     {
