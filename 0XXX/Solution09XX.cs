@@ -142,6 +142,86 @@ internal class Solution09XX
         return steps;
     }
 
+    [ProblemSolution("947")]
+    public int RemoveStones(int[][] stones)
+    {
+        var remove = 0;
+
+        var rows = new Dictionary<int, HashSet<int>>();
+        var cols = new Dictionary<int, HashSet<int>>();
+        
+        for (int i = 0; i < stones.Length; i++)
+        {
+            if (rows.TryGetValue(stones[i][1], out var val))
+                val.Add(stones[i][0]);
+            else
+                rows[stones[i][1]] = [stones[i][0]];
+
+            if (cols.TryGetValue(stones[i][0], out val))
+                val.Add(stones[i][1]);
+            else
+                cols[stones[i][0]] = [stones[i][1]];
+        }
+
+        while (rows.Count > 0)
+        {
+            var first = rows.First();
+            (int x, int y) firstStone = (first.Value.First(), first.Key);
+
+            var total = 0;
+
+            var queue = new Queue<(int x, int y)>();
+            queue.Enqueue(firstStone);
+
+            var col = cols[firstStone.x];
+            col.Remove(firstStone.y);
+            if (col.Count == 0)
+                cols.Remove(firstStone.x);
+
+            var row = rows[firstStone.y];
+            row.Remove(firstStone.x);
+            if (row.Count == 0)
+                rows.Remove(firstStone.y);
+
+            while (queue.Count > 0)
+            {
+                var last = queue.Dequeue();
+
+                if (rows.TryGetValue(last.y, out var sameRow))
+                {
+                    total += sameRow.Count;
+                    foreach (var otherX in sameRow)
+                    {
+                        var other = (otherX, last.y);
+                        cols[other.otherX].Remove(other.y);
+
+                        queue.Enqueue(other);
+                    }
+
+                    rows.Remove(last.y);
+                }
+
+                if (cols.TryGetValue(last.x, out var sameCol))
+                {
+                    total += sameCol.Count;
+                    foreach (var otherY in sameCol)
+                    {
+                        var other = (last.x, otherY);
+                        rows[other.otherY].Remove(other.x);
+
+                        queue.Enqueue(other);
+                    }
+
+                    cols.Remove(last.x);
+                }
+            }
+
+            remove += total;
+        }
+
+        return remove;
+    }
+
     [ProblemSolution("950")]
     public int[] DeckRevealedIncreasing(int[] deck)
     {
