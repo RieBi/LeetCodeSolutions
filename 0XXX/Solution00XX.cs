@@ -862,6 +862,21 @@ internal class Solution00XX
         return minL == -1 ? "" : s.Substring(minL, minR - minL + 1);
     }
 
+    [ProblemSolution("83")]
+    public ListNode DeleteDuplicates(ListNode head)
+    {
+        var cur = head;
+        while (cur is not null)
+        {
+            while (cur.val == cur.next?.val)
+                cur.next = cur.next.next;
+
+            cur = cur.next;
+        }
+
+        return head;
+    }
+
     [ProblemSolution("85")]
     public int MaximalRectangle(char[][] matrix)
     {
