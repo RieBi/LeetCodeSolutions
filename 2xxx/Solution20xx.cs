@@ -13,6 +13,27 @@ internal class Solution20XX
         return new string(word[..(ind + 1)].Reverse().ToArray()) + word[(ind + 1)..];
     }
 
+    [ProblemSolution("2022")]
+    public int[][] Construct2DArray(int[] original, int m, int n)
+    {
+        if (original.Length != m * n)
+            return [];
+
+        var result = new int[m][];
+        for (int i = 0; i < m; i++)
+            result[i] = new int[n];
+
+        for (int i = 0; i < original.Length; i++)
+        {
+            var row = i / n;
+            var col = i % n;
+
+            result[row][col] = original[i];
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2037")]
     public int MinMovesToSeat(int[] seats, int[] students)
     {
