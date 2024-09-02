@@ -170,6 +170,27 @@ internal class Solution18XX
         return sum;
     }
 
+    [ProblemSolution("1894")]
+    public int ChalkReplacer(int[] chalk, int k)
+    {
+        var sum = 0;
+        for (int i = 0; i < chalk.Length; i++)
+        {
+            sum += chalk[i];
+            if (sum > k)
+                return i;
+        }
+
+        if (sum <= k)
+            k %= sum;
+
+        var ind = 0;
+        while (k >= chalk[ind])
+            k -= chalk[ind++];
+
+        return ind;
+    }
+
     [ProblemSolution("1897")]
     public bool MakeEqual(string[] words)
     {
