@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set1XXX;
+﻿using System.Text;
+
+namespace LeetCode.Set1XXX;
 internal class Solution19XX
 {
     [ProblemSolution("1903")]
@@ -222,6 +224,33 @@ internal class Solution19XX
         }
 
         return discussed.Max();
+    }
+
+    [ProblemSolution("1945")]
+    public int GetLucky(string s, int k)
+    {
+        var str = new StringBuilder();
+        for (int i = 0; i < s.Length; i++)
+            str.Append((s[i] - 'a' + 1).ToString());
+
+        var num = str.ToString();
+        var result = 0;
+        for (int i = 0; i < num.Length; i++)
+            result += num[i] - '0';
+
+        for (int i = 1; i < k; i++)
+        {
+            var temp = 0;
+            while (result > 0)
+            {
+                temp += result % 10;
+                result /= 10;
+            }
+
+            result = temp;
+        }
+
+        return result;
     }
 
     [ProblemSolution("1980")]
