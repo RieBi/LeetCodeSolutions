@@ -309,6 +309,43 @@ internal class Solution08XX
         }
     }
 
+    [ProblemSolution("874")]
+    public int RobotSim(int[] commands, int[][] obstacles)
+    {
+        var ground = new HashSet<(int x, int y)>();
+        for (int i = 0; i < obstacles.Length; i++)
+            ground.Add((obstacles[i][0], obstacles[i][1]));
+
+        (int x, int y)[] dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)];
+        var maxSquaredEuclidean = 0;
+
+        var dir = 0;
+        int x = 0, y = 0;
+        for (int ind = 0; ind < commands.Length; ind++)
+        {
+            var command = commands[ind];
+            if (command == -2)
+                dir = dir == 0 ? 3 : dir - 1;
+            else if (command == -1)
+                dir = dir == 3 ? 0 : dir + 1;
+            else
+            {
+                for (int i = 0; i < command; i++)
+                {
+                    (int x, int y) destination = (x + dirs[dir].x, y + dirs[dir].y);
+                    if (ground.Contains(destination))
+                        break;
+                    else
+                        (x, y) = (destination.x, destination.y);
+                }
+            }
+
+            maxSquaredEuclidean = Math.Max(maxSquaredEuclidean, x * x + y * y);
+        }
+
+        return maxSquaredEuclidean;
+    }
+
     [ProblemSolution("881")]
     public int NumRescueBoats(int[] people, int limit)
     {
