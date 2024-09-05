@@ -34,6 +34,33 @@ internal class Solution20XX
         return result;
     }
 
+    [ProblemSolution("2028")]
+    public int[] MissingRolls(int[] rolls, int mean, int n)
+    {
+        var sum = rolls.Sum();
+        var count = rolls.Length + n;
+
+        if ((sum + n) > mean * count || (sum + n * 6) < mean * count)
+            return [];
+
+        var diff = mean * count - sum;
+
+        var result = new int[n];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = 1;
+
+        var left = diff - n;
+        var ind = 0;
+        while (left > 0)
+        {
+            var cur = Math.Min(5, left);
+            left -= cur;
+            result[ind++] += cur;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2037")]
     public int MinMovesToSeat(int[] seats, int[] students)
     {
