@@ -114,6 +114,29 @@ internal class Solution13XX
         return steps;
     }
 
+    [ProblemSolution("1367")]
+    public bool IsSubPath(ListNode head, TreeNode root)
+    {
+        return traverse(head, root);
+
+        bool traverse(ListNode node, TreeNode? treeNode)
+        {
+            if (treeNode is null)
+                return false;
+
+            if (node.val == treeNode.val)
+            {
+                if (node.next is null)
+                    return true;
+
+                if (traverse(node.next, treeNode.left) || traverse(node.next, treeNode.right))
+                    return true;
+            }
+
+            return node == head && (traverse(head, treeNode.left) || traverse(head, treeNode.right));
+        }
+    }
+
     [ProblemSolution("1380")]
     public IList<int> LuckyNumbers(int[][] matrix)
     {
