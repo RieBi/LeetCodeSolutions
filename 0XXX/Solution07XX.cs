@@ -296,6 +296,47 @@ internal class Solution07XX
         return low;
     }
 
+    [ProblemSolution("725")]
+    public ListNode?[] SplitListToParts(ListNode? head, int k)
+    {
+        var len = 0;
+        var cur = head;
+        while (cur is not null)
+        {
+            cur = cur.next;
+            len++;
+        }
+
+        var size = len / k + 1;
+        var bigCount = len % k;
+        var smallCount = k - bigCount;
+
+        var result = new ListNode?[k];
+        var ind = 0;
+
+        for (int i = 0; i < bigCount; i++)
+            updateResult(size);
+
+        size--;
+        for (int i = 0; i < smallCount; i++)
+            updateResult(size);
+
+        return result;
+
+        void updateResult(int count)
+        {
+            if (count == 0)
+                return;
+
+            result[ind++] = head;
+            for (int i = 1; i < count; i++)
+                head = head!.next;
+
+            if (head is not null)
+                (head, head.next) = (head.next, null);
+        }
+    }
+
     [ProblemSolution("726")]
     public string CountOfAtoms(string formula)
     {
