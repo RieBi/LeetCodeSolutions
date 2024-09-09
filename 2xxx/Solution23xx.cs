@@ -3,6 +3,62 @@
 namespace LeetCode.Set2XXX;
 internal class Solution23XX
 {
+    [ProblemSolution("2326")]
+    public int[][] SpiralMatrix(int m, int n, ListNode head)
+    {
+        var result = new int[m][];
+        for (int i = 0; i < m; i++)
+            result[i] = new int[n];
+
+        var cur = head;
+        foreach (var (i, j) in getSpiral())
+        {
+            result[i][j] = cur?.val ?? -1;
+            cur = cur?.next;
+        }
+
+        return result;
+
+        IEnumerable<(int i, int j)> getSpiral()
+        {
+            var top = 0;
+            var bot = m - 1;
+            var left = 0;
+            var right = n - 1;
+
+            while (true)
+            {
+                for (int i = left; i <= right; i++)
+                    yield return (top, i);
+
+                top++;
+                if (left > right || top > bot)
+                    yield break;
+
+                for (int i = top; i <= bot; i++)
+                    yield return (i, right);
+
+                right--;
+                if (left > right || top > bot)
+                    yield break;
+
+                for (int i = right; i >= left; i--)
+                    yield return (bot, i);
+
+                bot--;
+                if (left > right || top > bot)
+                    yield break;
+
+                for (int i = bot; i >= top; i--)
+                    yield return (i, left);
+
+                left++;
+                if (left > right || top > bot)
+                    yield break;
+            }
+        }
+    }
+
     [ProblemSolution("2353")]
     public class FoodRatings
     {
