@@ -1,8 +1,33 @@
-﻿using System.Collections.Specialized;
-using System.Text;
-namespace LeetCode.Set2XXX;
+﻿namespace LeetCode.Set2XXX;
 internal class Solution28XX
 {
+    [ProblemSolution("2807")]
+    public ListNode InsertGreatestCommonDivisors(ListNode head)
+    {
+        var start = head;
+        while (head.next is not null)
+        {
+            var next = head.next;
+            var node = new ListNode(gcd(head.val, next.val));
+            head.next = node;
+            node.next = next;
+            head = next;
+        }
+
+        return start;
+
+        int gcd(int a, int b)
+        {
+            if (a < b)
+                (a, b) = (b, a);
+
+            while (b > 0)
+                (a, b) = (b, a % b);
+
+            return a;
+        }
+    }
+
     [ProblemSolution("2816")]
     public ListNode DoubleIt(ListNode head)
     {
