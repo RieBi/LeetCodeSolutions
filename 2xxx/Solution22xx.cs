@@ -3,6 +3,22 @@
 namespace LeetCode.Set2XXX;
 internal class Solution22XX
 {
+    [ProblemSolution("2220")]
+    public int MinBitFlips(int start, int goal)
+    {
+        var map = 1;
+        var result = 0;
+        for (int i = 0; i < 31; i++)
+        {
+            if ((start & map) != (goal & map))
+                result++;
+
+            map <<= 1;
+        }
+
+        return result;;
+    }
+
     [ProblemSolution("2225")]
     public IList<IList<int>> FindWinners(int[][] matches)
     {
