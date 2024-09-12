@@ -243,6 +243,16 @@ internal class Solution16XX
         return true;
     }
 
+    [ProblemSolution("1684")]
+    public int CountConsistentStrings(string allowed, string[] words)
+    {
+        var permitted = new bool[26];
+        for (int i = 0; i < allowed.Length; i++)
+            permitted[allowed[i] - 'a'] = true;
+
+        return words.Count(w => w.All(c => permitted[c - 'a']));
+    }
+
     [ProblemSolution("1685")]
     public int[] GetSumAbsoluteDifferences(int[] nums)
     {
