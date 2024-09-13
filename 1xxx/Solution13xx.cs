@@ -1,6 +1,20 @@
 ﻿namespace LeetCode.Set1XXX;
 internal class Solution13XX
 {
+    [ProblemSolution("1310")]
+    public int[] XorQueries(int[] arr, int[][] queries)
+    {
+        var xors = new int[arr.Length + 1];
+        for (int i = 1; i < xors.Length; i++)
+            xors[i] = xors[i - 1] ^ arr[i - 1];
+
+        var result = new int[queries.Length];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = xors[queries[i][1] + 1] ^ xors[queries[i][0]];
+
+        return result;
+    }
+
     [ProblemSolution("1334")]
     public int FindTheCity(int n, int[][] edges, int distanceThreshold)
     {
