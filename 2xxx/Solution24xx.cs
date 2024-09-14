@@ -46,6 +46,28 @@ internal class Solution24XX
         return names;
     }
 
+    [ProblemSolution("2419")]
+    public int LongestSubarray(int[] nums)
+    {
+        var row = 0;
+        var maxRow = 0;
+        var max = nums[0];
+        
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == max)
+                row++;
+            else if (nums[i] > max)
+                (row, max, maxRow) = (1, nums[i], 1);
+            else
+                row = 0;
+
+            maxRow = Math.Max(maxRow, row);
+        }
+
+        return maxRow;
+    }
+
     [ProblemSolution("2441")]
     public int FindMaxK(int[] nums)
     {
