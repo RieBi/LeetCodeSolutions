@@ -273,6 +273,25 @@ internal class Solution03XX
         }
     }
 
+    [ProblemSolution("386")]
+    public IList<int> LexicalOrder(int n)
+    {
+        var result = new List<int>(n);
+        for (int i = 1; i <= 9 && i <= n; i++)
+            addNum(i);
+
+        return result;
+        
+        void addNum(int num)
+        {
+            result.Add(num);
+            num *= 10;
+
+            for (int i = 0; i < 10 && num <= n; i++, num++)
+                addNum(num);
+        }
+    }
+
     [ProblemSolution("387")]
     public int FirstUniqChar(string s)
     {
