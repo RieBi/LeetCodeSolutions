@@ -138,6 +138,45 @@ internal class Solution04XX
         return result;
     }
 
+    [ProblemSolution("440")]
+    public int FindKthNumber(int n, int k)
+    {
+        var result = 1;
+        k--;
+
+        while (k > 0)
+        {
+            var steps = countSteps(result, result + 1);
+
+            if (k >= steps)
+            {
+                result++;
+                k -= (int)steps;
+            }
+            else
+            {
+                result *= 10;
+                k--;
+            }
+        }
+
+        return result;
+
+        long countSteps(long from, long to)
+        {
+            var steps = 0L;
+            while (from <= n)
+            {
+                steps += Math.Min(to, n + 1) - from;
+
+                from *= 10;
+                to *= 10;
+            }
+
+            return steps;
+        }
+    }
+
     [ProblemSolution("443")]
     public int Compress(char[] chars)
     {
