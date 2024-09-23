@@ -25,6 +25,45 @@ internal class Solution27XX
         return leftover >= 0 ? leftover : money;
     }
 
+    [ProblemSolution("2707")]
+    public int MinExtraChar(string s, string[] dictionary)
+    {
+        var dp = new int[s.Length + 1];
+        for (int i = 1; i < dp.Length; i++)
+            dp[i] = i;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (i != 0)
+                dp[i] = Math.Min(dp[i], dp[i - 1] + 1);
+
+            for (int j = 0; j < dictionary.Length; j++)
+            {
+                var word = dictionary[j];
+                if (s.Length - i >= word.Length)
+                {
+                    var valid = true;
+                    for (int ind = i; ind < i + word.Length; ind++)
+                    {
+                        if (s[ind] != word[ind - i])
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    if (valid)
+                        dp[i + word.Length] = Math.Min(dp[i + word.Length], dp[i]);
+                }
+            }
+        }
+
+        if (s.Length > 1)
+            dp[^1] = Math.Min(dp[^1], dp[^2] + 1);
+
+        return dp[^1];
+    }
+
     [ProblemSolution("2709")]
     public bool CanTraverseAllPairs(int[] nums)
     {
