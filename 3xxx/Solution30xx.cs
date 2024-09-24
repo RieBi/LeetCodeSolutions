@@ -1,4 +1,7 @@
-﻿namespace LeetCode.Set3XXX;
+﻿using System.ComponentModel;
+using System.Text;
+
+namespace LeetCode.Set3XXX;
 internal class Solution30XX
 {
     [ProblemSolution("3010")]
@@ -163,6 +166,50 @@ internal class Solution30XX
                 var mult = c++ / 8 + 1;
                 return a + mult * b.Count();
             });
+    }
+
+    [ProblemSolution("3043")]
+    public int LongestCommonPrefix(int[] arr1, int[] arr2)
+    {
+        var root = new PrefixTrieNode();
+        for (int i = 0; i < arr1.Length; i++)
+        {
+            var strNum = arr1[i].ToString();
+            var cur = root;
+            for (int j = 0; j < strNum.Length; j++)
+            {
+                var ind = strNum[j] - '0';
+                if (cur.Children[ind] is null)
+                    cur.Children[ind] = new();
+
+                cur = cur.Children[ind]!;
+            }
+        }
+
+        var longest = 0;
+        for (int i = 0; i < arr2.Length; i++)
+        {
+            var strNum = arr2[i].ToString();
+
+            var cur = root;
+            var curLength = 0;
+            
+            while (curLength < strNum.Length && cur is not null)
+                cur = cur.Children[strNum[curLength++] - '0'];
+
+            if (curLength == strNum.Length && cur is not null)
+                curLength++;
+
+            longest = Math.Max(longest, curLength - 1);
+        }
+
+        return longest;
+    }
+
+    [ProblemSolution("3043")]
+    private sealed record PrefixTrieNode
+    {
+        public PrefixTrieNode?[] Children { get; } = new PrefixTrieNode[10];
     }
 
     [ProblemSolution("3075")]
