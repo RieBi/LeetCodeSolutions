@@ -413,6 +413,31 @@ internal class Solution07XX
         }
     }
 
+    [ProblemSolution("729")]
+    public class MyCalendar
+    {
+        private readonly SortedSet<(int x, int y)> _set = new(Comparer<(int , int)>.Create(Compare));
+
+        public bool Book(int start, int end)
+        {
+            if (_set.Contains((start, end)))
+                return false;
+
+            _set.Add((start, end));
+            return true;
+        }
+
+        private static int Compare((int start, int end) x, (int start, int end) y)
+        {
+            if (x.end <= y.start)
+                return -1;
+            else if (x.start >= y.end)
+                return 1;
+            else
+                return 0;
+        }
+    }
+
     [ProblemSolution("733")]
     public int[][] FloodFill(int[][] image, int sr, int sc, int color)
     {
