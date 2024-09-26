@@ -37,6 +37,66 @@ internal class Solution24XX
         return rooms.ToList().IndexOf(max);
     }
 
+    [ProblemSolution("2416")]
+    public int[] SumPrefixScores(string[] words)
+    {
+        var root = new PrefixNode();
+        for (int i = 0; i < words.Length; i++)
+        {
+            var word = words[i];
+            var node = root;
+            for (int j = 0; j < word.Length; j++)
+                node = node.Move(word[j]);
+
+            node.Score++;
+        }
+
+        root.CalculateScore();
+        var result = new int[words.Length];
+        for (int i = 0; i < words.Length; i++)
+        {
+            var sum = 0;
+            var node = root;
+            var word = words[i];
+            for (int j = 0; j < word.Length; j++)
+            {
+                node = node.Move(word[j]);
+                sum += node.Score;
+            }
+
+            result[i] = sum;
+        }
+
+        return result;
+    }
+
+    [ProblemSolution("2416")]
+    private sealed class PrefixNode()
+    {
+        public Dictionary<char, PrefixNode> Children { get; set; } = [];
+        public int Score { get; set; }
+
+        public PrefixNode Move(char ch)
+        {
+            if (Children.TryGetValue(ch, out var value))
+                return value;
+            else
+            {
+                var node = new PrefixNode();
+                Children[ch] = node;
+                return node;
+            }
+        }
+
+        public int CalculateScore()
+        {
+            foreach (var child in Children.Values)
+                Score += child.CalculateScore();
+
+            return Score;
+        }
+    }
+
     [ProblemSolution("2418")]
     public string[] SortPeople(string[] names, int[] heights)
     {
