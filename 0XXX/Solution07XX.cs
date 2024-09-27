@@ -438,6 +438,84 @@ internal class Solution07XX
         }
     }
 
+    [ProblemSolution("731")]
+    public class MyCalendarTwo
+    {
+        private readonly Comparison<(int, int)> _comparison = Compare2;
+        private readonly List<SortedSet<(int x, int y)>> sets;
+        private readonly (int x, int y) maxValue = (1_000_000_001, 1_000_000_002);
+
+        public MyCalendarTwo()
+        {
+            var comparer = Comparer<(int, int)>.Create(_comparison);
+            sets = [new(comparer), new(comparer)];
+        }
+
+        public bool Book(int start, int end)
+        {
+            var toBeAdded = new List<(int ind, (int, int) interval)>();
+
+            while (start < end)
+            {
+                var interval = (start, end);
+                for (int i = 0; i < sets.Count; i++)
+                {
+                    var set = sets[i];
+                    var view = set.GetViewBetween((interval.start, interval.start), maxValue);
+                    var value = view.Min;
+
+                    if (Compare(interval, value) == 0)
+                    {
+                        if (value.x > interval.start)
+                        {
+                            toBeAdded.Add((i, (interval.start, value.x)));
+                            start = value.x;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        toBeAdded.Add((i, interval));
+                        start = end;
+                        break;
+                    }
+                }
+
+                if (start == interval.start)
+                    return false;
+            }
+
+            bool isOK = true;
+            for (int i = 0; i < toBeAdded.Count; i++)
+                isOK = sets[toBeAdded[i].ind].Add(toBeAdded[i].interval);
+
+            if (!isOK)
+                Console.WriteLine("NOT OK");
+            return true;
+        }
+
+        private static int Compare((int start, int end) x, (int start, int end) y)
+        {
+            if (x.end <= y.start)
+                return -1;
+            else if (x.start >= y.end)
+                return 1;
+            else
+                return 0;
+        }
+
+        private static int Compare2((int start, int end) x, (int start, int end) y)
+        {
+            if (x.start == x.end && y.start <= x.start && y.end > x.start)
+                return 0;
+
+            if (y.start == y.end && x.start <= y.start && x.end > y.start)
+                return 0;
+
+            return x.start.CompareTo(y.start);
+        }
+    }
+
     [ProblemSolution("733")]
     public int[][] FloodFill(int[][] image, int sr, int sc, int color)
     {
