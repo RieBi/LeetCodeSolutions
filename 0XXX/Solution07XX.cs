@@ -436,7 +436,7 @@ internal class Solution07XX
     [ProblemSolution("731")]
     public class MyCalendarTwo
     {
-        private readonly Comparison<(int, int)> _comparison = Compare2;
+        private readonly Comparison<(int, int)> _comparison = Compare;
         private readonly List<SortedSet<(int x, int y)>> sets;
         private readonly (int x, int y) maxValue = (1_000_000_001, 1_000_000_002);
 
@@ -456,6 +456,7 @@ internal class Solution07XX
                 for (int i = 0; i < sets.Count; i++)
                 {
                     var set = sets[i];
+
                     var view = set.GetViewBetween((interval.start, interval.start), maxValue);
                     var value = view.Min;
 
@@ -480,12 +481,9 @@ internal class Solution07XX
                     return false;
             }
 
-            bool isOK = true;
             for (int i = 0; i < toBeAdded.Count; i++)
-                isOK = sets[toBeAdded[i].ind].Add(toBeAdded[i].interval);
+                sets[toBeAdded[i].ind].Add(toBeAdded[i].interval);
 
-            if (!isOK)
-                Console.WriteLine("NOT OK");
             return true;
         }
 
@@ -497,17 +495,6 @@ internal class Solution07XX
                 return 1;
             else
                 return 0;
-        }
-
-        private static int Compare2((int start, int end) x, (int start, int end) y)
-        {
-            if (x.start == x.end && y.start <= x.start && y.end > x.start)
-                return 0;
-
-            if (y.start == y.end && x.start <= y.start && x.end > y.start)
-                return 0;
-
-            return x.start.CompareTo(y.start);
         }
     }
 
