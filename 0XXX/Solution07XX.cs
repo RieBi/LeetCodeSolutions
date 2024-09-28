@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace LeetCode.Set0XXX;
 internal class Solution07XX
 {
     [ProblemSolution("700")]
-    public TreeNode? SearchBST(TreeNode root, int val)
+    public TreeNode? SearchBST(TreeNode? root, int val)
     {
         while (root is not null)
         {
