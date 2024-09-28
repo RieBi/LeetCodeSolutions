@@ -171,6 +171,75 @@ internal class Solution06XX
         return false;
     }
 
+    [ProblemSolution("641")]
+    public class MyCircularDeque(int k)
+    {
+        private readonly int[] _items = new int[k];
+        private int _count = 0;
+
+        private int _start = 0;
+        private int _end = k - 1;
+
+        public bool InsertFront(int value)
+        {
+            if (_count == _items.Length)
+                return false;
+
+            _start--;
+            if (_start < 0)
+                _start += _items.Length;
+
+            _items[_start] = value;
+            _count++;
+            return true;
+        }
+
+        public bool InsertLast(int value)
+        {
+            if (_count == _items.Length)
+                return false;
+
+            _end++;
+            _end %= _items.Length;
+
+            _items[_end] = value;
+            _count++;
+            return true;
+        }
+
+        public bool DeleteFront()
+        {
+            if (_count == 0)
+                return false;
+
+            _count--;
+            _start++;
+            _start %= _items.Length;
+            return true;
+        }
+
+        public bool DeleteLast()
+        {
+            if (_count == 0)
+                return false;
+
+            _count--;
+            _end--;
+            if (_end < 0)
+                _end += _items.Length;
+
+            return true;
+        }
+
+        public int GetFront() => _count == 0 ? -1 : _items[_start];
+
+        public int GetRear() => _count == 0 ? -1 : _items[_end];
+
+        public bool IsEmpty() => _count == 0;
+
+        public bool IsFull() => _count == _items.Length;
+    }
+
     [ProblemSolution("645")]
     public int[] FindErrorNums(int[] nums)
     {
