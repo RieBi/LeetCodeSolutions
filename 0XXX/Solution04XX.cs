@@ -138,6 +138,148 @@ internal class Solution04XX
         return result;
     }
 
+    [ProblemSolution("432")]
+    public class AllOne
+    {
+        private readonly List<MinMaxData> _list = [new()];
+        private readonly Dictionary<string, int> _keys = [];
+
+        public AllOne()
+        {
+        }
+
+        public void Inc(string key)
+        {
+            if (_keys.TryGetValue(key, out var value))
+            {
+                if (_list.Count <= value + 1)
+                    _list.Add(new());
+
+                _keys[key] = value + 1;
+                _list[value].Keys.Remove(key);
+                _list[value + 1].Keys.Add(key);
+
+                var lowData = _list[value];
+                var highData = _list[value + 1];
+                if (lowData.Keys.Count == 0)
+                {
+                    if (lowData.Prev != -1)
+                        _list[lowData.Prev].Next = value + 1;
+
+                    if (_list[0].Next == value)
+                        _list[0].Next = value + 1;
+
+                    highData.Prev = lowData.Prev;
+                }
+
+                if (highData.Keys.Count == 1)
+                {
+                    if (lowData.Next != -1)
+                        _list[lowData.Next].Prev = value + 1;
+
+                    highData.Next = lowData.Next;
+                    highData.Prev = lowData.Keys.Count == 0 ? lowData.Prev : value;
+
+                    if (lowData.Keys.Count != 0)
+                        lowData.Next = value + 1;
+                }
+            }
+            else
+            {
+                _keys[key] = 1;
+                if (_list.Count == 1)
+                    _list.Add(new());
+
+                _list[1].Keys.Add(key);
+                if (_list[1].Keys.Count == 1)
+                {
+                    _list[1].Next = _list[0].Next;
+                    if (_list[0].Next != -1)
+                        _list[_list[0].Next].Prev = 1;
+                }
+
+                _list[0].Next = 1;
+            }
+        }
+
+        public void Dec(string key)
+        {
+            var value = _keys[key];
+            var highData = _list[value];
+            highData.Keys.Remove(key);
+
+            if (value > 1)
+            {
+                _keys[key] = value - 1;
+
+                var lowData = _list[value - 1];
+                lowData.Keys.Add(key);
+
+                if (lowData.Keys.Count == 1)
+                {
+                    if (lowData.Prev != -1)
+                        _list[lowData.Prev].Next = value - 1;
+
+                    highData.Prev = value - 1;
+                }
+
+                if (highData.Keys.Count == 0)
+                {
+                    lowData.Next = highData.Next;
+                }
+            }
+            else
+                _keys.Remove(key);
+
+            if (highData.Keys.Count == 0)
+            {
+                if (highData.Next != -1)
+                    _list[highData.Next].Prev = value == 1 ? -1 : value - 1;
+
+                if (_list[0].Next == value)
+                    _list[0].Next = value == 1 ? highData.Next : value - 1;
+
+                if (value == _list.Count - 1)
+                    _list.RemoveAt(_list.Count - 1);
+            }
+
+            if (highData.Keys.Count == 0 && highData.Next != -1)
+                _list[highData.Next].Prev = value == 1 ? -1 : value - 1;
+        }
+
+        public string GetMaxKey()
+        {
+            if (_list.Count == 1)
+                return string.Empty;
+
+            return _list[^1].Keys.First();
+        }
+
+        public string GetMinKey()
+        {
+            if (_list.Count == 1)
+                return string.Empty;
+
+            return _list[_list[0].Next].Keys.First();
+        }
+
+        private sealed class MinMaxData()
+        {
+            public HashSet<string> Keys { get; set; } = [];
+            public int Prev { get; set; } = -1;
+            public int Next { get; set; } = -1;
+        }
+    }
+
+    /**
+     * Your AllOne object will be instantiated and called as such:
+     * AllOne obj = new AllOne();
+     * obj.Inc(key);
+     * obj.Dec(key);
+     * string param_3 = obj.GetMaxKey();
+     * string param_4 = obj.GetMinKey();
+     */
+
     [ProblemSolution("440")]
     public int FindKthNumber(int n, int k)
     {
