@@ -190,6 +190,43 @@ internal class Solution13XX
         return result;
     }
 
+    [ProblemSolution("1381")]
+    public class CustomStack(int maxSize)
+    {
+        private readonly List<(int val, int cumulative)> _list = new(maxSize);
+
+        public void Push(int x)
+        {
+            if (_list.Count == _list.Capacity)
+                return;
+
+            _list.Add((x, 0));
+        }
+
+        public int Pop()
+        {
+            if (_list.Count == 0)
+                return -1;
+
+            var top = _list[^1];
+            _list.RemoveAt(_list.Count - 1);
+
+            if (_list.Count > 0)
+                _list[^1] = (_list[^1].val, _list[^1].cumulative + top.cumulative);
+
+            return top.val + top.cumulative;
+        }
+
+        public void Increment(int k, int val)
+        {
+            if (_list.Count == 0)
+                return;
+
+            k = Math.Min(k, _list.Count);
+            _list[k - 1] = (_list[k - 1].val, _list[k - 1].cumulative + val);
+        }
+    }
+
     [ProblemSolution("1382")]
     public TreeNode BalanceBST(TreeNode root)
     {
