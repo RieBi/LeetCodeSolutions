@@ -312,4 +312,68 @@ internal class Solution14XX
 
         return false;
     }
+
+    [ProblemSolution("1497")]
+    public bool CanArrange(int[] arr, int k)
+    {
+        var counts = new Dictionary<int, int>();
+
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            var modulo = arr[i] % k;
+
+            if (counts.TryGetValue(modulo, out var value))
+                counts[modulo] = value + 1;
+            else
+                counts[modulo] = 1;
+        }
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            var modulo = arr[i] % k;
+            if (!counts.TryGetValue(modulo, out var value))
+                continue;
+
+            int removeCount;
+
+            var other1 = (int)Math.CopySign(k, modulo) - modulo;
+            var other2 = -modulo;
+            if (counts.TryGetValue(other1, out var value2) && !(modulo == other1 && value == 1))
+            {
+                removeCount = Math.Min(value, value2);
+                if (modulo == other1)
+                {
+                    if (value % 2 == 0)
+                        counts.Remove(modulo);
+                    else
+                        counts[modulo] = 1;
+
+                    continue;
+                }
+
+                if (value2 == removeCount)
+                    counts.Remove(other1);
+                else
+                    counts[other1] = value2 - removeCount;
+            }
+            else if (counts.TryGetValue(other2, out value2))
+            {
+                removeCount = Math.Min(value, value2);
+                if (value2 == removeCount)
+                    counts.Remove(other2);
+                else
+                    counts[other2] = value2 - removeCount;
+            }
+            else
+                return false;
+
+            if (value == removeCount)
+                counts.Remove(modulo);
+            else
+                counts[modulo] = value - removeCount;
+        }
+
+        return true;
+    }
 }
