@@ -15,6 +15,26 @@ internal class Solution13XX
         return result;
     }
 
+    [ProblemSolution("1331")]
+    public int[] ArrayRankTransform(int[] arr)
+    {
+        var rank = 0;
+        _ = Enumerable.Range(0, arr.Length)
+            .OrderBy(f => arr[f])
+            .Aggregate(int.MinValue, (a, b) =>
+            {
+                if (a != arr[b])
+                    rank++;
+
+                var prev = arr[b];
+                arr[b] = rank;
+
+                return prev;
+            });
+
+        return arr;
+    }
+
     [ProblemSolution("1334")]
     public int FindTheCity(int n, int[][] edges, int distanceThreshold)
     {
