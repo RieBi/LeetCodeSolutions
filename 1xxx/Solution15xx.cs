@@ -615,6 +615,33 @@ internal class Solution15XX
         return total;
     }
 
+    [ProblemSolution("1590")]
+    public int MinSubarray(int[] nums, int p)
+    {
+        var last = new Dictionary<int, int>();
+        var min = nums.Length;
+        var required = nums.Aggregate(0, (acc, num) => (acc + num) % p);
+
+        if (required == 0)
+            return 0;
+
+        var sum = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            sum = (sum + nums[i]) % p;
+            var other = (sum + p - required) % p;
+
+            if (last.TryGetValue(other, out var value))
+                min = Math.Min(min, i - value);
+            else if (sum == required)
+                min = Math.Min(min, i + 1);
+
+            last[sum] = i;
+        }
+
+        return min == nums.Length ? -1 : min;
+    }
+
     [ProblemSolution("1598")]
     public int MinOperations(string[] logs)
     {
