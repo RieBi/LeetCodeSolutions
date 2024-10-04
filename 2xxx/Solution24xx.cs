@@ -224,4 +224,22 @@ internal class Solution24XX
 
         return head;
     }
+
+    [ProblemSolution("2491")]
+    public long DividePlayers(int[] skill)
+    {
+        Array.Sort(skill);
+        long chemistry = skill[0] * skill[^1];
+        var score = skill[0] + skill[^1];
+
+        for (int i = 1; i < skill.Length / 2; i++)
+        {
+            if (skill[i] + skill[^(i + 1)] != score)
+                return -1;
+
+            chemistry += skill[i] * skill[^(i + 1)];
+        }
+
+        return chemistry;
+    }
 }

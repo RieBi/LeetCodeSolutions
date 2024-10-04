@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net.WebSockets;
-using System.Text;
-
-namespace LeetCode.Set1XXX;
+﻿namespace LeetCode.Set1XXX;
 internal class Solution15XX
 {
     [ProblemSolution("1508")]
