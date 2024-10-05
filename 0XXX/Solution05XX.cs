@@ -267,6 +267,47 @@ internal partial class Solution05XX
         return result;
     }
 
+    [ProblemSolution("567")]
+    public bool CheckInclusion(string s1, string s2)
+    {
+        var s1Chars = new Dictionary<char, int>();
+        for (int i = 0; i < s1.Length; i++)
+        {
+            if (s1Chars.TryGetValue(s1[i], out var value))
+                s1Chars[s1[i]] = value + 1;
+            else
+                s1Chars[s1[i]] = 1;
+        }
+
+        var s2Chars = new Dictionary<char, int>();
+        var left = 0;
+        for (int i = 0; i < s2.Length; i++)
+        {
+            if (s2Chars.TryGetValue(s2[i], out var value))
+                s2Chars[s2[i]] = value + 1;
+            else
+                s2Chars[s2[i]] = 1;
+
+            value++;
+
+            s1Chars.TryGetValue(s2[i], out var actual);
+
+            while (value > actual)
+            {
+                if (s2[left] == s2[i])
+                    value--;
+
+                s2Chars[s2[left]] = s2Chars[s2[left]] - 1;
+                left++;
+            }
+
+            if ((left <= i) && (i - left + 1 == s1.Length))
+                return true;
+        }
+
+        return false;
+    }
+
     [ProblemSolution("576")]
     public int FindPaths(int m, int n, int maxMove, int startRow, int startColumn)
     {
