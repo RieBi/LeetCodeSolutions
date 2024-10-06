@@ -1,6 +1,30 @@
 ﻿namespace LeetCode.Set1XXX;
 internal class Solution18XX
 {
+    [ProblemSolution("1813")]
+    public bool AreSentencesSimilar(string sentence1, string sentence2)
+    {
+        var words1 = sentence1.Split(' ');
+        var words2 = sentence2.Split(' ');
+
+        if (words1.Length < words2.Length)
+            (words1, words2) = (words2, words1);
+
+        var diff = 0;
+        while (diff < words2.Length && words1[diff] == words2[diff])
+            diff++;
+
+        var missing = words1.Length - words2.Length;
+
+        for (int j = diff; j < words2.Length; j++)
+        {
+            if (words1[j + missing] != words2[j])
+                return false;
+        }
+
+        return true;
+    }
+
     [ProblemSolution("1814")]
     public int CountNicePairs(int[] nums)
     {
