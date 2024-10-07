@@ -28,4 +28,30 @@ internal class Solution25XX
         else
             return n - (time % n + 1);
     }
+
+    [ProblemSolution("2598")]
+    public int FindSmallestInteger(int[] numbers, int value)
+    {
+        var mods = new int[Math.Min(numbers.Length, value)];
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            var mod = numbers[i] % value;
+            if (mod < 0)
+                mod = value - -mod;
+
+            if (mod < mods.Length)
+                mods[mod]++;
+        }
+
+        var min = int.MaxValue;
+        int minInd = 0;
+        for (; minInd < mods.Length && mods[minInd] > 0; minInd++)
+            min = Math.Min(min, mods[minInd]);
+
+        if (minInd < value)
+            return minInd;
+
+        var secondInd = Array.FindIndex(mods, f => f == min);
+        return value * min + secondInd;
+    }
 }
