@@ -34,6 +34,27 @@ internal class Solution26XX
         return details.Count(f => f[^4] > '6' || f[^4] == '6' && f[^3] != '0');
     }
 
+    [ProblemSolution("2696")]
+    public int MinLength(string s)
+    {
+        var reduced = 0;
+        var stack = new Stack<char>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] is 'A' or 'C')
+                stack.Push(s[i]);
+            else if (stack.Count > 0 && (s[i] == 'B' && stack.Peek() == 'A' || s[i] == 'D' && stack.Peek() == 'C'))
+            {
+                stack.Pop();
+                reduced += 2;
+            }
+            else
+                stack.Clear();
+        }
+
+        return s.Length - reduced;
+    }
+
     [ProblemSolution("2699")]
     public int[][] ModifiedGraphEdges(int n, int[][] edges, int source, int destination, int target)
     {
