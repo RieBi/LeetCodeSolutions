@@ -253,6 +253,25 @@ internal class Solution19XX
         return result;
     }
 
+    [ProblemSolution("1963")]
+    public int MinSwaps(string s)
+    {
+        var misses = 0;
+        var cur = 0;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '[')
+                cur++;
+            else if (cur > 0)
+                cur--;
+            else
+                misses++;
+        }
+
+        return misses - misses / 2;
+    }
+
     [ProblemSolution("1980")]
     public string FindDifferentBinaryString(string[] nums)
     {
