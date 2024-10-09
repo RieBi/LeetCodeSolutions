@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LeetCode.Set0XXX;
+﻿namespace LeetCode.Set0XXX;
 internal class Solution09XX
 {
     [ProblemSolution("907")]
@@ -72,6 +66,25 @@ internal class Solution09XX
             }
             while (start != max);
         }
+    }
+
+    [ProblemSolution("921")]
+    public int MinAddToMakeValid(string s)
+    {
+        var result = 0;
+        var cur = 0;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '(')
+                cur++;
+            else if (cur > 0)
+                cur--;
+            else
+                result++;
+        }
+
+        return result + cur;
     }
 
     [ProblemSolution("931")]
