@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set0XXX;
+﻿using System.Runtime.InteropServices;
+
+namespace LeetCode.Set0XXX;
 internal class Solution09XX
 {
     [ProblemSolution("907")]
@@ -353,6 +355,32 @@ internal class Solution09XX
                 propagate(i, j + 1, 3);
             }
         }
+    }
+
+    [ProblemSolution("962")]
+    public int MaxWidthRamp(int[] nums)
+    {
+        var stack = new Stack<int>();
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (stack.Count == 0 || nums[stack.Peek()] > nums[i])
+                stack.Push(i);
+        }
+
+        var maxWidth = 0;
+        for (int i = nums.Length - 1; i >= 0; i--)
+        {
+            while (stack.Count > 0 && nums[stack.Peek()] <= nums[i])
+            {
+                maxWidth = Math.Max(maxWidth, i - stack.Pop());
+            }
+
+            if (stack.Count == 0)
+                break;
+        }
+
+        return maxWidth;
     }
 
     [ProblemSolution("974")]
