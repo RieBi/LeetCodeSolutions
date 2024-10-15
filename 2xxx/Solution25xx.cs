@@ -1,6 +1,25 @@
 ﻿namespace LeetCode.Set2XXX;
 internal class Solution25XX
 {
+    [ProblemSolution("2530")]
+    public long MaxKelements(int[] nums, int k)
+    {
+        var queue = new PriorityQueue<int, int>();
+        for (int i = 0; i < nums.Length; i++)
+            queue.Enqueue(nums[i], -nums[i]);
+
+        var score = 0L;
+        for (int i = 0; i < k; i++)
+        {
+            var max = queue.Dequeue();
+            score += max;
+            var newVal = (int)Math.Ceiling(max / 3.0);
+            queue.Enqueue(newVal, -newVal);
+        }
+
+        return score;
+    }
+
     [ProblemSolution("2540")]
     public int GetCommon(int[] nums1, int[] nums2)
     {
