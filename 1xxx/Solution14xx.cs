@@ -1,8 +1,61 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Text;
 
 namespace LeetCode.Set1XXX;
 internal class Solution14XX
 {
+    [ProblemSolution("1405")]
+    public string LongestDiverseString(int a, int b, int c)
+    {
+        List<(int val, char ch)> vals = [(a, 'a'), (b, 'b'), (c, 'c')];
+        vals = [.. vals.OrderByDescending(f => f.val)];
+
+        var str = new StringBuilder();
+        if (vals[0].val > (vals[1].val + vals[2].val) * 2 + 2)
+        {
+            vals[0] = ((vals[1].val + vals[2].val) * 2 + 2, vals[0].ch);
+        }
+
+        while (((vals[1].val + vals[2].val) * 2) > (vals[0].val + 2))
+        {
+            var rep = Math.Min(vals[1].val, 2);
+            str.Append(vals[1].ch, rep);
+            vals[1] = (vals[1].val - rep, vals[1].ch);
+
+            str.Append(vals[0].ch);
+            vals[0] = (vals[0].val - 1, vals[0].ch);
+
+            if (vals[1].val < vals[2].val)
+                (vals[1], vals[2]) = (vals[2], vals[1]);
+        }
+
+        if (str.Length == 0)
+        {
+            var rep = Math.Min(vals[0].val, 2);
+            str.Append(vals[0].ch, rep);
+            vals[0] = (vals[0].val - rep, vals[0].ch);
+        }
+        else if (vals[0].val > 0)
+        {
+            str.Append(vals[0].ch);
+            vals[0] = (vals[0].val - 1, vals[0].ch);
+        }
+
+        while (vals[1].val > 0)
+        {
+            str.Append(vals[1].ch);
+            vals[1] = (vals[1].val - 1, vals[1].ch);
+
+            var rep = Math.Min(vals[0].val, 2);
+            str.Append(vals[0].ch, rep);
+            vals[0] = (vals[0].val - rep, vals[0].ch);
+
+            if (vals[1].val < vals[2].val)
+                (vals[1], vals[2]) = (vals[2], vals[1]);
+        }
+
+        return str.ToString();
+    }   
+
     [ProblemSolution("1422")]
     public int MaxScore(string s)
     {
