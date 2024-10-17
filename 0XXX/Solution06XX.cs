@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Tracing;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
+﻿using System.Text;
 
 namespace LeetCode.Set0XXX;
 internal class Solution06XX
@@ -474,6 +472,57 @@ internal class Solution06XX
             memoize[start][end] = minTurns;
             return minTurns;
         }
+    }
+
+    [ProblemSolution("670")]
+    public int MaximumSwap(int num)
+    {
+        var str = num.ToString();
+
+        var maxes = new int[str.Length];
+        var stack = new Stack<int>();
+
+        for (int i = 0; i < str.Length; i++)
+        {
+            if (stack.Count == 0 || str[i] < str[stack.Peek()])
+                stack.Push(i);
+        }
+
+        for (int i = str.Length - 1; i > 0; i--)
+        {
+            while (stack.Count > 0 && stack.Peek() >= i)
+                stack.Pop();
+
+            int val = -1;
+            while (stack.Count > 0 && str[stack.Peek()] < str[i])
+            {
+                val = stack.Pop();
+            }
+
+            if (val != -1)
+            {
+                if (maxes[val] == 0 || str[i] > str[maxes[val]])
+                    maxes[val] = i;
+                stack.Push(val);
+            }
+        }
+
+        var ind = -1;
+        for (int i = 0; i < maxes.Length; i++)
+        {
+            if (maxes[i] != 0)
+            {
+                ind = i;
+                break;
+            }
+        }
+
+        if (ind == -1)
+            return num;
+
+        var builder = new StringBuilder(str);
+        (builder[ind], builder[maxes[ind]]) = (builder[maxes[ind]], builder[ind]);
+        return int.Parse(builder.ToString());
     }
 
     [ProblemSolution("677")]
