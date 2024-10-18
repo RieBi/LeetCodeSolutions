@@ -70,6 +70,33 @@ internal class Solution20XX
             .Sum(f => Math.Abs(seats[f] - students[f]));
     }
 
+    [ProblemSolution("2044")]
+    public int CountMaxOrSubsets(int[] nums)
+    {
+        var max = nums.Aggregate(0, (a, b) => a | b);
+        var limit = (1 << nums.Length) - 1;
+
+        var count = 1;
+        for (int i = 1; i < limit; i++)
+        {
+            var num = 0;
+            for (int j = 0; j < nums.Length; j++)
+            {
+                var map = 1 << j;
+                if (map > i)
+                    break;
+
+                if ((map & i) != 0)
+                    num |= nums[j];
+            }
+
+            if (num == max)
+                count++;
+        }
+
+        return count;
+    }
+
     [ProblemSolution("2045")]
     public int SecondMinimum(int n, int[][] edges, int time, int change)
     {
