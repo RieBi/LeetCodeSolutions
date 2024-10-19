@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set1XXX;
+﻿using System.Text;
+
+namespace LeetCode.Set1XXX;
 internal class Solution15XX
 {
     [ProblemSolution("1508")]
@@ -262,6 +264,19 @@ internal class Solution15XX
         }
 
         return -1;
+    }
+
+    [ProblemSolution("1545")]
+    public char FindKthBit(int _, int k)
+    {
+        var pos = k & -k;
+        var inverted = (k & (pos << 1)) != 0;
+        var originOne = (k & 1) == 0;
+
+        if (originOne)
+            return inverted ? '0' : '1';
+        else
+            return inverted ? '1' : '0';
     }
 
     [ProblemSolution("1550")]
