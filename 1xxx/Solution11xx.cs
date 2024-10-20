@@ -29,6 +29,73 @@ internal class Solution11XX
         return dp[^1];
     }
 
+    [ProblemSolution("1106")]
+    public bool ParseBoolExpr(string expression)
+    {
+        var ind = 0;
+        return parseExpr();
+
+        bool parseExpr()
+        {
+            var result =  expression[ind] switch
+            {
+                't' => true,
+                'f' => false,
+                '!' => parseNot(),
+                '&' => parseAnd(),
+                '|' => parseOr(),
+                _ => throw new InvalidOperationException()
+            };
+
+            ind++;
+            return result;
+        }
+
+        bool parseNot()
+        {
+            ind += 2;
+            var result = !parseExpr();
+
+            return result;
+        }
+
+        bool parseAnd()
+        {
+            ind += 2;
+            var go = true;
+            var val = true;
+
+            while (go)
+            {
+                val &= parseExpr();
+                if (expression[ind] == ',')
+                    ind++;
+                else
+                    go = false;
+            }
+
+            return val;
+        }
+
+        bool parseOr()
+        {
+            ind += 2;
+            var go = true;
+            var val = false;
+
+            while (go)
+            {
+                val |= parseExpr();
+                if (expression[ind] == ',')
+                    ind++;
+                else
+                    go = false;
+            }
+
+            return val;
+        }
+    }
+
     [ProblemSolution("1110")]
     public IList<TreeNode> DelNodes(TreeNode root, int[] to_delete)
     {
