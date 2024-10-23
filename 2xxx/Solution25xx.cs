@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set2XXX;
+﻿using System.Runtime.Serialization;
+
+namespace LeetCode.Set2XXX;
 internal class Solution25XX
 {
     [ProblemSolution("2530")]
@@ -46,6 +48,39 @@ internal class Solution25XX
             return time + 1;
         else
             return n - (time % n + 1);
+    }
+
+    [ProblemSolution("2583")]
+    public long KthLargestLevelSum(TreeNode root, int k)
+    {
+        var node = root;
+        var level = 1;
+        var stack = new Stack<(TreeNode node, int level)>();
+
+        var sums = new List<long>();
+        while (stack.Count > 0 || node is not null)
+        {
+            while (node is not null)
+            {
+                stack.Push((node, level));
+                node = node.left;
+                level++;
+            }
+
+            var last = stack.Pop();
+
+            while (sums.Count < last.level)
+                sums.Add(0);
+
+            sums[last.level - 1] += last.node.val;
+
+            (node, level) = (last.node.right, last.level + 1);
+        }
+
+        if (k > sums.Count)
+            return -1;
+
+        return sums.OrderDescending().Skip(k - 1).First();
     }
 
     [ProblemSolution("2598")]
