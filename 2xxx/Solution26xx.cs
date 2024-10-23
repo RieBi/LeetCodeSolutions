@@ -28,6 +28,69 @@ internal class Solution26XX
         return result;
     }
 
+    [ProblemSolution("2641")]
+    public TreeNode ReplaceValueInTree(TreeNode root)
+    {
+        var queue = new Queue<TreeNode>();
+        var parents = new Queue<TreeNode>();
+        parents.Enqueue(new(0, root));
+        queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            var c = queue.Count;
+            var sum = queue.Sum(f => f.val);
+
+            for (int i = 0; i < c; i++)
+            {
+                var last = queue.Dequeue();
+                var parent = parents.Dequeue();
+
+                var val = sum;
+                if (parent.left is not null)
+                    val -= parent.left.val;
+                if (parent.right is not null)
+                    val -= parent.right.val;
+
+                last.val = val;
+
+                if (i != c - 1 && parents.Peek() == parent)
+                {
+                    i++;
+                    parents.Dequeue();
+                    var sibling = queue.Dequeue();
+                    sibling.val = val;
+
+                    if (sibling.left is not null)
+                    {
+                        queue.Enqueue(sibling.left);
+                        parents.Enqueue(sibling);
+                    }
+
+                    if (sibling.right is not null)
+                    {
+                        queue.Enqueue(sibling.right);
+                        parents.Enqueue(sibling);
+                    }
+                }
+
+                if (last.left is not null)
+                {
+                    queue.Enqueue(last.left);
+                    parents.Enqueue(last);
+                }
+
+                if (last.right is not null)
+                {
+                    queue.Enqueue(last.right);
+                    parents.Enqueue(last);
+                }
+            }
+        }
+
+        return root;
+    }
+
     [ProblemSolution("2678")]
     public int CountSeniors(string[] details)
     {
