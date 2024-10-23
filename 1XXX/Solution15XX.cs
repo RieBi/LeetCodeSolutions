@@ -653,6 +653,45 @@ internal class Solution15XX
         return min == nums.Length ? -1 : min;
     }
 
+    [ProblemSolution("1593")]
+    public int MaxUniqueSplit(string s)
+    {
+        var limit = 1 << (s.Length - 1);
+        var count = s.Length - 1;
+
+        var max = 1;
+        var set = new HashSet<string>();
+
+        for (int i = 1; i < limit; i++)
+        {
+            set.Clear();
+            var last = 0;
+            bool good = true;
+
+            for (int cur = 0; cur < count; cur++)
+            {
+                var map = 1 << cur;
+                if ((i & map) != 0)
+                {
+                    if (!set.Add(s.Substring(last, cur - last + 1)))
+                    {
+                        good = false;
+                        break;
+                    }
+
+                    last = cur + 1;
+                }
+            }
+
+            if (good && set.Add(s.Substring(last, s.Length - last)))
+            {
+                max = Math.Max(max, set.Count);
+            }
+        }
+
+        return max;
+    }
+
     [ProblemSolution("1598")]
     public int MinOperations(string[] logs)
     {
