@@ -97,6 +97,37 @@ internal class Solution26XX
         return details.Count(f => f[^4] > '6' || f[^4] == '6' && f[^3] != '0');
     }
 
+    [ProblemSolution("2684")]
+    public int MaxMoves(int[][] grid)
+    {
+        var possible = new bool[grid.Length];
+        for (int i = 0; i < possible.Length; i++)
+            possible[i] = true;
+
+        var newPossible = new bool[grid.Length];
+        var max = 0;
+
+        for (int i = 1; i < grid[0].Length; i++)
+        {
+            for (int j = 0; j < grid.Length; j++)
+            {
+                if (j > 0 && possible[j - 1] && grid[j - 1][i - 1] < grid[j][i]
+                    || possible[j] && grid[j][i - 1] < grid[j][i]
+                    || j < grid.Length - 1 && possible[j + 1] && grid[j + 1][i - 1] < grid[j][i])
+                {
+                    newPossible[j] = true;
+                    max = i;
+                }
+            }
+
+            (possible, newPossible) = (newPossible, possible);
+            for (int j = 0; j < newPossible.Length; j++)
+                newPossible[j] = false;
+        }
+
+        return max;
+    }
+
     [ProblemSolution("2696")]
     public int MinLength(string s)
     {
