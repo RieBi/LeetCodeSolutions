@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace LeetCode.Set1XXX;
 internal class Solution12XX
@@ -9,6 +10,61 @@ internal class Solution12XX
     {
         var groups = arr.GroupBy(f => f).Select(f => f.Count());
         return groups.Count() == groups.Distinct().Count();
+    }
+
+    [ProblemSolution("1233")]
+    public IList<string> RemoveSubfolders(string[] folder)
+    {
+        var root = new FolderNode();
+        for (int i = 0; i < folder.Length; i++)
+            root.Add(folder[i]);
+
+        return root.EnumerateParents(new()).ToList();
+    }
+
+    [ProblemSolution("1233")]
+    private sealed class FolderNode
+    {
+        private bool IsFolder { get; set; } = false;
+        public Dictionary<char, FolderNode> Children { get; set; } = [];
+
+        public void Add(string path)
+        {
+            var cur = this;
+            for (int i = 0; i < path.Length; i++)
+            {
+                if (cur.Children.TryGetValue(path[i], out var value))
+                    cur = value;
+                else
+                {
+                    var child = new FolderNode();
+                    cur.Children.Add(path[i], child);
+                    cur = child;
+                }
+            }
+
+            cur.IsFolder = true;
+        }
+
+        public IEnumerable<string> EnumerateParents(StringBuilder builder)
+        {
+            if (IsFolder)
+            {
+                yield return builder.ToString();
+
+                if (Children.ContainsKey('/'))
+                    Children.Remove('/');
+            }
+
+            foreach (var child in Children)
+            {
+                builder.Append(child.Key);
+                foreach (var val in child.Value.EnumerateParents(builder))
+                    yield return val;
+
+                builder.Remove(builder.Length - 1, 1);
+            }
+        }
     }
 
     [ProblemSolution("1235")]
