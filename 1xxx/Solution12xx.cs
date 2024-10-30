@@ -190,6 +190,45 @@ internal class Solution12XX
         return resultTime;
     }
 
+    [ProblemSolution("1277")]
+    public int CountSquares(int[][] matrix)
+    {
+        var old = new (int height, int square)[matrix[0].Length];
+        var modern = new (int height, int square)[matrix[0].Length];
+
+        for (int i = 0; i < matrix[0].Length; i++)
+            old[i] = (matrix[0][i], matrix[0][i]);
+
+        var result = old.Sum(f => f.square);
+
+        for (int i = 1; i < matrix.Length; i++)
+        {
+            var length = 0;
+
+            for (int j = 0; j < matrix[0].Length; j++)
+            {
+                if (matrix[i][j] > 0)
+                {
+                    length++;
+                    var newH = old[j].height + 1;
+                    var newSquare = Math.Min(Math.Min(length, newH), j == 0 ? 1 : old[j - 1].square + 1);
+
+                    result += newSquare;
+                    modern[j] = (newH, newSquare);
+                }
+                else
+                {
+                    modern[j] = (0, 0);
+                    length = 0;
+                }
+            }
+
+            (old, modern) = (modern, old);
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1287")]
     public int FindSpecialInteger(int[] arr)
     {
