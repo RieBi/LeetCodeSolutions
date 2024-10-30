@@ -135,6 +135,57 @@ internal class Solution24XX
         return nums.Where(f => f > 0).Aggregate(-1, (a, b) => negatives.Contains(-b) ? Math.Max(a, b) : a);
     }
 
+    [ProblemSolution("2458")]
+    public int[] TreeQueries(TreeNode root, int[] queries)
+    {
+        var maxHeights = new List<int>();
+        propagate(root, 0);
+
+        var results = new int[queries.Length];
+
+        var existing = new List<(int prev, int actual)>();
+        var dict = new Dictionary<int, int>();
+        for (int i = 0; i < queries.Length; i++)
+        {
+            if (dict.TryGetValue(queries[i], out var value))
+                existing.Add((value, i));
+            else
+                dict[queries[i]] = i;
+        }
+
+        calculateResults(root, 0, 0);
+
+        for (int i = 0; i < existing.Count; i++)
+            results[existing[i].actual] = results[existing[i].prev];
+
+        return results;
+
+        void calculateResults(TreeNode? node, int height, int max)
+        {
+            if (node is null)
+                return;
+
+            if (dict.TryGetValue(node.val, out var index))
+                results[index] = Math.Max(max, height - 1);
+
+            calculateResults(node.left, height + 1, node.right is null ? max : Math.Max(maxHeights[node.right.val], max));
+            calculateResults(node.right, height + 1, node.left is null ? max : Math.Max(maxHeights[node.left.val], max));
+        }
+
+        int propagate(TreeNode? node, int height)
+        {
+            if (node is null)
+                return height - 1;
+
+            var val = Math.Max(propagate(node.left, height + 1), propagate(node.right, height + 1));
+            while (maxHeights.Count <= node.val)
+                maxHeights.Add(0);
+
+            maxHeights[node.val] = val;
+            return val;
+        }
+    }
+
     [ProblemSolution("2482")]
     public int[][] OnesMinusZeros(int[][] grid)
     {
