@@ -243,6 +243,59 @@ internal class Solution16XX
         return true;
     }
 
+    [ProblemSolution("1671")]
+    public int MinimumMountainRemovals(int[] nums)
+    {
+        var leftdp = new int[nums.Length];
+        leftdp[0] = 1;
+
+        var min = nums[0];
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] <= min)
+            {
+                min = nums[i];
+                leftdp[i] = 1;
+                continue;
+            }
+
+            for (int j = i - 1; j >= 0; j--)
+            {
+                if (nums[i] > nums[j])
+                    leftdp[i] = Math.Max(leftdp[i], leftdp[j] + 1);
+            }
+        }
+
+        var rightdp = new int[nums.Length];
+        rightdp[^1] = 1;
+
+        min = nums[^1];
+        for (int i = nums.Length - 2; i >= 0; i--)
+        {
+            if (nums[i] <= min)
+            {
+                min = nums[i];
+                rightdp[i] = 1;
+                continue;
+            }
+
+            for (int j = i + 1; j < nums.Length; j++)
+            {
+                if (nums[i] > nums[j])
+                    rightdp[i] = Math.Max(rightdp[i], rightdp[j] + 1);
+            }
+        }
+
+        var result = nums.Length;
+        for (int i = 1; i < nums.Length - 1; i++)
+        {
+            if (leftdp[i] != 1 && rightdp[i] != 1)
+                result = Math.Min(result, nums.Length - leftdp[i] - rightdp[i] + 1);
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1684")]
     public int CountConsistentStrings(string allowed, string[] words)
     {
