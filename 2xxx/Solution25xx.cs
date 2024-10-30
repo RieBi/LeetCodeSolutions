@@ -3,6 +3,28 @@
 namespace LeetCode.Set2XXX;
 internal class Solution25XX
 {
+    [ProblemSolution("2501")]
+    public int LongestSquareStreak(int[] nums)
+    {
+        Array.Sort(nums);
+        var dict = new Dictionary<int, int>();
+
+        var longest = -1;
+
+        for (int i = nums.Length - 1; i >= 0; i--)
+        {
+            var count = 1;
+            if (nums[i] < 317 && dict.TryGetValue(nums[i] * nums[i], out var value))
+                count = value + 1;
+
+            dict[nums[i]] = count;
+            if (count > 1)
+                longest = Math.Max(longest, count);
+        }
+
+        return longest;
+    }
+
     [ProblemSolution("2530")]
     public long MaxKelements(int[] nums, int k)
     {
