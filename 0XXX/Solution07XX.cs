@@ -670,4 +670,37 @@ internal class Solution07XX
         var least = been[dst].Min();
         return least == int.MaxValue ? -1 : least;
     }
+
+    [ProblemSolution("796")]
+    public bool RotateString(string s, string goal)
+    {
+        if (s.Length != goal.Length)
+            return false;
+
+        var pre = new int[goal.Length];
+
+        for (int i = 1; i < pre.Length; i++)
+        {
+            if (goal[i] == goal[pre[i - 1]])
+                pre[i] = pre[i - 1] + 1;
+        }
+
+        var m = 0;
+        for (int i = 0; i < s.Length * 2; i++)
+        {
+            if (s[i % s.Length] == goal[m])
+            {
+                m++;
+                if (m == goal.Length)
+                    return true;
+            }
+            else if (m > 0)
+            {
+                m = pre[m - 1];
+                i--;
+            }
+        }
+
+        return false;
+    }
 }
