@@ -253,6 +253,33 @@ internal class Solution19XX
         return result;
     }
 
+    [ProblemSolution("1957")]
+    public string MakeFancyString(string s)
+    {
+        var cur = s[0];
+        var streak = 1;
+
+        var result = new StringBuilder(s[0].ToString());
+
+        for (int i = 1; i < s.Length; i++)
+        {
+            if (s[i] == cur)
+            {
+                streak++;
+            }
+            else
+            {
+                streak = 1;
+                cur = s[i];
+            }
+
+            if (streak < 3)
+                result.Append(s[i]);
+        }
+
+        return result.ToString();
+    }
+
     [ProblemSolution("1963")]
     public int MinSwaps(string s)
     {
