@@ -276,6 +276,21 @@ internal class Solution24XX
         return head;
     }
 
+    [ProblemSolution("2490")]
+    public bool IsCircularSentence(string sentence)
+    {
+        if (sentence[0] != sentence[^1])
+            return false;
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            if (sentence[i] == ' ' && sentence[i - 1] != sentence[i + 1])
+                return false;
+        }
+
+        return true;
+    }
+
     [ProblemSolution("2491")]
     public long DividePlayers(int[] skill)
     {
