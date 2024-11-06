@@ -22,20 +22,22 @@ internal class Solution30XX
     [ProblemSolution("3011")]
     public bool CanSortArray(int[] nums)
     {
+        var prevBits = bitsSet(nums[0]);
+        var prevMax = 0;
+        var curMax = nums[0];
+
         for (int i = 1; i < nums.Length; i++)
         {
-            var j = i;
-            while (j > 0 && nums[j] < nums[j - 1] && bitsSet(nums[j]) == bitsSet(nums[j - 1]))
-            {
-                (nums[j], nums[j - 1]) = (nums[j - 1], nums[j]);
-                j--;
-            }
-        }
-        
-        for (int i = 1; i < nums.Length; i++)
-        {
-            if (nums[i] < nums[i - 1])
+            var curBits = bitsSet(nums[i]);
+            if (curBits == prevBits)
+                curMax = Math.Max(curMax, nums[i]);
+            else
+                (prevMax, curMax) = (curMax, Math.Max(curMax, nums[i]));
+
+            if (nums[i] < prevMax)
                 return false;
+
+            prevBits = curBits;
         }
 
         return true;
@@ -44,7 +46,7 @@ internal class Solution30XX
         {
             var amount = 0;
             var mask = 1;
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 9; i++)
             {
                 if ((num & mask) > 0)
                     amount++;
