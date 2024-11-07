@@ -67,6 +67,28 @@ internal class Solution22XX
         return max;
     }
 
+    [ProblemSolution("2275")]
+    public int LargestCombination(int[] candidates)
+    {
+        var maxBits = 0;
+
+        for (int i = 0; i < 24; i++)
+        {
+            var bits = 0;
+            var map = 1 << i;
+
+            for (int j = 0; j < candidates.Length; j++)
+            {
+                if ((candidates[j] & map) != 0)
+                    bits++;
+            }
+
+            maxBits = Math.Max(maxBits, bits);
+        }
+
+        return maxBits;
+    }
+
     [ProblemSolution("2285")]
     public long MaximumImportance(int n, int[][] roads)
     {
