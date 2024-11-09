@@ -79,6 +79,22 @@ internal class Solution18XX
         return ans + 1;
     }
 
+    [ProblemSolution("1829")]
+    public int[] GetMaximumXor(int[] nums, int maximumBit)
+    {
+        var mask = int.MaxValue >> (31 - maximumBit);
+        var xor = 0;
+        var result = new int[nums.Length];
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            xor ^= nums[i];
+            result[^(i + 1)] = xor ^ mask;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1838")]
     public int MaxFrequency(int[] nums, int k)
     {
