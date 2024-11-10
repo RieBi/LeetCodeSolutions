@@ -229,4 +229,62 @@ internal class Solution30XX
 
         return sum;
     }
+
+    [ProblemSolution("3097")]
+    public int MinimumSubarrayLength(int[] nums, int k)
+    {
+        if (k == 0)
+            return 1;
+
+        var counts = new int[31];
+        var start = 0;
+        var end = 0;
+
+        var current = 0;
+
+        var min = int.MaxValue;
+
+        while (end < nums.Length)
+        {
+            var bit = 0;
+            var num = nums[end++];
+
+            while (num > 0)
+            {
+                if (num % 2 == 1)
+                {
+                    counts[bit]++;
+                    current |= (1 << bit);
+                }
+
+                num >>= 1;
+                bit++;
+            }
+
+            while (current >= k)
+            {
+                min = Math.Min(min, end - start);
+
+                bit = 0;
+                num = nums[start++];
+
+                while (num > 0)
+                {
+                    if (num % 2 == 1)
+                    {
+                        counts[bit]--;
+                        if (counts[bit] == 0)
+                        {
+                            current ^= (1 << bit);
+                        }
+                    }
+
+                    bit++;
+                    num >>= 1;
+                }
+            }
+        }
+
+        return min == int.MaxValue ? -1 : min;
+    }
 }
