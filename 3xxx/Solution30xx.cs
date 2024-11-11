@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Text;
-
-namespace LeetCode.Set3XXX;
+﻿namespace LeetCode.Set3XXX;
 internal class Solution30XX
 {
     [ProblemSolution("3010")]

@@ -1,6 +1,52 @@
 ﻿namespace LeetCode.Set2XXX;
 internal class Solution26XX
 {
+    [ProblemSolution("2601")]
+    public bool PrimeSubOperation(int[] nums)
+    {
+        var notPrimes = new bool[1001];
+        for (int i = 2; i * i < notPrimes.Length; i++)
+        {
+            if (notPrimes[i])
+                continue;
+
+            for (int j = i * 2; j < notPrimes.Length; j += i)
+            {
+                notPrimes[j] = true;
+            }
+        }
+
+        var primes = new List<int>();
+        for (int i = 2; i < notPrimes.Length; i++)
+            if (!notPrimes[i])
+                primes.Add(i);
+
+        var cur = nums[^1];
+        for (int i = nums.Length - 2; i >= 0; i--)
+        {
+            if (nums[i] >= cur)
+            {
+                var prime = primes.BinarySearch(nums[i] - cur + 1);
+                if (prime < 0)
+                    prime = ~prime;
+
+                if (prime == primes.Count)
+                    return false;
+
+                prime = primes[prime];
+
+                if (prime >= nums[i])
+                    return false;
+                else
+                    cur = nums[i] - prime;
+            }
+            else
+                cur = nums[i];
+        }
+
+        return true;
+    }
+
     [ProblemSolution("2610")]
     public IList<IList<int>> FindMatrix(int[] nums)
     {
