@@ -62,6 +62,43 @@ internal class Solution25XX
         return -1;
     }
 
+    [ProblemSolution("2563")]
+    public long CountFairPairs(int[] nums, int lower, int upper)
+    {
+        var leftComparer = Comparer<int>.Create((a, b) =>
+        {
+            var comp = a.CompareTo(b);
+            return comp == 0 ? 1 : comp;
+        });
+
+        var rightComparer = Comparer<int>.Create((a, b) =>
+        {
+            var comp = a.CompareTo(b);
+            return comp == 0 ? -1 : comp;
+        });
+
+        Array.Sort(nums);
+
+        var result = 0L;
+        for (int i = 1; i < nums.Length; i++)
+        {
+            var left = Array.BinarySearch(nums, 0, i, lower - nums[i], leftComparer);
+
+            if (left < 0)
+                left = ~left;
+
+            var right = Array.BinarySearch(nums, 0, i, upper - nums[i], rightComparer);
+            if (right < 0)
+                right = ~right - 1;
+
+            var length = right - left + 1;
+            if (length > 0)
+                result += length;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2582")]
     public int PassThePillow(int n, int time)
     {
