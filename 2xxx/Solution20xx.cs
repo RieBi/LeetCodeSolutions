@@ -266,6 +266,38 @@ internal class Solution20XX
             return [minDist, lastInd - firstInd];
     }
 
+    [ProblemSolution("2070")]
+    public int[] MaximumBeauty(int[][] items, int[] queries)
+    {
+        var comparer = Comparer<int[]>.Create((a, b) =>
+        {
+            var comp = a[0].CompareTo(b[0]);
+            return comp == 0 ? -1 : comp;
+        });
+
+        Array.Sort(items, (a, b) => a[0].CompareTo(b[0]));
+        var max = new int[items.Length];
+
+        max[0] = items[0][1];
+        for (int i = 1; i < max.Length; i++)
+            max[i] = Math.Max(max[i - 1], items[i][1]);
+
+        var result = new int[queries.Length];
+        for (int i = 0; i < queries.Length; i++)
+        {
+            if (items[0][0] > queries[i])
+                continue;
+
+            var ind = Array.BinarySearch(items, [queries[i]], comparer);
+            if (ind < 0)
+                ind = ~ind - 1;
+
+            result[i] = max[ind];
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2092")]
     public IList<int> FindAllPeople(int n, int[][] meetings, int firstPerson)
     {
