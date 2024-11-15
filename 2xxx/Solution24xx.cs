@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set2XXX;
+﻿using System.ComponentModel.Design.Serialization;
+
+namespace LeetCode.Set2XXX;
 internal class Solution24XX
 {
     [ProblemSolution("2402")]
@@ -184,6 +186,53 @@ internal class Solution24XX
             maxHeights[node.val] = val;
             return val;
         }
+    }
+
+    [ProblemSolution("2463")]
+    public long MinimumTotalDistance(IList<int> robot, int[][] factory)
+    {
+        if (robot is List<int> robotList)
+            robotList.Sort();
+
+        Array.Sort(factory, (a, b) => a[0].CompareTo(b[0]));
+
+        var prev = new long[robot.Count];
+        var cur = new long[robot.Count];
+        for (int i = 0; i < robot.Count; i++)
+            (prev[i], cur[i]) = (long.MaxValue / 2, long.MaxValue / 2);
+
+        var factorySum = 0;
+        for (int i = 0; i < factory.Length; i++)
+        {
+            factorySum += factory[i][1];
+            var limit = Math.Min(robot.Count, factorySum);
+
+            for (int j = 0; j < limit; j++)
+            {
+                var minDist = prev[j];
+                var curDist = 0L;
+
+                var min = Math.Max(-1, j - factory[i][1]);
+                for (int k = j; k > min; k--)
+                {
+                    curDist += Math.Abs((long)robot[k] - factory[i][0]);
+
+                    if (k == 0 || prev[k - 1] != long.MaxValue / 2)
+                        minDist = Math.Min(minDist, (k == 0 ? 0 : prev[k - 1]) + curDist);
+                }
+
+                cur[j] = minDist;
+            }
+
+            for (int j = limit; j < robot.Count; j++)
+                cur[j] = long.MaxValue / 2;
+
+            (prev, cur) = (cur, prev);
+            for (int ind = 0; ind < robot.Count; ind++)
+                cur[ind] = long.MaxValue / 2;
+        }
+
+        return prev[^1];
     }
 
     [ProblemSolution("2482")]
