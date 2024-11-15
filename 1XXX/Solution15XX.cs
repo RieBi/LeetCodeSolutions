@@ -443,6 +443,61 @@ internal class Solution15XX
         }
     }
 
+    [ProblemSolution("1574")]
+    public int FindLengthOfShortestSubarray(int[] arr)
+    {
+        var start = 0;
+        while (start + 1 < arr.Length && arr[start + 1] >= arr[start])
+            start++;
+
+        if (start == arr.Length - 1)
+            return 0;
+
+        var result = arr.Length;
+
+        var end = arr.Length;
+        for (; start >= -1; start--)
+        {
+            while ((end == arr.Length || arr[end - 1] <= arr[end]) && (start == -1 || arr[end - 1] >= arr[start]))
+                end--;
+
+            result = Math.Min(result, end - start - 1);
+        }
+
+        return result;
+    }
+
+    [ProblemSolution("1578")]
+    public int MinCost(string colors, int[] neededTime)
+    {
+        var sum = neededTime[0];
+        var max = neededTime[0];
+        var count = 1;
+        var total = 0;
+        for (int i = 1; i < colors.Length; i++)
+        {
+            if (colors[i] == colors[i - 1])
+            {
+                sum += neededTime[i];
+                max = Math.Max(max, neededTime[i]);
+                count++;
+            }
+            else
+            {
+                if (count > 1)
+                    total += (sum - max);
+                sum = neededTime[i];
+                max = neededTime[i];
+                count = 1;
+            }
+        }
+
+        if (count > 1)
+            total += (sum - max);
+
+        return total;
+    }
+
     [ProblemSolution("1579")]
     public int MaxNumEdgesToRemove(int n, int[][] edges)
     {
@@ -560,37 +615,6 @@ internal class Solution15XX
 
             return false;
         }
-    }
-
-    [ProblemSolution("1578")]
-    public int MinCost(string colors, int[] neededTime)
-    {
-        var sum = neededTime[0];
-        var max = neededTime[0];
-        var count = 1;
-        var total = 0;
-        for (int i = 1; i < colors.Length; i++)
-        {
-            if (colors[i] == colors[i - 1])
-            {
-                sum += neededTime[i];
-                max = Math.Max(max, neededTime[i]);
-                count++;
-            }
-            else
-            {
-                if (count > 1)
-                    total += (sum - max);
-                sum = neededTime[i];
-                max = neededTime[i];
-                count = 1;
-            }
-        }
-
-        if (count > 1)
-            total += (sum - max);
-
-        return total;
     }
 
     [ProblemSolution("1582")]
