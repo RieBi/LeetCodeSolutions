@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -260,6 +261,63 @@ internal class Solution08XX
         }
 
         return true;
+    }
+
+    [ProblemSolution("862")]
+    public int ShortestSubarray(int[] nums, int k)
+    {
+        var prefix = new long[nums.Length + 1];
+
+        for (int i = 1; i <= nums.Length; i++)
+            prefix[i] = prefix[i - 1] + nums[i - 1];
+
+        var queue = new int[2];
+
+        var length = 0;
+        var start = 0;
+        var result = int.MaxValue;
+
+        for (int i = 0; i <= nums.Length; i++)
+        {
+            while (length > 0 && prefix[i] - prefix[peekFront()] >= k)
+                result = Math.Min(result, i - popFront());
+
+            while (length > 0 && prefix[i] <= prefix[peekBack()])
+                popBack();
+
+            pushBack(i);
+        }
+
+        return result == int.MaxValue ? -1 : result;
+
+        int peekFront() => queue[start];
+
+        int popFront()
+        {
+            var val = queue[start];
+            length--;
+            start = (start + 1) % queue.Length;
+            return val;
+        }
+
+        void pushBack(int val)
+        {
+            if (length == queue.Length)
+            {
+                var newQ = new int[queue.Length * 2];
+                for (int i = 0; i < queue.Length; i++)
+                    newQ[i] = queue[(i + start) % queue.Length];
+
+                queue = newQ;
+                start = 0;
+            }
+
+            queue[(start + length++) % queue.Length] = val;
+        }
+
+        int peekBack() => queue[(start + length - 1) % queue.Length];
+
+        int popBack() => length--;
     }
 
     [ProblemSolution("867")]
