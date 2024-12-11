@@ -243,4 +243,30 @@ internal class Solution27XX
         public required int Health { get; set; }
         public required int Direction { get; set; }
     }
+
+    [ProblemSolution("2779")]
+    public int MaximumBeauty(int[] nums, int k)
+    {
+        var max = nums.Max();
+        var vals = new int[max + 1];
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            vals[Math.Max(0, nums[i] - k)]++;
+
+            if (nums[i] + k != max)
+                vals[Math.Min(max, nums[i] + k + 1)]--;
+        }
+
+        var result = 1;
+        var cur = 0;
+
+        for (int i = 0; i < vals.Length; i++)
+        {
+            cur += vals[i];
+            result = Math.Max(result, cur);
+        }
+
+        return result;
+    }
 }
