@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections;
+using System.Runtime.Serialization;
 
 namespace LeetCode.Set2XXX;
 internal class Solution25XX
@@ -140,6 +141,33 @@ internal class Solution25XX
             return -1;
 
         return sums.OrderDescending().Skip(k - 1).First();
+    }
+
+    [ProblemSolution("2593")]
+    public long FindScore(int[] nums)
+    {
+        var indices = Enumerable.Range(0, nums.Length)
+            .OrderBy(f => nums[f])
+            .ToList();
+
+        var bits = new BitArray(indices.Count);
+
+        var sum = 0L;
+        for (int i = 0; i < indices.Count; i++)
+        {
+            if (bits[indices[i]])
+                continue;
+
+            sum += nums[indices[i]];
+
+            bits[indices[i]] = true;
+            if (indices[i] > 0)
+                bits[indices[i] - 1] = true;
+            if (indices[i] < indices.Count - 1)
+                bits[indices[i] + 1] = true;
+        }
+
+        return sum;
     }
 
     [ProblemSolution("2598")]
