@@ -244,6 +244,57 @@ internal class Solution27XX
         public required int Direction { get; set; }
     }
 
+    [ProblemSolution("2762")]
+    public long ContinuousSubarrays(int[] nums)
+    {
+        var mins = new LinkedList<(int val, int ind)>();
+        var maxs = new LinkedList<(int val, int ind)>();
+
+        mins.AddFirst((nums[0], 0));
+        maxs.AddFirst((nums[0], 0));
+
+        var left = 0;
+        var right = 0;
+
+        var result = 1L;
+
+        while (right < nums.Length - 1)
+        {
+            add();
+
+            while (Math.Abs(mins.First!.Value.val - maxs.First!.Value.val) > 2)
+                moveLeft();
+
+            result += right - left + 1;
+        }
+
+        return result;
+
+        void add()
+        {
+            right++;
+            while (mins.Count > 0 && nums[right] <= mins.Last!.Value.val)
+                mins.RemoveLast();
+
+            while (maxs.Count > 0 && nums[right] >= maxs.Last!.Value.val)
+                maxs.RemoveLast();
+
+            mins.AddLast((nums[right], right));
+            maxs.AddLast((nums[right], right));
+        }
+
+        void moveLeft()
+        {
+            if (mins.First!.Value.ind == left)
+                mins.RemoveFirst();
+
+            if (maxs.First!.Value.ind == left)
+                maxs.RemoveFirst();
+
+            left++;
+        }
+    }
+
     [ProblemSolution("2779")]
     public int MaximumBeauty(int[] nums, int k)
     {
