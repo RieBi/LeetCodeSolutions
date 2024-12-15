@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Set1XXX;
+﻿using System.Linq.Expressions;
+
+namespace LeetCode.Set1XXX;
 internal class Solution17XX
 {
     [ProblemSolution("1701")]
@@ -174,5 +176,35 @@ internal class Solution17XX
         return nums.GroupBy(f => f)
             .OrderByDescending(f => f.Count())
             .First().Key;
+    }
+
+    [ProblemSolution("1792")]
+    public double MaxAverageRatio(int[][] classes, int extraStudents)
+    {
+        var totalPass = 0D;
+        var queue = new PriorityQueue<(double pass, double total), double>();
+
+        for (int i = 0; i < classes.Length; i++)
+        {
+            (double cur, double curTotal) = (classes[i][0], classes[i][1]);
+            var curRate = cur / curTotal;
+
+            var diff = ((cur + 1) / (curTotal + 1)) - curRate;
+            totalPass += curRate;
+            queue.Enqueue((cur, curTotal), -diff);
+        }
+
+        while (extraStudents > 0)
+        {
+            queue.TryDequeue(out var elem, out var diff);
+
+            totalPass -= diff;
+            var nextDiff = ((elem.pass + 2) / (elem.total + 2)) - ((elem.pass + 1) / (elem.total + 1));
+            queue.Enqueue((elem.pass + 1, elem.total + 1), -nextDiff);
+
+            extraStudents--;
+        }
+
+        return totalPass / classes.Length;
     }
 }
