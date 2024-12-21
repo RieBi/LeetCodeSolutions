@@ -601,6 +601,22 @@ internal class Solution07XX
         (int, int, int, int) getElemFromStr(string str) => (int.Parse(str[0].ToString()), int.Parse(str[1].ToString()), int.Parse(str[2].ToString()), int.Parse(str[3].ToString()));
     }
 
+    [ProblemSolution("769")]
+    public int MaxChunksToSorted(int[] arr)
+    {
+        var max = arr[0];
+        var chunks = 0;
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            max = Math.Max(max, arr[i]);
+            if (max == i)
+                chunks++;
+        }
+
+        return chunks;
+    }
+
     [ProblemSolution("771")]
     public int NumJewelsInStones(string jewels, string stones)
     {
