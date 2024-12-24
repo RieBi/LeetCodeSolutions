@@ -179,6 +179,36 @@ internal class Solution18XX
         }
     }
 
+    [ProblemSolution("1861")]
+    public char[][] RotateTheBox(char[][] box)
+    {
+        var result = new char[box[0].Length][];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = new char[box.Length];
+
+        for (int i = 0; i < box.Length; i++)
+        {
+            var curPlace = box[0].Length - 1;
+
+            for (int j = box[0].Length - 1; j >= 0; j--)
+            {
+                var col = box.Length - i - 1;
+
+                result[j][col] = '.';
+
+                if (box[i][j] == '*')
+                {
+                    curPlace = j - 1;
+                    result[j][col] = '*';
+                }
+                else if (box[i][j] == '#')
+                    result[curPlace--][col] = '#';
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1877")]
     public int MinPairSum(int[] nums)
     {
