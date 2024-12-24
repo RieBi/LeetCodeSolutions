@@ -299,6 +299,34 @@ internal class Solution19XX
         return misses - misses / 2;
     }
 
+    [ProblemSolution("1975")]
+    public long MaxMatrixSum(int[][] matrix)
+    {
+        var sum = 0L;
+        var minAbs = int.MaxValue;
+        var negativesCount = 0;
+        var zeroExists = false;
+
+        for (int i = 0; i < matrix.Length; i++)
+        {
+            for (int j = 0; j < matrix[0].Length; j++)
+            {
+                sum += Math.Abs(matrix[i][j]);
+                minAbs = Math.Min(minAbs, Math.Abs(matrix[i][j]));
+
+                if (matrix[i][j] < 0)
+                    negativesCount++;
+                else if (matrix[i][j] == 0)
+                    zeroExists = true;
+            }
+        }
+
+        if (!zeroExists && (negativesCount & 1) == 1)
+            sum -= minAbs * 2;
+
+        return sum;
+    }
+
     [ProblemSolution("1980")]
     public string FindDifferentBinaryString(string[] nums)
     {
