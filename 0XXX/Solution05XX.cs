@@ -71,6 +71,41 @@ internal partial class Solution05XX
         }
     }
 
+    [ProblemSolution("515")]
+    public IList<int> LargestValues(TreeNode? root)
+    {
+        if (root is null)
+            return [];
+
+        var result = new List<int>();
+
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            var c = queue.Count;
+            var max = int.MinValue;
+
+            for (int i = 0; i < c; i++)
+            {
+                var node = queue.Dequeue();
+
+                if (node.left is not null)
+                    queue.Enqueue(node.left);
+
+                if (node.right is not null)
+                    queue.Enqueue(node.right);
+
+                max = Math.Max(max, node.val);
+            }
+
+            result.Add(max);
+        }
+
+        return result;
+    }
+
     [ProblemSolution("523")]
     public bool CheckSubarraySum(int[] nums, int k)
     {
