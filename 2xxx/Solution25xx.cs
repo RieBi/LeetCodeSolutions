@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization;
 
 namespace LeetCode.Set2XXX;
 internal class Solution25XX
@@ -62,6 +61,29 @@ internal class Solution25XX
 
         return -1;
     }
+
+    [ProblemSolution("2559")]
+    public int[] VowelStrings(string[] words, int[][] queries)
+    {
+        var counts = new int[words.Length + 1];
+        for (int i = 0; i < words.Length; i++)
+        {
+            if (vowels.Contains(words[i][0]) && vowels.Contains(words[i][^1]))
+                counts[i + 1] = counts[i] + 1;
+            else
+                counts[i + 1] = counts[i];
+        }
+
+        var result = new int[queries.Length];
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = counts[queries[i][1] + 1] - counts[queries[i][0]];
+        }
+
+        return result;
+    }
+
+    static readonly HashSet<char> vowels = ['a', 'e', 'i', 'o', 'u'];
 
     [ProblemSolution("2563")]
     public long CountFairPairs(int[] nums, int lower, int upper)
