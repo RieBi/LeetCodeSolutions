@@ -67,6 +67,26 @@ internal class Solution22XX
         return max;
     }
 
+    [ProblemSolution("2270")]
+    public int WaysToSplitArray(int[] nums)
+    {
+        var left = nums.Sum(f => (long)f) - nums[^1];
+        var right = (long)nums[^1];
+
+        var splits = 0;
+
+        for (int i = nums.Length - 2; i >= 0; i--)
+        {
+            if (left >= right)
+                splits++;
+
+            left -= nums[i];
+            right += nums[i];
+        }
+
+        return splits;
+    }
+
     [ProblemSolution("2275")]
     public int LargestCombination(int[] candidates)
     {
