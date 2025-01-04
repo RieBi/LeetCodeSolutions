@@ -158,7 +158,6 @@ internal class Solution19XX
     [ProblemSolution("1930")]
     public int CountPalindromicSubsequence(string s)
     {
-        var palindromes = new HashSet<string>();
         var startIndices = new int[26];
         var endIndices = new int[26];
 
@@ -181,17 +180,24 @@ internal class Solution19XX
         for (int i = 0; i < 26; i++)
         {
             if (startIndices[i] == -1)
-                continue;
-
-            for (int j = startIndices[i] + 1; j < endIndices[i]; j++)
             {
-                var ch = (char)('a' + i);
-                var newStr = new String(new char[] { ch, s[j], ch });
-                palindromes.Add(newStr);
+                startIndices[i] = 0;
+                continue;
+            }
+
+            var ch = (char)('a' + i);
+            var j = startIndices[i] + 1;
+            startIndices[i] = 0;
+
+            for (; j < endIndices[i]; j++)
+            {
+                var other = s[j] - 'a';
+                startIndices[i] |= 1 << other;
             }
         }
 
-        return palindromes.Count;
+        return startIndices
+            .Sum(f => System.Numerics.BitOperations.PopCount((uint)f));
     }
 
     [ProblemSolution("1937")]
