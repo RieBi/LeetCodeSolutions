@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace LeetCode.Set2XXX;
 internal class Solution23XX
@@ -127,6 +129,36 @@ internal class Solution23XX
                 }
             }
         }
+    }
+
+    [ProblemSolution("2381")]
+    public string ShiftingLetters(string s, int[][] shifts)
+    {
+        var counts = new int[s.Length + 1];
+
+        for (int i = 0; i < shifts.Length; i++)
+        {
+            var sign = shifts[i][2] == 1 ? 1 : -1;
+            counts[shifts[i][0]] += sign;
+            counts[shifts[i][1] + 1] -= sign;
+        }
+
+        var str = new StringBuilder(capacity: s.Length);
+        var cur = 0;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            cur += counts[i];
+            var val = s[i] + cur - 'a';
+            val %= 26;
+
+            if (val < 0)
+                val += 26;
+            
+            str.Append((char)(val + 'a'));
+        }
+
+        return str.ToString();
     }
 
     [ProblemSolution("2385")]
