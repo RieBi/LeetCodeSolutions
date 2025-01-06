@@ -169,6 +169,41 @@ internal class Solution17XX
         return (int)(total %= modulo);
     }
 
+    [ProblemSolution("1769")]
+    public int[] MinOperations2(string boxes)
+    {
+        var rightSum = 0;
+        var rightOnes = 0;
+        var leftSum = 0;
+        var leftOnes = 0;
+
+        for (int i = 1; i < boxes.Length; i++)
+        {
+            var num = boxes[i] - '0';
+            rightOnes += num;
+            rightSum += num * i;
+        }
+
+        var result = new int[boxes.Length];
+        for (int i = 0; i < boxes.Length; i++)
+        {
+            result[i] = leftSum + rightSum;
+
+            var num = boxes[i] - '0';
+            leftOnes += num;
+            leftSum += leftOnes;
+            
+            if (i != boxes.Length - 1)
+            {
+                var nextNum = boxes[i + 1] - '0';
+                rightSum -= rightOnes;
+                rightOnes -= nextNum;
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1791")]
     public int FindCenter(int[][] edges)
     {
