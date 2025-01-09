@@ -150,6 +150,12 @@ internal class Solution21XX
         return head.next;
     }
 
+    [ProblemSolution("2185")]
+    public int PrefixCount(string[] words, string pref)
+    {
+        return words.Count(w => w.StartsWith(pref));
+    }
+
     [ProblemSolution("2191")]
     public int[] SortJumbled(int[] mapping, int[] nums)
     {
