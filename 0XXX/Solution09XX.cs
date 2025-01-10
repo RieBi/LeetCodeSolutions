@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace LeetCode.Set0XXX;
+﻿namespace LeetCode.Set0XXX;
 internal class Solution09XX
 {
     [ProblemSolution("907")]
@@ -68,6 +66,52 @@ internal class Solution09XX
             }
             while (start != max);
         }
+    }
+
+    [ProblemSolution("916")]
+    public IList<string> WordSubsets(string[] words1, string[] words2)
+    {
+        Span<byte> maxChars = stackalloc byte[26];
+        Span<byte> curChars = stackalloc byte[26];
+
+        for (int i = 0; i < words2.Length; i++)
+        {
+            var word = words2[i];
+            curChars.Clear();
+
+            for (int j = 0; j < word.Length; j++)
+            {
+                var ind = word[j] - 'a';
+                curChars[ind]++;
+                maxChars[ind] = Math.Max(maxChars[ind], curChars[ind]);
+            }
+        }
+
+        var result = new List<string>();
+
+        for (int i = 0; i < words1.Length; i++)
+        {
+            var word = words1[i];
+            curChars.Clear();
+
+            for (int j = 0; j < word.Length; j++)
+                curChars[word[j] - 'a']++;
+
+            var valid = true;
+            for (int j = 0; j < 26; j++)
+            {
+                if (curChars[j] < maxChars[j])
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid)
+                result.Add(word);
+        }
+
+        return result;
     }
 
     [ProblemSolution("921")]
