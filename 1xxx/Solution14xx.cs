@@ -3,6 +3,23 @@
 namespace LeetCode.Set1XXX;
 internal class Solution14XX
 {
+    [ProblemSolution("1400")]
+    public bool CanConstruct(string s, int k)
+    {
+        if (k > s.Length)
+            return false;
+
+        Span<int> counts = stackalloc int[26];
+        for (int i = 0; i < s.Length; i++)
+            counts[s[i] - 'a']++;
+
+        var odd = 0;
+        for (int i = 0; i < 26; i++)
+            odd += counts[i] & 1;
+
+        return k >= odd;
+    }
+
     [ProblemSolution("1405")]
     public string LongestDiverseString(int a, int b, int c)
     {
