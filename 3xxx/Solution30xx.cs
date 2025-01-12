@@ -167,6 +167,23 @@ internal class Solution30XX
             });
     }
 
+    [ProblemSolution("3042")]
+    public int CountPrefixSuffixPairs(string[] words)
+    {
+        var result = 0;
+
+        for (int i = 0; i < words.Length; i++)
+        {
+            for (int j = i + 1; j < words.Length; j++)
+            {
+                if (words[j].StartsWith(words[i]) && words[j].EndsWith(words[i]))
+                    result++;
+            }
+        }
+
+        return result;
+    }
+
     [ProblemSolution("3043")]
     public int LongestCommonPrefix(int[] arr1, int[] arr2)
     {
