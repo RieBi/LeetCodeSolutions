@@ -21,6 +21,40 @@ internal class Solution21XX
         return "";
     }
 
+    [ProblemSolution("2116")]
+    public bool CanBeValid(string s, string locked)
+    {
+        if (s.Length % 2 == 1)
+            return false;
+
+        var min = 0;
+        var max = 0;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (locked[i] == '0')
+            {
+                min = Math.Max(0, min - 1);
+                max++;
+            }
+            else if (s[i] == '(')
+            {
+                min++;
+                max++;
+            }
+            else
+            {
+                min = Math.Max(0, min - 1);
+                max--;
+
+                if (max < 0)
+                    return false;
+            }
+        }
+
+        return min == 0;
+    }
+
     [ProblemSolution("2125")]
     public int NumberOfBeams(string[] bank)
     {
