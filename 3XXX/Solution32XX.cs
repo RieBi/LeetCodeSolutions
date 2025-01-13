@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace LeetCode.Set3XXX;
+﻿namespace LeetCode.Set3XXX;
 internal class Solution32XX
 {
     [ProblemSolution("3203")]
@@ -120,6 +118,28 @@ internal class Solution32XX
         }
 
         return head;
+    }
+
+    [ProblemSolution("3223")]
+    public int MinimumLength(string s)
+    {
+        Span<int> counts = stackalloc int[26];
+
+        for (int i = 0; i < s.Length; i++)
+            counts[s[i] - 'a']++;
+
+        var result = 0;
+        for (int i = 0; i < 26; i++)
+        {
+            if (counts[i] == 0)
+                result += 0;
+            else if (counts[i] % 2 == 0)
+                result += 2;
+            else
+                result += 1;
+        }
+
+        return result;
     }
 
     [ProblemSolution("3254")]
