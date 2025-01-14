@@ -137,6 +137,37 @@ internal class Solution26XX
         return root;
     }
 
+    [ProblemSolution("2657")]
+    public int[] FindThePrefixCommonArray(int[] A, int[] B)
+    {
+        var setA = new HashSet<int>();
+        var setB = new HashSet<int>();
+
+        var result = new int[A.Length];
+
+        for (int i = 0; i < A.Length; i++)
+        {
+            var prev = i == 0 ? 0 : result[i - 1];
+
+            if (A[i] == B[i])
+                prev++;
+            else
+            {
+                if (setA.Contains(B[i]))
+                    prev++;
+                if (setB.Contains(A[i]))
+                    prev++;
+
+                setA.Add(A[i]);
+                setB.Add(B[i]);
+            }
+
+            result[i] = prev;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2678")]
     public int CountSeniors(string[] details)
     {
