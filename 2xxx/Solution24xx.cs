@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Design.Serialization;
+using System.Numerics;
 
 namespace LeetCode.Set2XXX;
 internal class Solution24XX
@@ -128,6 +129,39 @@ internal class Solution24XX
         }
 
         return maxRow;
+    }
+
+    [ProblemSolution("2429")]
+    public int MinimizeXor(int num1, int num2)
+    {
+        var goal = BitOperations.PopCount((uint)num2);
+        var cur = BitOperations.PopCount((uint)num1);
+
+        if (cur > goal)
+        {
+            while (cur > goal)
+            {
+                num1 ^= num1 & (-num1);
+                cur--;
+            }
+        }
+        else if (cur < goal)
+        {
+            var mask = 1;
+
+            while (cur < goal)
+            {
+                if ((mask & num1) == 0)
+                {
+                    num1 ^= mask;
+                    cur++;
+                }
+
+                mask <<= 1;
+            }
+        }
+
+        return num1;
     }
 
     [ProblemSolution("2441")]
