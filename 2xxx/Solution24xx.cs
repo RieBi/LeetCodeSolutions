@@ -131,6 +131,26 @@ internal class Solution24XX
         return maxRow;
     }
 
+    [ProblemSolution("2425")]
+    public int XorAllNums(int[] nums1, int[] nums2)
+    {
+        var result = 0;
+
+        if (nums2.Length % 2 == 1)
+        {
+            for (int i = 0; i < nums1.Length; i++)
+                result ^= nums1[i];
+        }
+
+        if (nums1.Length % 2 == 1)
+        {
+            for (int i = 0; i < nums2.Length; i++)
+                result ^= nums2[i];
+        }
+
+        return result;
+    }
+
     [ProblemSolution("2429")]
     public int MinimizeXor(int num1, int num2)
     {
