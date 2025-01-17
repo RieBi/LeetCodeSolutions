@@ -174,6 +174,12 @@ internal class Solution26XX
         return details.Count(f => f[^4] > '6' || f[^4] == '6' && f[^3] != '0');
     }
 
+    [ProblemSolution("2683")]
+    public bool DoesValidArrayExist(int[] derived)
+    {
+        return derived.Sum() % 2 == 0;
+    }
+
     [ProblemSolution("2684")]
     public int MaxMoves(int[][] grid)
     {
