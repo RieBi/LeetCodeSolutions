@@ -169,6 +169,59 @@ internal class Solution17XX
         return (int)(total %= modulo);
     }
 
+    [ProblemSolution("1765")]
+    public int[][] HighestPeak(int[][] isWater)
+    {
+        var result = new int[isWater.Length][];
+        var queue = new Queue<(int i, int j)>();
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = new int[isWater[0].Length];
+            for (int j = 0; j < result[i].Length; j++)
+            {
+                if (isWater[i][j] == 1)
+                {
+                    queue.Enqueue((i, j));
+                    result[i][j] = 0;
+                }
+                else
+                    result[i][j] = -1;
+            }
+        }
+
+        (int i, int j)[] transforms = [
+            (0, 1),
+            (0, -1),
+            (1, 0),
+            (-1, 0)
+        ];
+
+        var level = 1;
+        while (queue.Count > 0)
+        {
+            var c = queue.Count;
+            for (int i = 0; i < c; i++)
+            {
+                var (curI, curJ) = queue.Dequeue();
+
+                for (int j = 0; j < 4; j++)
+                {
+                    var (otherI, otherJ) = (curI + transforms[j].i, curJ + transforms[j].j);
+                    if (otherI < 0 || otherJ < 0 || otherI >= result.Length || otherJ >= result[0].Length || result[otherI][otherJ] != -1)
+                        continue;
+
+                    result[otherI][otherJ] = level;
+                    queue.Enqueue((otherI, otherJ));
+                }
+            }
+
+            level++;
+        }
+
+        return result;
+    }
+
     [ProblemSolution("1769")]
     public int[] MinOperations2(string boxes)
     {
