@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.Design.Serialization;
+﻿using System.Collections;
+using System.ComponentModel.Design.Serialization;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace LeetCode.Set2XXX;
 internal class Solution24XX
@@ -410,5 +412,79 @@ internal class Solution24XX
         }
 
         return chemistry;
+    }
+
+    [ProblemSolution("2493")]
+    public int MagnificentSets(int n, int[][] edges)
+    {
+        var graph = new List<int>[n];
+
+        for (int i = 0; i < graph.Length; i++)
+            graph[i] = [];
+
+        for (int i = 0; i < edges.Length; i++)
+        {
+            var (a, b) = (edges[i][0] - 1, edges[i][1] - 1);
+
+            graph[a].Add(b);
+            graph[b].Add(a);
+        }
+
+        var marked = new BitArray(n);
+        var parity = new BitArray(n);
+        var queue = new Queue<int>();
+        var maxes = new int[n];
+
+        for (int i = 0; i < marked.Count; i++)
+        {
+            var groups = 0;
+
+            queue.Clear();
+            queue.Enqueue(i);
+
+            marked.SetAll(false);
+            marked[i] = true;
+
+            var minNode = int.MaxValue;
+            var curParity = false;
+            parity.SetAll(false);
+
+            while (queue.Count > 0)
+            {
+                curParity = !curParity;
+                groups++;
+                var c = queue.Count;
+                for (int j = 0; j < c; j++)
+                {
+                    var last = queue.Dequeue();
+                    minNode = Math.Min(minNode, last);
+
+                    var lastList = graph[last];
+                    
+                    for (int k = 0; k < lastList.Count; k++)
+                    {
+                        var other = lastList[k];
+
+                        if (marked[other])
+                        {
+                            if (parity[other] != curParity)
+                                return -1;
+
+                            continue;
+                        }
+
+                        queue.Enqueue(other);
+                        marked[other] = true;
+                        parity[other] = curParity;
+                    }
+
+                }
+
+            }
+
+            maxes[minNode] = Math.Max(maxes[minNode], groups);
+        }
+
+        return maxes.Sum();
     }
 }
