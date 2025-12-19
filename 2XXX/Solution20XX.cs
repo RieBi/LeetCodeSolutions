@@ -335,58 +335,89 @@ internal class Solution20XX
         secrets[0] = true;
         secrets[firstPerson] = true;
 
-        var meets = meetings.GroupBy(f => f[2]).OrderBy(f => f.Key);
-        foreach (var meet in meets)
+        foreach (var set in meetings.GroupBy(f => f[2]).OrderBy(f => f.Key))
         {
-            var dick = new Dictionary<int, List<int>>();
-            foreach (var rendezvous in meet)
+            var count = set.Count() * 2 + 1;
+            var dict = new Dictionary<int, int>(capacity: count);
+            var union = new List<int>(capacity: count) { 0 };
+
+            foreach (var meet in set)
             {
-                if (dick.TryGetValue(rendezvous[0], out var val1))
-                    val1.Add(rendezvous[1]);
-                else
-                    dick[rendezvous[0]] = [rendezvous[1]];
+                int tip1;
+                int tip2;
 
-                if (dick.TryGetValue(rendezvous[1], out var val2))
-                    val2.Add(rendezvous[0]);
-                else
-                    dick[rendezvous[1]] = [rendezvous[0]];
-            }
-
-            var seen = new HashSet<int>();
-            foreach (var v in dick)
-            {
-                if (seen.Contains(v.Key) || !secrets[v.Key])
-                    continue;
-
-                seen.Add(v.Key);
-                var queue = new Queue<int>();
-                queue.Enqueue(v.Key);
-                while (queue.Count > 0)
+                if (!dict.TryGetValue(meet[0], out var base1))
                 {
-                    var c = queue.Count;
-                    for (int i = 0; i < c; i++)
-                    {
-                        var top = queue.Dequeue();
-                        foreach (var other in dick[top])
-                        {
-                            if (seen.Contains(other))
-                                continue;
+                    base1 = union.Count;
+                    dict.Add(meet[0], base1);
 
-                            seen.Add(other);
-                            secrets[other] = true;
-                            queue.Enqueue(other);
-                        }
-                    }
+                    if (secrets[meet[0]])
+                        base1 = 0;
+                    
+                    union.Add(base1);
+                    tip1 = base1;
                 }
+                else
+                {
+                    tip1 = getPoint(union, base1);
+                }
+
+                if (!dict.TryGetValue(meet[1], out var base2))
+                {
+                    base2 = union.Count;
+                    dict.Add(meet[1], base2);
+                    
+                    if (secrets[meet[1]])
+                        base2 = 0;
+                    
+                    union.Add(base2);
+                    tip2 = base2;
+                }
+                else
+                {
+                    tip2 = getPoint(union, base2);
+                }
+
+                if (tip1 == 0)
+                    union[tip2] = tip1;
+                else
+                    union[tip1] = tip2;
+            }
+            
+            foreach (var kv in dict)
+            {
+                var tip = getPoint(union, kv.Value);
+
+                if (tip == 0)
+                    secrets[kv.Key] = true;
             }
         }
-
+        
         var result = new List<int>();
-        for (int i = 0; i < n; i++)
+        for (var i = 0; i < n; i++)
+        {
             if (secrets[i])
                 result.Add(i);
-
+        }
+        
         return result;
+
+        int getPoint(List<int> disUnion, int index)
+        {
+            var cur = index;
+            
+            while (disUnion[cur] != cur)
+                cur = disUnion[cur];
+
+            while (index != cur)
+            {
+                var sub = disUnion[index];
+                disUnion[index] = cur;
+                index = sub;
+            }
+
+            return cur;
+        }
     }
 
     [ProblemSolution("2096")]
