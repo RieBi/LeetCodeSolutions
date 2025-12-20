@@ -1,4 +1,7 @@
-﻿namespace LeetCode.Set0XXX;
+﻿using System.Collections;
+using System.Numerics;
+
+namespace LeetCode.Set0XXX;
 internal class Solution09XX
 {
     [ProblemSolution("907")]
@@ -179,6 +182,30 @@ internal class Solution09XX
         }
 
         return sum;
+    }
+    
+    [ProblemSolution("944")]
+    public int MinDeletionSize(string[] strs)
+    {
+        var length = strs[0].Length;
+        var bits = new BitArray(length: length);
+
+        for (var i = 1; i < strs.Length; i++)
+        {
+            var prev = strs[i - 1];
+            var cur = strs[i];
+
+            for (var j = 0; j < length; j++)
+            {
+                if (cur[j] < prev[j])
+                    bits[j] = true;
+            }
+        }
+
+        var nums = new int[(bits.Count >> 5) + 1];
+        bits.CopyTo(nums, 0);
+
+        return nums.Sum(val => BitOperations.PopCount((uint)val));
     }
 
     [ProblemSolution("945")]
