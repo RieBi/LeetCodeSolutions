@@ -338,6 +338,41 @@ internal class Solution09XX
         return root1.val == root2.val &&
             (FlipEquiv(root1.left, root2.left) && FlipEquiv(root1.right, root2.right) || FlipEquiv(root1.left, root2.right) && FlipEquiv(root1.right, root2.left));
     }
+    
+    [ProblemSolution("955")]
+    public int MinDeletionSize2(string[] strs)
+    {
+        var deletions = 0;
+        var isSorted = new BitArray(length: strs.Length);
+        var newSorted = new BitArray(length: strs.Length);
+
+        for (var col = 0; col < strs[0].Length; col++) 
+        {
+            newSorted.SetAll(false);
+            var botched = false;
+            
+            for (var row = 1; row < strs.Length; row++)
+            {
+                if (isSorted[row])
+                    continue;
+                
+                if (strs[row][col] > strs[row - 1][col])
+                    newSorted[row] = true;
+                else if (strs[row][col] < strs[row - 1][col])
+                    botched = true;
+            }
+
+            if (botched)
+            {
+                deletions++;
+                continue;
+            }
+
+            isSorted.Or(newSorted);
+        }
+        
+        return deletions;
+    }
 
     [ProblemSolution("959")]
     public int RegionsBySlashes(string[] grid)
