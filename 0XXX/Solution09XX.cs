@@ -473,6 +473,42 @@ internal class Solution09XX
         }
     }
 
+    [ProblemSolution("960")]
+    public int MinDeletionSize3(string[] strs)
+    {
+        var cols = strs[0].Length;
+        var results = new byte[cols];
+
+        for (var col = 0; col < cols; col++)
+        {
+            byte max = 0;
+            
+            for (var colPrev = col - 1; colPrev >= 0; colPrev--)
+            {
+                var bad = false;
+
+                foreach (var str in strs)
+                {
+                    if (str[col] < str[colPrev])
+                    {
+                        bad = true;
+                        break;
+                    }
+                }
+
+                if (bad)
+                    continue;
+
+                max = Math.Max(max, results[colPrev]);
+            }
+
+            max++;
+            results[col] = max;
+        }
+
+        return cols - results.Max();
+    }
+    
     [ProblemSolution("962")]
     public int MaxWidthRamp(int[] nums)
     {
