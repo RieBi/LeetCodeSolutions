@@ -230,6 +230,42 @@ internal class Solution20XX
             .Skip(k - 1)
             .FirstOrDefault(string.Empty);
     }
+    
+    [ProblemSolution("2054")]
+    public int MaxTwoEvents(int[][] events) {
+        Array.Sort(events, (a, b) => a[0] - b[0]);
+
+        var suffixMax = new int[events.Length];
+        suffixMax[^1] = events[^1][2];
+
+        for (var i = events.Length - 2; i >= 0; i--)
+            suffixMax[i] = Math.Max(suffixMax[i + 1], events[i][2]);
+
+        var result = suffixMax[0];
+
+        for (var i = 0; i < suffixMax.Length; i++)
+        {
+            var low = i + 1;
+            var high = events.Length - 1;
+            var value = events[i][1] + 1;
+            
+            while (low <= high)
+            {
+                var mid = (low + high) / 2;
+                var cur = events[mid][0];
+
+                if (cur < value)
+                    low = mid + 1;
+                else if (cur >= value)
+                    high = mid - 1;
+            }
+
+            if (low < events.Length)
+                result = Math.Max(result, events[i][2] + suffixMax[low]);
+        }
+
+        return result;
+    }
 
     [ProblemSolution("2058")]
     public int[] NodesBetweenCriticalPoints(ListNode head)
