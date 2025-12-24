@@ -243,6 +243,23 @@ internal class Solution30XX
 
         return sum;
     }
+    
+    [ProblemSolution("3074")]
+    public int MinimumBoxes(int[] apple, int[] capacity)
+    {
+        Array.Sort(capacity, (a, b) => b - a);
+
+        var sum = apple.Sum();
+
+        for (var i = 0; i < capacity.Length; i++)
+        {
+            sum -= capacity[i];
+            if (sum < 1)
+                return i + 1;
+        }
+
+        return -1;
+    }
 
     [ProblemSolution("3097")]
     public int MinimumSubarrayLength(int[] nums, int k)
