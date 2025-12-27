@@ -337,6 +337,31 @@ internal class Solution24XX
 
         int calculateDiffVal(int j, int i) => onesRow[i] + onesCol[j] - zeroesRow[i] - zeroesCol[j];
     }
+    
+    [ProblemSolution("2483")]
+    public int BestClosingTime(string customers)
+    {
+        var penalty = customers.Length - customers.Count(ch => ch == 'Y');
+
+        var close = 0;
+        var best = penalty;
+
+        for (var i = 0; i < customers.Length; i++)
+        {
+            if (customers[i] == 'Y')
+                penalty--;
+            else
+                penalty++;
+
+            if (penalty < best)
+            {
+                close = i + 1;
+                best = penalty;
+            }
+        }
+
+        return close;
+    }
 
     [ProblemSolution("2485")]
     public int PivotInteger(int n)
