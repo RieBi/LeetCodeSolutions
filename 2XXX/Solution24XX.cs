@@ -10,36 +10,46 @@ internal class Solution24XX
     public int MostBooked(int n, int[][] meetings)
     {
         Array.Sort(meetings, (a, b) => a[0].CompareTo(b[0]));
-        var vacantRooms = new PriorityQueue<int, int>();
-        for (int i = 0; i < n; i++)
-            vacantRooms.Enqueue(i, i);
+
+        var queue = new PriorityQueue<(long freeStart, int room), (long freeStart, int room)>();
+        
+        for (var i = 0; i < n; i++)
+            queue.Enqueue((0, i), (0, i));
 
         var rooms = new int[n];
-        var meets = new PriorityQueue<(long end, int room), (long end, int room)>();
-        long t = 0;
 
-        for (int i = 0; i < meetings.Length; i++)
+        foreach (var meeting in meetings)
         {
-            var meeting = meetings[i];
-            var start = meeting[0];
-            var end = meeting[1];
-            t = Math.Max(start, t);
+            var (start, end) = (meeting[0], meeting[1]);
 
-            while (meets.Count > 0 && t >= meets.Peek().end || vacantRooms.Count == 0)
+            var vacantRoom = queue.Dequeue();
+
+            while (vacantRoom.freeStart < start)
             {
-                var last = meets.Dequeue();
-                vacantRooms.Enqueue(last.room, last.room);
-                t = Math.Max(t, last.end);
+                var el = (start, vacantRoom.room);
+                queue.Enqueue(el, el);
+                vacantRoom = queue.Dequeue();
             }
-
-            var room = vacantRooms.Dequeue();
-            rooms[room]++;
-            var realEnd = t + (end - start);
-            meets.Enqueue((realEnd, room), (realEnd, room));
+            
+            rooms[vacantRoom.room]++;
+            var newEl = (vacantRoom.freeStart + end - start, vacantRoom.room);
+            
+            queue.Enqueue(newEl, newEl);
         }
 
-        var max = rooms.Max();
-        return rooms.ToList().IndexOf(max);
+        var index = 0;
+        var max = rooms[0];
+
+        for (var i = 1; i < n; i++)
+        {
+            if (rooms[i] > max)
+            {
+                max = rooms[i];
+                index = i;
+            }
+        }
+
+        return index;
     }
 
     [ProblemSolution("2416")]
