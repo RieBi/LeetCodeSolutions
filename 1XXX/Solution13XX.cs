@@ -147,6 +147,30 @@ internal class Solution13XX
 
         return steps;
     }
+    
+    [ProblemSolution("1351")]
+    public int CountNegatives(int[][] grid)
+    {
+        var result = 0;
+
+        for (var j = grid[0].Length - 1; j >= 0; j--)
+        {
+            if (grid[^1][j] >= 0)
+                break;
+
+            result++;
+
+            for (var i = grid.Length - 2; i >= 0; i--)
+            {
+                if (grid[i][j] >= 0)
+                    break;
+
+                result++;
+            }
+        }
+
+        return result;
+    }
 
     [ProblemSolution("1367")]
     public bool IsSubPath(ListNode head, TreeNode root)
