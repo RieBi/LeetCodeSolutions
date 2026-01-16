@@ -525,6 +525,28 @@ internal class Solution00XX
             return newh;
         }
     }
+    
+    [ProblemSolution("35")]
+    public int SearchInsert(int[] nums, int target)
+    {
+        var low = 0;
+        var high = nums.Length - 1;
+
+        while (low <= high)
+        {
+            var mid = (low + high) >> 1;
+
+            if (nums[mid] == target)
+                return mid;
+            
+            if (nums[mid] <= target)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+
+        return low;
+    }
 
     [ProblemSolution("36")]
     public bool IsValidSudoku(char[][] board)
