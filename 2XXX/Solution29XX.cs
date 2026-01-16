@@ -303,6 +303,45 @@ class Solution29XX
             return Math.Max(val1, val2);
         }
     }
+    
+    [ProblemSolution("2975")]
+    public int MaximizeSquareArea(int m, int n, int[] hFences, int[] vFences)
+    {
+        Array.Sort(hFences);
+        Array.Sort(vFences);
+
+        var hValues = new HashSet<int>();
+        var vValues = new HashSet<int>();
+
+        hValues.Add(m - 1);
+        vValues.Add(n - 1);
+
+        for (var i = 0; i < hFences.Length; i++)
+        {
+            hValues.Add(hFences[i] - 1);
+            hValues.Add(m - hFences[i]);
+            
+            for (var j = i + 1; j < hFences.Length; j++)
+                hValues.Add(hFences[j] - hFences[i]);
+        }
+
+        for (var i = 0; i < vFences.Length; i++)
+        {
+            vValues.Add(vFences[i] - 1);
+            vValues.Add(n - vFences[i]);
+            
+            for (var j =  i + 1; j < vFences.Length; j++)
+                vValues.Add(vFences[j] - vFences[i]);
+        }
+
+        hValues.IntersectWith(vValues);
+
+        if (hValues.Count == 0)
+            return -1;
+        
+        var max = hValues.Max();
+        return (int)((long)max * max % 1_000_000_007);
+    }
 
     [ProblemSolution("2976")]
     public long MinimumCost(string source, string target, char[] original, char[] changed, int[] cost)
