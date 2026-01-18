@@ -779,6 +779,22 @@ internal class Solution00XX
             result.Add(newInterval);
         return [.. result];
     }
+    
+    [ProblemSolution("58")]
+    public int LengthOfLastWord(string s)
+    {
+        var i = s.Length - 1;
+
+        while (s[i] == ' ')
+            i--;
+
+        var last = i;
+
+        while (i >= 0 && s[i] != ' ')
+            i--;
+
+        return last - i;
+    }
 
     [ProblemSolution("70")]
     public int ClimbStairs(int n)
