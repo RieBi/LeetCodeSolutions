@@ -260,6 +260,67 @@ internal class Solution18XX
 
         return ind;
     }
+    
+    [ProblemSolution("1895")]
+    public int LargestMagicSquare(int[][] grid)
+    {
+        var max = 1;
+
+        for (var i = 0; i + max < grid.Length; i++)
+        {
+            for (var j = 0; j + max < grid[i].Length; j++)
+            {
+                var lastMax = Math.Min(grid.Length - i, grid[0].Length - j);
+
+                for (var curMax = max + 1; curMax <= lastMax; curMax++)
+                {
+                    if (isMagic(i, j, curMax))
+                        max = curMax;
+                }
+            }
+        }
+
+        return max;
+
+        bool isMagic(int i, int j, int size)
+        {
+            var sum = 0;
+            var sum2 = 0;
+
+            for (var k = 0; k < size; k++)
+            {
+                sum += grid[i + k][j + k];
+                sum2 += grid[i + k][j + size - 1 - k];
+            }
+
+            if (sum != sum2)
+                return false;
+
+            for (var row = 0; row < size; row++)
+            {
+                sum2 = 0;
+
+                for (var column = 0; column < size; column++)
+                    sum2 += grid[i + row][j + column];
+                
+                if (sum2 != sum)
+                    return false;
+            }
+
+            for (var column = 0; column < size; column++)
+            {
+                sum2 = 0;
+                
+                for (var row =  0; row < size; row++)
+                    sum2 += grid[i + row][j + column];
+                
+                if (sum2 != sum)
+                    return false;
+            }
+
+            return true;
+        }
+    }
 
     [ProblemSolution("1897")]
     public bool MakeEqual(string[] words)
