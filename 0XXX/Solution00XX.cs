@@ -795,6 +795,29 @@ internal class Solution00XX
 
         return last - i;
     }
+    
+    [ProblemSolution("69")]
+    public int MySqrt(int x)
+    {
+        if (x < 2)
+            return x;
+
+        var low = 0L;
+        long high = x / 2;
+
+        while (low <= high)
+        {
+            var mid = (low + high) / 2;
+            var square = mid * mid;
+
+            if (square <= x)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+
+        return (int)high;
+    }
 
     [ProblemSolution("70")]
     public int ClimbStairs(int n)
