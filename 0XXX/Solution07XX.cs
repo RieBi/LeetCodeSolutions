@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 
 namespace LeetCode.Set0XXX;
 internal class Solution07XX
@@ -599,6 +600,78 @@ internal class Solution07XX
         return -1;
 
         (int, int, int, int) getElemFromStr(string str) => (int.Parse(str[0].ToString()), int.Parse(str[1].ToString()), int.Parse(str[2].ToString()), int.Parse(str[3].ToString()));
+    }
+    
+    [ProblemSolution("756")]
+    public bool PyramidTransition(string bottom, IList<string> allowed)
+    {
+        var dict = new int[36];
+
+        var builders = new StringBuilder[bottom.Length + 1];
+        builders[1] = new StringBuilder(bottom);
+
+        for (var i = 2; i <= bottom.Length; i++)
+            builders[i] = new StringBuilder(capacity: bottom.Length);
+
+        foreach (var item in allowed)
+        {
+            var a = (item[0] - 'A') * 6;
+            var b = item[1] - 'A';
+            var c = item[2] - 'A';
+
+            dict[a + b] |= 1 << c;
+        }
+
+        using var enumerator = getPossibleCombs(bottom.Length).GetEnumerator();
+        var result = enumerator.MoveNext();
+        return result;
+        
+        IEnumerable<int> getPossibleCombs(int level)
+        {
+            if (level == 1)
+            {
+                yield return 0;
+                yield break;
+            }
+
+            foreach (var item in getPossibleCombs(level - 1))
+            {
+                var levelLength = bottom.Length - level + 1;
+
+                foreach (var v in getLevelCombs(level, levelLength - 1))
+                    yield return v;
+            }
+        }
+
+        IEnumerable<int> getLevelCombs(int level, int position)
+        {
+            if (position == -1)
+            {
+                yield return 0;
+                yield break;
+            }
+
+            foreach (var item in getLevelCombs(level, position - 1))
+            {
+                var left = builders[level - 1][position];
+                var right = builders[level - 1][position + 1];
+
+                var leftNum = left - 'A';
+                var rightNum = right - 'A';
+                    
+                var items = dict[leftNum * 6 + rightNum];
+
+                while (items > 0)
+                {
+                    var trailingCount = BitOperations.TrailingZeroCount(items);
+                    items ^= 1 << trailingCount;
+
+                    builders[level].Append((char)('A' + trailingCount));
+                    yield return trailingCount;
+                    builders[level].Remove(builders[level].Length - 1, 1);
+                }
+            }
+        }
     }
 
     [ProblemSolution("769")]
