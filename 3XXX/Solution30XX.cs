@@ -227,6 +227,30 @@ internal class Solution30XX
     {
         public PrefixTrieNode?[] Children { get; } = new PrefixTrieNode[10];
     }
+    
+    [ProblemSolution("3047")]
+    public long LargestSquareArea(int[][] bottomLeft, int[][] topRight)
+    {
+        var max = 0L;
+        
+        for (var i = 0; i < bottomLeft.Length - 1; i++)
+        {
+            for (var j = i + 1; j < bottomLeft.Length; j++)
+            {
+                var (start1i, start1j, end1i, end1j, start2i, start2j, end2i, end2j) =
+                    (bottomLeft[i][0],
+                    bottomLeft[i][1], topRight[i][0], topRight[i][1], bottomLeft[j][0], bottomLeft[j][1],
+                    topRight[j][0], topRight[j][1]);
+
+                var x = Math.Min(end1i, end2i) - Math.Max(start1i, start2i);
+                var y = Math.Min(end1j, end2j) - Math.Max(start1j, start2j);
+
+                max = Math.Max(max, Math.Min(x, y));
+            }
+        }
+
+        return max * max;
+    }
 
     [ProblemSolution("3075")]
     public long MaximumHappinessSum(int[] happiness, int k)
