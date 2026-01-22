@@ -298,4 +298,63 @@ internal class Solution12XX
 
         return list;
     }
+    
+    [ProblemSolution("1292")]
+    public int MaxSideLength(int[][] mat, int threshold)
+    {
+        var squares = new int[mat.Length][];
+        for (var i = 0; i < mat.Length; i++)
+            squares[i] = new int[mat[0].Length];
+
+        for (var i = 0; i < mat.Length; i++)
+        {
+            for (var j = 0; j < mat[0].Length; j++)
+            {
+                var sum = mat[i][j];
+                
+                if (i > 0)
+                    sum += squares[i - 1][j];
+                
+                if (j > 0)
+                    sum += squares[i][j - 1];
+
+                if (i > 0 & j > 0)
+                    sum -= squares[i - 1][j - 1];
+
+                squares[i][j] = sum;
+            }
+        }
+
+        var maxSize = 0;
+
+        for (var i = 0; i < mat.Length; i++)
+        {
+            for (var j = 0; j < mat[0].Length; j++)
+            {
+                while (i + maxSize < mat.Length && j + maxSize < mat[0].Length)
+                {
+                    var endI = i + maxSize;
+                    var endJ = j + maxSize;
+                    
+                    var sum = squares[endI][endJ];
+
+                    if (j > 0)
+                        sum -= squares[endI][j - 1];
+
+                    if (i > 0)
+                        sum -= squares[i - 1][endJ];
+
+                    if (i > 0 && j > 0)
+                        sum += squares[i - 1][j - 1];
+
+                    if (sum <= threshold)
+                        maxSize++;
+                    else
+                        break;
+                }
+            }
+        }
+
+        return maxSize;
+    }
 }
