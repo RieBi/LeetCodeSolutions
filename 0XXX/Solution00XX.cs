@@ -1094,4 +1094,16 @@ internal class Solution00XX
 
         return true;
     }
+    
+    [ProblemSolution("100")]
+    public bool IsSameTree(TreeNode? p, TreeNode? q)
+    {
+        if (p?.val != q?.val)
+            return false;
+
+        if (p is null || q is null)
+            return p is null && q is null;
+        
+        return IsSameTree(p.left, q.left) && IsSameTree(p.right, q.right);
+    }
 }
