@@ -184,6 +184,36 @@ internal class Solution01XX
             return Math.Max(left, right) + 1;
         }
     }
+    
+    [ProblemSolution("111")]
+    public int MinDepth(TreeNode? root)
+    {
+        if (root is null)
+            return 0;
+        
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        var depth = 0;
+        
+        while (true)
+        {
+            depth++;
+            var c = queue.Count;
+
+            while (c-- > 0)
+            {
+                var last = queue.Dequeue();
+
+                if (last.left is null && last.right is null)
+                    return depth;
+                
+                if (last.left is not null)
+                    queue.Enqueue(last.left);
+                if (last.right is not null)
+                    queue.Enqueue(last.right);
+            }
+        }
+    }
 
     [ProblemSolution("112")]
     public bool HasPathSum(TreeNode root, int targetSum)
