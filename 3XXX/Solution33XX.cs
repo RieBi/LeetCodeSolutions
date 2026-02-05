@@ -28,4 +28,21 @@ public class Solution33XX
 
         return results;
     }
+    
+    [ProblemSolution("3379")]
+    public int[] ConstructTransformedArray(int[] nums)
+    {
+        var results = new int[nums.Length];
+
+        for (var i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == 0)
+                continue;
+            
+            var ind = ((nums[i] + i) % nums.Length + nums.Length) % nums.Length;
+            results[i] = nums[ind];
+        }
+
+        return results;
+    }
 }
