@@ -336,6 +336,23 @@ internal class Solution01XX
         list.Add(1);
         return list;
     }
+    
+    [ProblemSolution("121")]
+    public int MaxProfit(int[] prices)
+    {
+        var min = prices[0];
+
+        var profit = 0;
+
+        for (var i = 1; i < prices.Length; i++)
+        {
+            var potentialProfit = prices[i] - min;
+            profit = Math.Max(profit, potentialProfit);
+            min = Math.Min(min, prices[i]);
+        }
+        
+        return profit;
+    }
 
     [ProblemSolution("129")]
     public int SumNumbers(TreeNode root)
