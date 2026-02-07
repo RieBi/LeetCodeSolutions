@@ -353,6 +353,43 @@ internal class Solution01XX
         
         return profit;
     }
+    
+    [ProblemSolution("125")]
+    public bool IsPalindrome(string s)
+    {
+        var start = 0;
+        var end = s.Length - 1;
+
+        while (start < end)
+        {
+            if (nextStart() != prevEnd())
+                return false;
+        }
+
+        return true;
+
+        char nextStart()
+        {
+            while (start < s.Length && !char.IsAsciiLetterOrDigit(s[start]))
+                start++;
+
+            if (start >= s.Length)
+                return char.MinValue;
+
+            return char.ToLower(s[start++]);
+        }
+
+        char prevEnd()
+        {
+            while (end >= 0 && !char.IsAsciiLetterOrDigit(s[end]))
+                end--;
+
+            if (end < 0)
+                return char.MinValue;
+
+            return char.ToLower(s[end--]);
+        }
+    }
 
     [ProblemSolution("129")]
     public int SumNumbers(TreeNode root)
