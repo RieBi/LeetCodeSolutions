@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Net.Security;
+using System.Text;
 
 namespace LeetCode.Set0XXX;
 internal class Solution01XX
@@ -580,6 +581,31 @@ internal class Solution01XX
         }
 
         return 0;
+    }
+    
+    [ProblemSolution("168")]
+    public string ConvertToTitle(int columnNumber)
+    {
+        columnNumber--;
+        
+        var result = new StringBuilder();
+
+        result.Append((char)(columnNumber % 26 + 'A'));
+
+        while (columnNumber >= 26)
+        {
+            columnNumber /= 26;
+            columnNumber--;
+            
+            var ch = columnNumber % 26 + 'A';
+            result.Append((char)ch);
+        }
+
+        var r = new StringBuilder();
+        for (var i = result.Length - 1; i >= 0; i--)
+            r.Append(result[i]);
+
+        return r.ToString();
     }
 
     [ProblemSolution("169")]
