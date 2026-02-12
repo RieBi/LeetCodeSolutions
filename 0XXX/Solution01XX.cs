@@ -610,6 +610,23 @@ internal class Solution01XX
 
     [ProblemSolution("169")]
     public int MajorityElement(int[] nums) => nums.GroupBy(f => f).OrderByDescending(f => f.Count()).First().Key;
+    
+    [ProblemSolution("171")]
+    public int TitleToNumber(string columnTitle)
+    {
+        var ch = 'A' - 1;
+
+        var result = columnTitle[^1] - ch;
+        var multiple = 26;
+        
+        for (var i = columnTitle.Length - 2; i >= 0; i--)
+        {
+            result += multiple * (columnTitle[i] - ch);
+            multiple *= 26;
+        }
+
+        return result;
+    }
 
     [ProblemSolution("173")]
     public class BSTIterator(TreeNode? root)
