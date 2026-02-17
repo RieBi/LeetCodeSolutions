@@ -1,9 +1,39 @@
 ﻿using System.Diagnostics;
+using System.Numerics;
 using System.Text;
 
 namespace LeetCode.Set0XXX;
 internal class Solution04XX
 {
+    [ProblemSolution("401")]
+    public IList<string> ReadBinaryWatch(int turnedOn)
+    {
+        var minutes = 63;
+        var hours = (1 << 11) - 1 - minutes;
+
+        var result = new List<String>();
+
+        for (var i = 0; i < 1024; i++)
+        {
+            if (BitOperations.PopCount((uint) i) != turnedOn)
+                continue;
+
+            var curMinutes = i & minutes;
+
+            if (curMinutes >= 60)
+                continue;
+            
+            var curHours = (i & hours) >> 6;
+
+            if (curHours >= 12)
+                continue;
+            
+            result.Add($"{curHours}:{curMinutes.ToString().PadLeft(2, '0')}");
+        }
+
+        return result;
+    }
+    
     [ProblemSolution("404")]
     public int SumOfLeftLeaves(TreeNode root)
     {
