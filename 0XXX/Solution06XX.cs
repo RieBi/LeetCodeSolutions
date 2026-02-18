@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 
 namespace LeetCode.Set0XXX;
 internal class Solution06XX
@@ -575,5 +576,11 @@ internal class Solution06XX
 
             return sum;
         }
+    }
+    
+    [ProblemSolution("693")]
+    public bool HasAlternatingBits(int n)
+    {
+        return BitOperations.IsPow2((uint)(n ^ (n >> 1)) + 1);
     }
 }
