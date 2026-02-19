@@ -583,4 +583,39 @@ internal class Solution06XX
     {
         return BitOperations.IsPow2((uint)(n ^ (n >> 1)) + 1);
     }
+    
+    [ProblemSolution("696")]
+    public int CountBinarySubstrings(string s)
+    {
+        var i = 1;
+        while (i < s.Length && s[i] == s[0])
+            i++;
+
+
+        var prev = i;
+
+        if (i == s.Length)
+            return 0;
+
+        var ch = s[i];
+        var result = 0;
+
+        var cur = 0;
+        for (; i < s.Length; i++)
+        {
+            if (s[i] == ch)
+            {
+                cur++;
+                continue;
+            }
+
+            result += Math.Min(cur, prev);
+            (prev, cur) = (cur, 1);
+            ch = s[i];
+        }
+
+        result += Math.Min(cur, prev);
+
+        return result;
+    }
 }
