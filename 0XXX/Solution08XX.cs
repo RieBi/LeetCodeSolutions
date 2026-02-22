@@ -340,6 +340,29 @@ internal class Solution08XX
 
         return resMatrix;
     }
+    
+    [ProblemSolution("868")]
+    public int BinaryGap(int n)
+    {
+        while ((n & 1) == 0)
+            n >>= 1;
+
+        var count = 0;
+        var max = 0;
+
+        while (n > 1)
+        {
+            n >>= 1;
+            
+            count++;
+            max = Math.Max(max, count);
+
+            if ((n & 1) == 1)
+                count = 0;
+        }
+
+        return max;
+    }
 
     [ProblemSolution("872")]
     public bool LeafSimilar(TreeNode root1, TreeNode root2)
