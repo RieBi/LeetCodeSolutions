@@ -265,6 +265,48 @@ internal class Solution15XX
 
         return -1;
     }
+    
+    [ProblemSolution("1536")]
+    public int MinSwaps(int[][] grid)
+    {
+        var zeroes = new int[grid.Length];
+
+        for (var i = 0; i < zeroes.Length; i++)
+        {
+            var last1 = grid.Length - 1;
+
+            while (last1 >= 0 && grid[i][last1] == 0)
+                last1--;
+            
+            zeroes[i] = grid.Length - last1 - 1;
+        }
+
+        var swaps = 0;
+
+        for (var i = 0; i < zeroes.Length - 1; i++)
+        {
+            var required = zeroes.Length - i - 1;
+
+            var j = i;
+
+            for (; j < zeroes.Length; j++)
+            {
+                if (zeroes[j] >= required)
+                    break;
+            }
+
+            if (j == zeroes.Length)
+                return -1;
+
+            for (var k = j; k > i; k--)
+            {
+                zeroes[k] = zeroes[k - 1];
+                swaps++;
+            }
+        }
+
+        return swaps;
+    }
 
     [ProblemSolution("1545")]
     public char FindKthBit(int _, int k)
