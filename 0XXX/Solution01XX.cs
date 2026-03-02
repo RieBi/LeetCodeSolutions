@@ -648,6 +648,22 @@ internal class Solution01XX
 
         public bool HasNext() => stack.Count > 0 || root is not null;
     }
+    
+    [ProblemSolution("190")]
+    public int ReverseBits(int n)
+    {
+        uint result = 0;
+        var un = (uint)n;
+
+        for (var i = 0; i < 32; i++)
+        {
+            result <<= 1;
+            result |= (un & 1);
+            un >>= 1;
+        }
+
+        return (int)result;
+    }
 
     [ProblemSolution("191")]
     public int HammingWeight(uint n)
