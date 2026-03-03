@@ -365,6 +365,66 @@ internal class Solution02XX
 
         return false;
     }
+    
+    [ProblemSolution("222")]
+    public int CountNodes(TreeNode? root)
+    {
+        if (root is null)
+            return 0;
+
+        if (root.left is null)
+            return 1;
+
+        var depth = 1;
+
+        var cur = root;
+        while (cur.left is not null)
+        {
+            depth++;
+            cur = cur.left;
+        }
+
+        var fullCur = root;
+
+        for (var i  = 1; i < depth && fullCur is not null; i++)
+            fullCur = fullCur.right;
+
+        if (fullCur is not null)
+            return (1 << depth) - 1;
+
+        var atStake = 1 << (depth - 2);
+        var amount = (1 << (depth - 1)) - 1;
+
+        var workingDepth = 1;
+        
+        while (atStake > 0)
+        {
+            var curDepth = workingDepth;
+
+            var curNode = root!.left;
+
+            while (curNode is not null)
+            {
+                curDepth++;
+                curNode = curNode.right;
+            }
+
+            if (curDepth == depth)
+            {
+                amount += atStake;
+                root = root.right;
+            }
+            else
+            {
+                root = root.left;
+            }
+
+            atStake >>= 1;
+            workingDepth++;
+        }
+
+        return amount;
+    }
 
     [ProblemSolution("225")]
     public class MyStack
