@@ -451,6 +451,37 @@ internal class Solution02XX
 
         public bool Empty() => queue.Count == 0;
     }
+    
+    [ProblemSolution("228")]
+    public IList<string> SummaryRanges(int[] nums)
+    {
+        var result = new  List<string>();
+
+        if (nums.Length == 0)
+            return result;
+
+        var start = nums[0];
+
+        for (var i = 1; i < nums.Length; i++)
+        {
+            if (nums[i - 1] + 1 == nums[i])
+                continue;
+            
+            if (nums[i - 1] == start)
+                result.Add(start.ToString());
+            else
+                result.Add($"{start}->{nums[i - 1]}");
+
+            start = nums[i];
+        }
+        
+        if (nums[^1] == start)
+            result.Add(start.ToString());
+        else
+            result.Add($"{start}->{nums[^1]}");
+        
+        return result;
+    }
 
     [ProblemSolution("231")]
     public bool IsPowerOfTwo(int n) => (n & (n - 1)) == 0 && n > 0;
