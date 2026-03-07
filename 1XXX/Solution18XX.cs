@@ -239,6 +239,67 @@ internal class Solution18XX
 
         return sum;
     }
+    
+    [ProblemSolution("1888")]
+    public int MinFlips(string s)
+    {
+        var odd0 = 0;
+        var odd1 = 0;
+        var even0 = 0;
+        var even1 = 0;
+
+        for (var i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '0')
+            {
+                if (i % 2 == 0)
+                    even0++;
+                else
+                    odd0++;
+            }
+            else
+            {
+                if (i % 2 == 0)
+                    even1++;
+                else
+                    odd1++;
+            }
+        }
+
+        var min = Math.Min(even1 + odd0, even0 + odd1);
+
+        for (var i = 1; i < s.Length; i++)
+        {
+            var prev = s[i - 1];
+            var cur = s[i];
+
+            if (prev == '0')
+                even0--;
+            else
+                even1--;
+
+            (odd0, odd1, even0, even1) = (even0, even1, odd0, odd1);
+
+            if (s.Length % 2 == 0)
+            {
+                if (prev == '0')
+                    odd0++;
+                else
+                    odd1++;
+            }
+            else
+            {
+                if (prev == '0')
+                    even0++;
+                else
+                    even1++;
+            }
+
+            min = Math.Min(min, Math.Min(even1 + odd0, even0 + odd1));
+        }
+
+        return min;
+    }
 
     [ProblemSolution("1894")]
     public int ChalkReplacer(int[] chalk, int k)
