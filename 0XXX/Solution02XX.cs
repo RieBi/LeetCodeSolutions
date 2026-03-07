@@ -651,6 +651,48 @@ internal class Solution02XX
             return true;
         }
     }
+    
+    [ProblemSolution("257")]
+    public IList<string> BinaryTreePaths(TreeNode root)
+    {
+        if (root.left is null && root.right is null)
+            return [root.val.ToString()];
+        
+        var result = new List<string>();
+
+        var builder = new StringBuilder(root.val.ToString());
+
+        propagate(root);
+
+        return result;
+
+        void propagate(TreeNode node)
+        {
+            if (node.left is null && node.right is null)
+            {
+                result.Add(builder.ToString());
+                return;
+            }
+
+            var length = builder.Length;
+
+            if (node.left is not null)
+            {
+                builder.Append($"->{node.left.val}");
+                propagate(node.left);
+
+                builder.Remove(length, builder.Length - length);
+            }
+
+            if (node.right is not null)
+            {
+                builder.Append($"->{node.right.val}");
+                propagate(node.right);
+                
+                builder.Remove(length, builder.Length - length);
+            }
+        }
+    }
 
     [ProblemSolution("264")]
     public int NthUglyNumber(int n)
