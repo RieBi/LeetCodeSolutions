@@ -693,6 +693,25 @@ internal class Solution02XX
             }
         }
     }
+    
+    [ProblemSolution("258")]
+    public int AddDigits(int num)
+    {
+        while (num > 9)
+        {
+            var newNum = 0;
+
+            while (num > 0)
+            {
+                newNum += num % 10;
+                num = num / 10;
+            }
+            
+            num = newNum;
+        }
+
+        return num;
+    }
 
     [ProblemSolution("264")]
     public int NthUglyNumber(int n)
