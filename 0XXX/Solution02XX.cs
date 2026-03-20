@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 namespace LeetCode.Set0XXX;
+
 internal class Solution02XX
 {
     [ProblemSolution("200")]
@@ -62,7 +63,7 @@ internal class Solution02XX
         while (n != 1)
         {
             set.Add(n);
-            n = (int) n.ToString()
+            n = (int)n.ToString()
                 .Select(f => Math.Pow(int.Parse(f.ToString()), 2))
                 .Sum();
             if (set.Contains(n))
@@ -145,6 +146,7 @@ internal class Solution02XX
             public TrieNode[] Children { get; } = Children;
             public bool IsWord { get; set; } = false;
         }
+
         private readonly TrieNode root = new(new TrieNode[26]);
 
         public void Insert(string word)
@@ -199,7 +201,7 @@ internal class Solution02XX
         public class WordNode()
         {
             public Dictionary<char, WordNode> Children { get; } = new();
-            public bool IsWord { get; set; } = default; 
+            public bool IsWord { get; set; } = default;
         }
 
         private WordNode Root = new();
@@ -365,7 +367,7 @@ internal class Solution02XX
 
         return false;
     }
-    
+
     [ProblemSolution("222")]
     public int CountNodes(TreeNode? root)
     {
@@ -386,7 +388,7 @@ internal class Solution02XX
 
         var fullCur = root;
 
-        for (var i  = 1; i < depth && fullCur is not null; i++)
+        for (var i = 1; i < depth && fullCur is not null; i++)
             fullCur = fullCur.right;
 
         if (fullCur is not null)
@@ -396,7 +398,7 @@ internal class Solution02XX
         var amount = (1 << (depth - 1)) - 1;
 
         var workingDepth = 1;
-        
+
         while (atStake > 0)
         {
             var curDepth = workingDepth;
@@ -451,11 +453,11 @@ internal class Solution02XX
 
         public bool Empty() => queue.Count == 0;
     }
-    
+
     [ProblemSolution("228")]
     public IList<string> SummaryRanges(int[] nums)
     {
-        var result = new  List<string>();
+        var result = new List<string>();
 
         if (nums.Length == 0)
             return result;
@@ -466,7 +468,7 @@ internal class Solution02XX
         {
             if (nums[i - 1] + 1 == nums[i])
                 continue;
-            
+
             if (nums[i - 1] == start)
                 result.Add(start.ToString());
             else
@@ -474,12 +476,12 @@ internal class Solution02XX
 
             start = nums[i];
         }
-        
+
         if (nums[^1] == start)
             result.Add(start.ToString());
         else
             result.Add($"{start}->{nums[^1]}");
-        
+
         return result;
     }
 
@@ -548,7 +550,8 @@ internal class Solution02XX
             {
                 stack.Pop();
                 top = stack.Pop();
-                stack.Push((top.node, top.leftVal is null ? false : top.leftVal, top.leftVal is not null ? false : null));
+                stack.Push(
+                    (top.node, top.leftVal is null ? false : top.leftVal, top.leftVal is not null ? false : null));
                 continue;
             }
 
@@ -565,7 +568,8 @@ internal class Solution02XX
                 bool? result = top.node == p || top.node == q || top.leftVal == true || top.rightVal == true;
                 stack.Pop();
                 top = stack.Pop();
-                stack.Push((top.node, top.leftVal is null ? result : top.leftVal, top.leftVal is not null ? result : top.rightVal));
+                stack.Push((top.node, top.leftVal is null ? result : top.leftVal,
+                    top.leftVal is not null ? result : top.rightVal));
             }
         }
 
@@ -651,13 +655,13 @@ internal class Solution02XX
             return true;
         }
     }
-    
+
     [ProblemSolution("257")]
     public IList<string> BinaryTreePaths(TreeNode root)
     {
         if (root.left is null && root.right is null)
             return [root.val.ToString()];
-        
+
         var result = new List<string>();
 
         var builder = new StringBuilder(root.val.ToString());
@@ -688,12 +692,12 @@ internal class Solution02XX
             {
                 builder.Append($"->{node.right.val}");
                 propagate(node.right);
-                
+
                 builder.Remove(length, builder.Length - length);
             }
         }
     }
-    
+
     [ProblemSolution("258")]
     public int AddDigits(int num)
     {
@@ -706,19 +710,19 @@ internal class Solution02XX
                 newNum += num % 10;
                 num = num / 10;
             }
-            
+
             num = newNum;
         }
 
         return num;
     }
-    
+
     [ProblemSolution("263")]
     public bool IsUgly(int n)
     {
         if (n < 1)
             return false;
-        
+
         while (n % 2 == 0)
             n /= 2;
 
@@ -736,7 +740,7 @@ internal class Solution02XX
     {
         var nums = new int[n];
         nums[0] = 1;
-        
+
         var ind2 = 0;
         var ind3 = 0;
         var ind5 = 0;
@@ -755,7 +759,7 @@ internal class Solution02XX
 
             if (min == next3)
                 next3 = nums[++ind3] * 3;
-            
+
             if (min == next5)
                 next5 = nums[++ind5] * 5;
         }
@@ -776,16 +780,19 @@ internal class Solution02XX
         if (num == 0)
             return "Zero";
 
-        string[] nums = [
+        string[] nums =
+        [
             "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
             "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
         ];
 
-        string[] enties = [
+        string[] enties =
+        [
             "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"
         ];
 
-        string[] digit3s = [
+        string[] digit3s =
+        [
             string.Empty, "Thousand", "Million", "Billion"
         ];
 
@@ -816,7 +823,7 @@ internal class Solution02XX
             }
 
             if (digits > 0 && place > 0)
-                    str.Append($" {digit3s[place]}");
+                str.Append($" {digit3s[place]}");
 
             place++;
             num /= 1000;
@@ -829,7 +836,40 @@ internal class Solution02XX
         return string.Join(' ', strs).Trim();
     }
 
-    [ProblemSolution("279")]
+    [ProblemSolution("278")]
+    public class FirstBadVersion
+    {
+        public abstract class VersionControl
+        {
+            protected bool IsBadVersion(int version)
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public class Solution : VersionControl
+        {
+            public int FirstBadVersion(int n)
+            {
+                long low = 1;
+                long high = n;
+
+                while (low <= high)
+                {
+                    var mid = (low + high) / 2;
+
+                    if (IsBadVersion((int)mid))
+                        high = mid - 1;
+                    else
+                        low = mid + 1;
+                }
+
+                return (int)low;
+            }
+        }
+    }
+
+[ProblemSolution("279")]
     public int NumSquares(int n)
     {
         var queue = new Queue<(int max, int sum)>();
