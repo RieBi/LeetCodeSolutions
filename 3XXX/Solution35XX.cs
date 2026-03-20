@@ -128,4 +128,46 @@ public class Solution35XX
 
         return ops;
     }
+    
+    [ProblemSolution("3567")]
+    public int[][] MinAbsDiff(int[][] grid, int k)
+    {
+        var result = new int[grid.Length - k + 1][];
+
+        for (var i = 0; i < result.Length; i++)
+            result[i] = new int[grid[0].Length - k + 1];
+
+        for (var i = 0; i + k <= grid.Length; i++)
+        {
+            for (var j = 0; j + k <= grid[0].Length; j++)
+            {
+                var list = new List<int>(capacity: k * k);
+
+                for (var innerI = i; innerI < i + k; innerI++)
+                {
+                    for (var  innerJ = j; innerJ < j + k; innerJ++)
+                        list.Add(grid[innerI][innerJ]);
+                }
+
+                list.Sort();
+
+                var value = int.MaxValue;
+
+                for (var ind = 1; ind < list.Count; ind++)
+                {
+                    var diff = list[ind] - list[ind - 1];
+
+                    if (diff != 0)
+                        value = Math.Min(value, Math.Abs(diff));
+                }
+
+                if (value == int.MaxValue)
+                    value = 0;
+                
+                result[i][j] = value;
+            }
+        }
+
+        return result;
+    }
 }
