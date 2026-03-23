@@ -757,6 +757,66 @@ internal class Solution15XX
 
         return max;
     }
+    
+    [ProblemSolution("1594")]
+    public int MaxProductPath(int[][] grid)
+    {
+        var dp = new (long pos, long neg)[grid.Length][];
+        
+        for (var i = 0; i < grid.Length; i++)
+            dp[i] = new (long pos, long neg)[grid[i].Length];
+
+        for (var i = 0; i < grid.Length; i++)
+        {
+            for (var j = 0; j < grid[i].Length; j++)
+            {
+                if (i == 0 && j == 0)
+                {
+                    var pos = -1;
+                    var neg = -1;
+
+                    if (grid[i][j] >= 0)
+                        pos = grid[i][j];
+                    else
+                        neg = -grid[i][j];
+
+                    dp[i][j] = (pos, neg);
+                    continue;
+                }
+
+                if (grid[i][j] == 0)
+                {
+                    dp[i][j] = (0, 0);
+                    continue;
+                }
+                
+                var maxPos = -1L;
+                var maxNeg = -1L;
+
+                if (i > 0)
+                    (maxPos, maxNeg) = (dp[i - 1][j].pos, dp[i - 1][j].neg);
+                
+                if (j > 0)
+                    (maxPos, maxNeg) = (Math.Max(maxPos, dp[i][j - 1].pos), Math.Max(maxNeg, dp[i][j - 1].neg));
+
+                var abs = Math.Abs(grid[i][j]);
+                if (maxPos >= 0)
+                    maxPos *= abs;
+                
+                if (maxNeg >= 0)
+                    maxNeg *= abs;
+
+                if (grid[i][j] < 0)
+                    (maxPos, maxNeg) = (maxNeg, maxPos);
+
+                dp[i][j] = (maxPos, maxNeg);
+            }
+        }
+
+        var last = dp[^1][^1];
+
+        return last.pos >= 0 ? (int)(last.pos % 1_000_000_007) : -1;
+    }
 
     [ProblemSolution("1598")]
     public int MinOperations(string[] logs)
