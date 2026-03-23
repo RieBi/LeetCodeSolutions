@@ -931,6 +931,36 @@ internal class Solution02XX
             }
         }
     }
+    
+    [ProblemSolution("290")]
+    public bool WordPattern(string pattern, string s)
+    {
+        var words = s.Split(' ');
+
+        if (pattern.Length != words.Length)
+            return false;
+
+        var dict = new Dictionary<char, string>();
+        var visited = new HashSet<string>();
+
+        for (var i = 0; i < pattern.Length; i++)
+        {
+            if (dict.TryGetValue(pattern[i], out var word))
+            {
+                if (words[i] != word)
+                    return false;
+            }
+            else
+            {
+                if (!visited.Add(words[i]))
+                    return false;
+
+                dict.Add(pattern[i], words[i]);
+            }
+        }
+
+        return true;
+    }
 
     [ProblemSolution("297")]
     public class Codec
