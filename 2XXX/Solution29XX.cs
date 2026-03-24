@@ -17,6 +17,61 @@ class Solution29XX
 
         return result;
     }
+    
+    [ProblemSolution("2906")]
+    public int[][] ConstructProductMatrix(int[][] grid)
+    {
+        var pref = new int[grid.Length * grid[0].Length];
+        var suff = new int[pref.Length];
+
+        const int modulo = 12345;
+        var num = 1L;
+
+        for (var i = 0; i < grid.Length; i++)
+        {
+            for (var j = 0; j < grid[0].Length; j++)
+            {
+                num *= grid[i][j];
+                num %= modulo;
+                pref[i * grid[0].Length + j] = (int)num;
+            }
+        }
+
+        num = 1;
+
+        for (var i = grid.Length - 1; i >= 0; i--)
+        {
+            for (var j = grid[0].Length - 1; j >= 0; j--)
+            {
+                num *= grid[i][j];
+                num %= modulo;
+                suff[i * grid[0].Length + j] = (int)num;
+            }
+        }
+
+        var result = new int[grid.Length][];
+        for (var i = 0; i < grid.Length; i++)
+            result[i] = new int[grid[0].Length];
+
+        for (var i = 0; i < grid.Length; i++)
+        {
+            for (var j = 0; j < grid[0].Length; j++)
+            {
+                var ind = i * grid[0].Length + j;
+
+                var cur = 1;
+                
+                if (ind > 0)
+                    cur *= pref[ind - 1];
+                if (ind < suff.Length - 1)
+                    cur *= suff[ind + 1];
+
+                result[i][j] = cur % modulo;
+            }
+        }
+
+        return result;
+    }
 
     [ProblemSolution("2937")]
     public int FindMinimumOperations(string s1, string s2, string s3)
