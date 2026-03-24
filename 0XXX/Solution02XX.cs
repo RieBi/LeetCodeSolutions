@@ -961,6 +961,12 @@ internal class Solution02XX
 
         return true;
     }
+    
+    [ProblemSolution("292")]
+    public bool CanWinNim(int n)
+    {
+        return n % 4 != 0;
+    }
 
     [ProblemSolution("297")]
     public class Codec
