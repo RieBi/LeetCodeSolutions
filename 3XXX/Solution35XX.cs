@@ -129,6 +129,32 @@ public class Solution35XX
         return ops;
     }
     
+    [ProblemSolution("3546")]
+    public bool CanPartitionGrid(int[][] grid)
+    {
+        var total = grid.Sum(row => (long)row.Sum(el => (long)el));
+
+        var cur = 0L;
+        for (var i = grid.Length - 1; i >= 0; i--)
+        {
+            cur += grid[i].Sum(el => (long)el);
+
+            if (cur * 2 == total)
+                return true;
+        }
+
+        cur = 0L;
+        for (var i = grid[0].Length - 1; i >= 0; i--)
+        {
+            cur += grid.Sum(row => (long)row[i]);
+
+            if (cur * 2 == total)
+                return true;
+        }
+
+        return false;
+    }
+    
     [ProblemSolution("3567")]
     public int[][] MinAbsDiff(int[][] grid, int k)
     {
