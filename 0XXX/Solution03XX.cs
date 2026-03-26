@@ -176,6 +176,37 @@ internal class Solution03XX
         public bool IsWord { get; set; } = default;
         public int Index { get; set; } = -1;
     }
+    
+    [ProblemSolution("338")]
+    public int[] CountBits(int n)
+    {
+        if (n == 0)
+            return [0];
+
+        if (n == 1)
+            return [0, 1];
+
+        var result = new int[n + 1];
+        result[1] = 1;
+
+        var cur = 1;
+        var next = 2;
+        
+        for (var i = 2; i <= n; i++)
+        {
+            if (i == next)
+            {
+                result[i] = 1;
+                cur *= 2;
+                next *= 2;
+                continue;
+            }
+
+            result[i] = result[i - cur] + 1;
+        }
+
+        return result;
+    }
 
     [ProblemSolution("344")]
     public void ReverseString(char[] s)
