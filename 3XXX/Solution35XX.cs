@@ -155,6 +155,123 @@ public class Solution35XX
         return false;
     }
     
+    [ProblemSolution("3548")]
+    public bool CanPartitionGrid2(int[][] grid)
+    {
+        var total = grid.Sum(row => row.Sum(el => (long)el));
+        
+        var cur = 0L;
+        var set = new HashSet<int>(grid.Length * grid[0].Length);
+
+        if (grid.Length > 1)
+        {
+            for (var i = 1; i < grid.Length; i++)
+            {
+                for (var ind = 0; ind < grid[0].Length; ind++)
+                {
+                    var val = grid[i - 1][ind];
+                    cur += val;
+                    set.Add(val);
+                }
+
+                if (cur * 2 == total)
+                    return true;
+
+                var diff = cur * 2 - total;
+                if (diff > 0 && diff <= 100_000 && set.Contains((int)diff))
+                {
+                    if (i == 1 && grid[0][0] != diff && grid[0][^1] != diff)
+                        continue;
+
+                    if (grid[0].Length == 1 && grid[0][0] != diff && grid[i - 1][0] != diff)
+                        continue;
+
+                    return true;
+                }
+            }
+
+            cur = 0;
+            set.Clear();
+            for (var i = grid.Length - 1; i >= 0; i--)
+            {
+                for (var ind = 0; ind < grid[0].Length; ind++)
+                {
+                    var val = grid[i][ind];
+                    cur += val;
+                    set.Add(val);
+                }
+
+                var diff = cur * 2 - total;
+                if (diff > 0 && diff <= 100_000 && set.Contains((int)diff))
+                {
+                    if (i == grid.Length - 1 && grid[i][0] != diff && grid[i][^1] != diff)
+                        continue;
+
+                    if (grid[0].Length == 1 && grid[i][0] != diff & grid[^1][0] != diff)
+                        continue;
+
+                    return true;
+                }
+            }
+        }
+
+        if (grid[0].Length > 1)
+        {
+            cur = 0;
+            set.Clear();
+            for (var i = 1; i < grid[0].Length; i++)
+            {
+                for (var ind = 0; ind < grid.Length; ind++)
+                {
+                    var val = grid[ind][i - 1];
+                    cur += val;
+                    set.Add(val);
+                }
+
+                if (cur * 2 == total)
+                    return true;
+
+                var diff = cur * 2 - total;
+                if (diff > 0 && diff <= 100_000 && set.Contains((int)diff))
+                {
+                    if (i == 1 && grid[0][0] != diff && grid[0][^1] != diff)
+                        continue;
+
+                    if (grid.Length == 1 && grid[0][0] != diff && grid[0][i - 1] != diff)
+                        continue;
+
+                    return true;
+                }
+            }
+
+            cur = 0;
+            set.Clear();
+            for (var i = grid[0].Length - 1; i >= 0; i--)
+            {
+                for (var ind = 0; ind < grid.Length; ind++)
+                {
+                    var val = grid[ind][i];
+                    cur += val;
+                    set.Add(val);
+                }
+
+                var diff = cur * 2 - total;
+                if (diff > 0 && diff <= 100_000 && set.Contains((int)diff))
+                {
+                    if (i == grid[0].Length && grid[0][i] != diff && grid[^1][i] != diff)
+                        continue;
+
+                    if (grid.Length == 1 && grid[0][i] != diff && grid[0][^1] != diff)
+                        continue;
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
     [ProblemSolution("3567")]
     public int[][] MinAbsDiff(int[][] grid, int k)
     {
