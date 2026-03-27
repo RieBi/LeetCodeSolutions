@@ -159,6 +159,31 @@ class Solution29XX
         var result = (long)((a ^ x) % modulo) * (long)((b ^ x) % modulo);
         return (int)(result % modulo);
     }
+    
+    [ProblemSolution("2946")]
+    public bool AreSimilar(int[][] mat, int k)
+    {
+        k %= mat[0].Length;
+
+        for (var i = 0; i < mat.Length; i++)
+        {
+            for (var j = 0; j < mat[0].Length; j++)
+            {
+                if (i % 2 == 0)
+                {
+                    if (mat[i][(j + k) % mat[0].Length] != mat[i][j])
+                        return false;
+                }
+                else
+                {
+                    if (mat[i][(j - k + mat[0].Length) % mat[0].Length] != mat[i][j])
+                        return false;
+                }
+            }
+        }
+
+        return true;
+    }
 
     [ProblemSolution("2966")]
     public int[][] DivideArray(int[] nums, int k)
