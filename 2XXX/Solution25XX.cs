@@ -121,6 +121,74 @@ internal class Solution25XX
 
         return result;
     }
+    
+    [ProblemSolution("2573")]
+    public string FindTheString(int[][] lcp)
+    {
+        var cur = 'a';
+
+        var result = new char[lcp.Length];
+
+        for (var i = 0; i < lcp.Length; i++)
+        {
+            if (result[i] != char.MinValue)
+                continue;
+            
+            if (cur > 'z')
+                return string.Empty;
+
+            result[i] = cur;
+
+            for (var j = i + 1; j < lcp.Length; j++)
+            {
+                if (lcp[i][j] > 0)
+                {
+                    if (result[j] != char.MinValue)
+                        return string.Empty;
+
+                    result[j] = cur;
+                }
+            }
+
+            cur++;
+        }
+
+        var newLcp = new int[lcp.Length][];
+        for (var i = 0; i < lcp.Length; i++)
+            newLcp[i] = new int[lcp[i].Length];
+
+        for (var i = lcp.Length - 1; i >= 0; i--)
+        {
+            for (var j = lcp.Length - 1; j >= 0; j--)
+            {
+                if (i == j)
+                {
+                    newLcp[i][j] = lcp.Length - i;
+                    continue;
+                }
+
+                if (i == lcp.Length - 1 || j == lcp.Length - 1)
+                {
+                    newLcp[i][j] = result[i] == result[j] ? 1 : 0;
+                    continue;
+                }
+
+                var value = newLcp[i + 1][j + 1];
+
+                if (result[i] == result[j])
+                    value++;
+                else
+                    value = 0;
+
+                newLcp[i][j] = value;
+            }
+        }
+
+        if (!lcp.SequenceEqual(newLcp, EqualityComparer<int[]>.Create((a, b) => a.SequenceEqual(b))))
+            return string.Empty;
+        
+        return new string(result);
+    }
 
     [ProblemSolution("2582")]
     public int PassThePillow(int n, int time)
