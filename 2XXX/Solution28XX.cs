@@ -54,6 +54,22 @@ internal class Solution28XX
         return head;
     }
     
+    [ProblemSolution("2839")]
+    public bool CanBeEqual(string s1, string s2)
+    {
+        List<char> l1 = [s1[0], s1[2]];
+        List<char> l2 = [s2[0], s2[2]];
+        List<char> l3 = [s1[1], s1[3]];
+        List<char> l4 = [s2[1], s2[3]];
+
+        l1.Sort();
+        l2.Sort();
+        l3.Sort();
+        l4.Sort();
+        
+        return l1.SequenceEqual(l2) && l3.SequenceEqual(l4);
+    }
+    
     [ProblemSolution("2840")]
     public bool CheckStrings(string s1, string s2)
     {
