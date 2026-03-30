@@ -53,6 +53,13 @@ internal class Solution28XX
 
         return head;
     }
+    
+    [ProblemSolution("2840")]
+    public bool CheckStrings(string s1, string s2)
+    {
+        return s1.Where((_, i) => i % 2 == 0).Order().SequenceEqual(s2.Where((_, i) => i % 2 == 0).Order())
+               && s1.Where((_, i) => i % 2 == 1).Order().SequenceEqual(s2.Where((_, i) => i % 2 == 1).Order());
+    }
 
     [ProblemSolution("2849")]
     public bool IsReachableAtTime(int sx, int sy, int fx, int fy, int t)
