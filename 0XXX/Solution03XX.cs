@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Numerics;
 using System.Text;
 
 namespace LeetCode.Set0XXX;
@@ -206,6 +207,18 @@ internal class Solution03XX
         }
 
         return result;
+    }
+    
+    [ProblemSolution("342")]
+    public bool IsPowerOfFour(int n)
+    {
+        if (n == 1)
+            return true;
+        
+        if (n < 4)
+            return false;
+
+        return BitOperations.PopCount((uint)n) == 1 && BitOperations.TrailingZeroCount(n) % 2 == 0;
     }
 
     [ProblemSolution("344")]
