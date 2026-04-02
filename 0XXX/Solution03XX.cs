@@ -232,6 +232,32 @@ internal class Solution03XX
                 substitute(++index);
         }
     }
+    
+    [ProblemSolution("345")]
+    public string ReverseVowels(string s)
+    {
+        HashSet<char> vowels = ['a', 'e', 'i', 'o', 'u'];
+
+        var chars = s.ToCharArray();
+
+        var l = 0;
+        var r = chars.Length - 1;
+
+        while (l < r)
+        {
+            while (!vowels.Contains(char.ToLower(chars[l])) && l < r)
+                l++;
+
+            while (!vowels.Contains(char.ToLower(chars[r])) && l < r)
+                r--;
+            
+            (chars[l], chars[r]) = (chars[r], chars[l]);
+            l++;
+            r--;
+        }
+        
+        return new string(chars);
+    }
 
     [ProblemSolution("347")]
     public int[] TopKFrequent(int[] nums, int k)
