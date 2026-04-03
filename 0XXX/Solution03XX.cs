@@ -290,6 +290,22 @@ internal class Solution03XX
 
         return result.ToArray();
     }
+    
+    [ProblemSolution("367")]
+    public bool IsPerfectSquare(int num)
+    {
+        for (var i = 1L;; i++)
+        {
+            var product = i * i;
+
+            if (product < num)
+                continue;
+            else if (product == num)
+                return true;
+            else
+                return false;
+        }
+    }
 
     [ProblemSolution("368")]
     public IList<int> LargestDivisibleSubset(int[] nums)
