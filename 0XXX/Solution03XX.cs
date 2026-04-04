@@ -344,6 +344,32 @@ internal class Solution03XX
         return list;
     }
 
+    [ProblemSolution("374")]
+    private int guess(int num) => throw new NotImplementedException();
+    
+    [ProblemSolution("374")]
+    public int GuessNumber(int n)
+    {
+        var low = 1;
+        var high = n;
+
+        while (low < high)
+        {
+            var mid = low + (high - low) / 2;
+
+            var answer = guess(mid);
+
+            if (answer == 0)
+                return mid;
+            else if (answer == -1)
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+
+        return low;
+    }
+
     [ProblemSolution("380")]
     public class RandomizedSet
     {
