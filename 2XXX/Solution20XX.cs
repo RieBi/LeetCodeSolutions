@@ -363,6 +363,30 @@ internal class Solution20XX
 
         return result;
     }
+    
+    [ProblemSolution("2075")]
+    public string DecodeCiphertext(string encodedText, int rows)
+    {
+        if (encodedText.Length == 0)
+            return string.Empty;
+        
+        var result = new StringBuilder(capacity: encodedText.Length);
+        
+        var columns = encodedText.Length / rows;
+        var increment = columns + 1;
+
+        for (var i = 0; i < columns; i++)
+        {
+            int j;
+            for (j = i; j < encodedText.Length; j += increment)
+                result.Append(encodedText[j]);
+        }
+        
+        while (result[^1] == ' ')
+            result.Remove(result.Length - 1, 1);
+        
+        return result.ToString();
+    }
 
     [ProblemSolution("2092")]
     public IList<int> FindAllPeople(int n, int[][] meetings, int firstPerson)
