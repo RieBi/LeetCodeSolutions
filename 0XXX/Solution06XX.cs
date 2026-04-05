@@ -391,6 +391,29 @@ internal class Solution06XX
             return hash;
         }
     }
+    
+    [ProblemSolution("657")]
+    public bool JudgeCircle(string moves)
+    {
+        var up = 0;
+        var right = 0;
+
+        for (var i = 0; i < moves.Length; i++)
+        {
+            var cur = moves[i];
+
+            if (cur == 'U')
+                up++;
+            else if (cur == 'D')
+                up--;
+            else if (cur == 'R')
+                right++;
+            else if (cur == 'L')
+                right--;
+        }
+
+        return up == 0 && right == 0;
+    }
 
     [ProblemSolution("661")]
     public int[][] ImageSmoother(int[][] img)
