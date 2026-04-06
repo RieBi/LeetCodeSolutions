@@ -425,6 +425,24 @@ internal class Solution03XX
             .Select(f => f.Single())
             .FirstOrDefault(-1);
     }
+    
+    [ProblemSolution("389")]
+    public char FindTheDifference(string s, string t)
+    {
+        var sortedS = s.ToCharArray();
+        var sortedT = t.ToCharArray();
+
+        Array.Sort(sortedS);
+        Array.Sort(sortedT);
+
+        for (var i = 0; i < s.Length; i++)
+        {
+            if (sortedS[i] != sortedT[i])
+                return sortedT[i];
+        }
+
+        return sortedT[^1];
+    }
 
     [ProblemSolution("394")]
     public string DecodeString(string s)
