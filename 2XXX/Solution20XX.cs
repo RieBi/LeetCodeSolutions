@@ -331,6 +331,81 @@ internal class Solution20XX
 
         return left;
     }
+    
+    [ProblemSolution("2069")]
+    public class Robot
+    {
+        private readonly int _width;
+        private readonly int _height;
+        private readonly int _perimeter;
+        
+
+        private int _steps;
+        private bool _walked = false;
+        
+
+        public Robot(int width, int height)
+        {
+            _width = width;
+            _height = height;
+            _perimeter = width * 2 + height * 2 - 4;
+        }
+    
+        public void Step(int num)
+        {
+            _walked = true;
+            _steps += num;
+            _steps %= _perimeter;
+        }
+    
+        public int[] GetPos()
+        {
+            var s = _steps;
+
+            if (s < _width)
+                return [s, 0];
+
+            s -= _width - 1;
+
+            if (s < _height)
+                return [_width - 1, s];
+            
+            s -= _height - 1;
+
+            if (s < _width)
+                return [_width - 1 - s, _height - 1];
+
+            s -= _width - 1;
+
+            return [0, _height - 1 - s];
+        }
+    
+        public string GetDir()
+        {
+            if (!_walked)
+                return "East";
+
+            var s = _steps;
+
+            if (s == 0)
+                return "South";
+
+            if (s < _width)
+                return "East";
+
+            s -= _width - 1;
+
+            if (s < _height)
+                return "North";
+            
+            s -= _height - 1;
+
+            if (s < _width)
+                return "West";
+
+            return "South";
+        }
+    }
 
     [ProblemSolution("2070")]
     public int[] MaximumBeauty(int[][] items, int[] queries)
