@@ -443,6 +443,26 @@ internal class Solution03XX
 
         return sortedT[^1];
     }
+    
+    [ProblemSolution("392")]
+    public bool IsSubsequence(string s, string t)
+    {
+        if (s.Length > t.Length)
+            return false;
+
+        var p1 = 0;
+        var p2 = 0;
+
+        var diff = t.Length - s.Length;
+
+        while (p1 < s.Length && p2 - p1 <= diff)
+        {
+            if (s[p1] == t[p2++])
+                p1++;
+        }
+        
+        return p1 == s.Length;
+    }
 
     [ProblemSolution("394")]
     public string DecodeString(string s)
