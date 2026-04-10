@@ -120,22 +120,21 @@ internal class Solution02XX
         if (head is null)
             return null;
 
-        ListNode newHead = null!;
-        traverse(head).next = null;
-        return newHead;
+        var prev = head;
+        var cur = head?.next;
+        var next = cur?.next;
 
-        ListNode traverse(ListNode node)
+        prev.next = null;
+
+        while (cur is not null)
         {
-            if (node.next is null)
-            {
-                newHead = node;
-                return node;
-            }
-
-            var last = traverse(node.next);
-            last.next = node;
-            return node;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+            next = next?.next;
         }
+
+        return prev;
     }
 
     [ProblemSolution("208")]
