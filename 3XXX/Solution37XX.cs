@@ -53,4 +53,35 @@ public class Solution37XX
 
         return longest;
     }
+    
+    [ProblemSolution("3740")]
+    public int MinimumDistance(int[] nums)
+    {
+        var min = int.MaxValue;
+
+        var dict = new Dictionary<int, int[]>();
+        
+        for (var i = 0; i < nums.Length; i++)
+        {
+            var cur = nums[i];
+
+            if (!dict.TryGetValue(cur, out var arr))
+            {
+                dict.Add(cur, [i, 0, 0]);
+                continue;
+            }
+
+            if (arr[1] == 0)
+                arr[1] = i;
+            else if (arr[2] == 0)
+                arr[2] = i;
+            else
+                (arr[0], arr[1], arr[2]) = (arr[1], arr[2], i);
+
+            if (arr[2] != 0)
+                min = Math.Min(min, arr[2] - arr[1] + arr[1] - arr[0] + Math.Abs(arr[0] - arr[2]));
+        }
+
+        return min == int.MaxValue ? -1 : min;
+    }
 }
