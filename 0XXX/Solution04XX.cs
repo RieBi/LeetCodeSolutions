@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 
 namespace LeetCode.Set0XXX;
@@ -54,6 +55,44 @@ internal class Solution04XX
         }
 
         return sum;
+    }
+    
+    [ProblemSolution("405")]
+    public string ToHex(int num)
+    {
+        if (num == 0)
+            return "0";
+        
+        var result = new StringBuilder();
+
+        var multiple = 16u;
+
+        var uNum = (uint)num;
+        
+        while (uNum > 0)
+        {
+            var cur = uNum % multiple;
+            var curChar = getHex(cur);
+
+            result.Append(curChar);
+
+            uNum /= multiple;
+        }
+
+        return new string(result.ToString().Reverse().ToArray());
+
+        static char getHex(uint decimalNum)
+        {
+            if (decimalNum > 15)
+                throw new ArgumentOutOfRangeException(nameof(decimalNum));
+            
+            if (decimalNum < 10)
+                return (char)('0' + decimalNum);
+
+            decimalNum -= 10;
+
+            return (char)('a' + decimalNum);
+        }
     }
 
     [ProblemSolution("413")]
