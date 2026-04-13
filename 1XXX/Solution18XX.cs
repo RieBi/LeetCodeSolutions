@@ -178,6 +178,24 @@ internal class Solution18XX
             dick[seatNumber] = seatNumber;
         }
     }
+    
+    [ProblemSolution("1848")]
+    public int GetMinDistance(int[] nums, int target, int start)
+    {
+        var result = int.MaxValue;
+        
+        for (var i = 0; i < nums.Length; i++)
+        {
+            var val = nums[i];
+
+            if (val != target)
+                continue;
+
+            result = Math.Min(result, Math.Abs(start - i));
+        }
+
+        return result;
+    }
 
     [ProblemSolution("1861")]
     public char[][] RotateTheBox(char[][] box)
