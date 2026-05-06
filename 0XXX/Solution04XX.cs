@@ -94,6 +94,30 @@ internal class Solution04XX
             return (char)('a' + decimalNum);
         }
     }
+    
+    [ProblemSolution("409")]
+    public int LongestPalindrome(string s)
+    {
+        var counts = new int['z' - 'A' + 1];
+        
+        for (var i = 0; i < s.Length; i++)
+            counts[s[i] - 'A']++;
+
+        var result = 0;
+        for (var i = 0; i < counts.Length; i++)
+        {
+            var count = counts[i];
+            if (count % 2 == 1)
+                count--;
+
+            result += count;
+        }
+
+        if (result != s.Length)
+            result++;
+
+        return result;
+    }
 
     [ProblemSolution("413")]
     public int NumberOfArithmeticSlices0(int[] nums)
